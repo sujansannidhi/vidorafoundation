@@ -1,0 +1,13 @@
+<!--
+  PLACEHOLDER FAVICON MARK. TODO(mani): open register item 1.
+  The real mark is a serif V whose interior forms an open book with a
+  sunburst rising from the spine. It has NOT been recreated here: the brand
+  rules forbid altering the mark, and drawing one from a description would be
+  exactly that. Replace this file with the real mark.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Vidora Foundation">
+  <rect width="64" height="64" fill="#FCF3F2"/>
+  <text x="32" y="46" text-anchor="middle"
+        font-family="Bodoni MT, Didot, Times New Roman, serif"
+        font-size="44" fill="#48143A">V</text>
+</svg>

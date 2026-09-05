@@ -1,0 +1,26 @@
+---
+/**
+ * The 501(c)(3) line. ONE component, used everywhere money is requested.
+ * Plan section 8, rule 4: it cannot drift between pages.
+ *
+ * Brand skill hard rule 1: status is pending, so no page may imply a tax
+ * benefit. The line sits adjacent to the ask, in readable body size.
+ * Not in the footer, not in 11px grey. check-content-rules.mjs enforces
+ * both the exact wording and that no other file mentions deductibility.
+ */
+import { pendingStatusLine } from '../content/site.ts';
+---
+<p class="pending">{pendingStatusLine}</p>
+
+<style>
+  .pending {
+    /* Body size on purpose. Shrinking this is the failure mode. */
+    font-size: var(--step-body);
+    line-height: var(--leading-body);
+    color: var(--text);
+    border-left: 2px solid var(--rule);
+    padding-left: var(--space-md);
+    margin-block: var(--space-md);
+    max-width: var(--measure);
+  }
+</style>

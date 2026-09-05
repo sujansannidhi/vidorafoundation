@@ -1,0 +1,132 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import PendingStatus from '../components/PendingStatus.astro';
+import TodoNote from '../components/TodoNote.astro';
+import { org, todos } from '../content/site.ts';
+---
+<Layout
+  title="Contact"
+  description="How to reach Vidora Foundation, and where the organisation stands legally."
+>
+  <PageHeader eyebrow="Contact and legal" title="Get in touch." />
+
+  <div class="shell">
+    <div class="details">
+      <div class="detail">
+        <h2 class="detail__heading">Email</h2>
+        {todos.contactEmail
+          ? <p><a href={`mailto:${todos.contactEmail}`}>{todos.contactEmail}</a></p>
+          : <p class="detail__pending">Not published yet</p>}
+      </div>
+      <div class="detail">
+        <h2 class="detail__heading">Social</h2>
+        {todos.socialHandles
+          ? (
+            <ul class="detail__social">
+              {todos.socialHandles.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
+            </ul>
+          )
+          : <p class="detail__pending">Not published yet</p>}
+      </div>
+      <div class="detail">
+        <h2 class="detail__heading">Based in</h2>
+        <p>{org.basedIn}</p>
+        <p class="detail__quiet">Operations in {org.operationsIn}.</p>
+      </div>
+    </div>
+
+    {(!todos.contactEmail || !todos.socialHandles) && (
+      <TodoNote
+        item={4}
+        what={[
+          !todos.contactEmail && 'a contact email',
+          !todos.socialHandles && 'social handles',
+        ].filter(Boolean).join(' and ')
+          + '. Nothing is guessed at, so this page states the gap rather than publishing an address that does not work.'}
+      />
+    )}
+
+    <div class="split">
+      <h2 class="split__heading">Legal and transparency</h2>
+      <div class="legal">
+        <section class="legal__item">
+          <h3 class="legal__heading">Charitable status</h3>
+          <PendingStatus />
+        </section>
+
+        <section class="legal__item">
+          <h3 class="legal__heading">Legal entity</h3>
+          <p>
+            The legal entity is registered as {org.legalEntity}. {org.name} is
+            the operating name.
+          </p>
+        </section>
+
+        <section class="legal__item">
+          <h3 class="legal__heading">Financial reporting</h3>
+          <p>
+            The June 2026 campaign cost approximately $3,500 in supplies at
+            local wholesale prices, not including travel. No claim is published
+            about how funds move between the United States and India.
+          </p>
+          <TodoNote
+            item={8}
+            what="An annual report, once a reporting period has closed. Until then the only published financial figure is the June 2026 campaign cost, with what it excludes stated beside it."
+          />
+        </section>
+
+        <section class="legal__item">
+          <h3 class="legal__heading">Privacy and terms</h3>
+          <TodoNote
+            item={8}
+            what="A privacy policy and terms, needed once a newsletter or a form collects data. No form on this site collects anything today, which is why neither document ships yet."
+          />
+        </section>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--hairline);
+    background: var(--rule-quiet);
+    margin-top: clamp(2rem, 6vh, 4rem);
+  }
+  .detail { background: var(--paper); padding: clamp(var(--space-md), 3vw, 2.125rem); }
+  .detail__heading {
+    font-family: var(--font-body);
+    font-size: var(--step-utility);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--link);
+  }
+  .detail p { margin: var(--space-sm) 0 0; font-size: var(--step-body-sm); }
+  .detail__pending { color: var(--text-softer); font-style: italic; }
+  .detail__quiet { color: var(--text-soft); }
+  .detail__social { list-style: none; margin: var(--space-sm) 0 0; padding: 0; display: grid; gap: var(--space-2xs); }
+
+  .split {
+    margin-top: clamp(3rem, 8vh, 5.625rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.375rem, 4vw, 3.75rem);
+  }
+  .split__heading {
+    max-width: 16ch;
+    font-size: clamp(1.6rem, 1rem + 2.2vw, 2.3rem);
+    padding-top: var(--space-md);
+    border-top: var(--hairline) solid var(--rule-quiet);
+  }
+  .legal { padding-top: var(--space-md); border-top: var(--hairline) solid var(--rule-quiet); display: grid; gap: var(--space-lg); }
+  .legal__item p { margin: var(--space-xs) 0 0; max-width: 34rem; font-size: var(--step-body-sm); }
+  .legal__heading { font-family: var(--font-display); font-size: 1.16rem; font-weight: 400; }
+
+  @media (max-width: 48rem) {
+    .split { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

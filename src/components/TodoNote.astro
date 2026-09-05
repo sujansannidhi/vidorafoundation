@@ -1,0 +1,50 @@
+---
+/**
+ * A gap the organisation has not filled yet, made visible in the interface.
+ *
+ * Brand skill hard rule 3: never fabricate. A blank section flagged honestly
+ * beats a plausible sounding invention, and a silent blank is worse than
+ * either because nobody knows it is missing.
+ *
+ * This is deliberately visible in production. It is removed by supplying the
+ * content, not by hiding the component.
+ */
+interface Props {
+  /** What is missing, in plain language. */
+  what: string;
+  /** Open register item number, if it has one. */
+  item?: number;
+}
+const { what, item } = Astro.props;
+---
+<div class="todo" role="note">
+  <p class="todo__label">
+    Not published yet{item ? ` (open item ${item})` : ''}
+  </p>
+  <p class="todo__what">{what}</p>
+</div>
+
+<style>
+  .todo {
+    border: var(--hairline) dashed var(--rule);
+    padding: var(--space-md);
+    margin-block: var(--space-md);
+    max-width: var(--measure);
+  }
+  .todo__label {
+    font-family: var(--font-body);
+    font-size: var(--step-utility);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-utility);
+    font-weight: 700;
+    color: var(--link);
+    margin: 0 0 var(--space-xs);
+    max-width: none;
+  }
+  .todo__what {
+    margin: 0;
+    font-size: var(--step-body-sm);
+    color: var(--text);
+    opacity: 0.85;
+  }
+</style>

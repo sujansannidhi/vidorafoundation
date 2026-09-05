@@ -1,0 +1,72 @@
+---
+/**
+ * Stage 5. The June 2026 campaign, told as stops along the road.
+ *
+ * The brief wanted testimonials and student stories here. None exist with
+ * publication consent, so inventing them would be the fastest way to lose the
+ * credibility the rest of the page is building. Each stop already carries
+ * optional photo and quote slots, so when consented material exists this
+ * becomes a content change rather than a rebuild.
+ */
+import TodoNote from '../TodoNote.astro';
+import { stops, campaign } from '../../content/campaign-june-2026.ts';
+import { stage5 } from '../../content/journey.ts';
+---
+<section class="report" id={stage5.id} data-stage="5">
+  <div class="shell">
+    <div class="report__meta">
+      <p class="eyebrow">{stage5.eyebrow}</p>
+      <p class="report__index" aria-hidden="true">05</p>
+    </div>
+    <h2 class="report__headline">{stage5.headline}</h2>
+    <p class="report__standfirst">{stage5.standfirst}</p>
+
+    <ol class="report__stops">
+      {stops.map((stop) => (
+        <li class="report__stop" data-provided={stop.id}>
+          <span class="report__marker" aria-hidden="true">{stop.marker}</span>
+          <div class="report__body">
+            <h3>{stop.heading}</h3>
+            {stop.body.map((para) => <p>{para}</p>)}
+            {stop.todo && <TodoNote what={stop.todo} item={5} />}
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    <p class="report__more">
+      <a href={`/campaigns/${campaign.slug}`}>Read the full field report</a>
+    </p>
+  </div>
+</section>
+
+<style>
+  .report { position: relative; z-index: 1; padding-block: var(--space-3xl); }
+  .report__meta {
+    display: flex; align-items: baseline; justify-content: space-between;
+    border-top: var(--hairline) solid var(--rule); padding-top: var(--space-sm);
+  }
+  .report__index { font-family: var(--font-display); font-size: var(--step-display-4); opacity: 0.4; margin: 0; }
+  .report__headline { margin-top: var(--space-lg); max-width: 18ch; }
+  .report__standfirst { margin-top: var(--space-md); font-size: var(--step-body-lg); }
+  .report__stops { list-style: none; padding: 0; margin: var(--space-2xl) 0 0; }
+  .report__stop {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: var(--space-md);
+    padding-block: var(--space-lg);
+    border-top: var(--hairline) solid var(--rule);
+  }
+  .report__marker {
+    font-family: var(--font-display);
+    font-size: var(--step-display-4);
+    opacity: 0.4;
+    font-variant-numeric: lining-nums;
+  }
+  .report__body h3 { font-size: var(--step-display-3); margin-bottom: var(--space-xs); }
+  .report__more { margin-top: var(--space-lg); }
+  @media (min-width: 62rem) {
+    .report__stop { grid-template-columns: 5rem minmax(0, 1fr); column-gap: var(--space-xl); }
+  }
+</style>

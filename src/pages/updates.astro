@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import TodoNote from '../components/TodoNote.astro';
+import { updates } from '../content/updates.ts';
+import { todos } from '../content/site.ts';
+---
+<Layout title="Updates" description="What is running at Vidora Foundation, and what is next.">
+  <PageHeader eyebrow="Updates" title="What is running, and what is next." />
+
+  <div class="shell">
+    <ol class="timeline">
+      {updates.map((update) => (
+        <li class:list={['entry', `is-${update.status}`]} id={update.id}>
+          <div class="entry__when">
+            <p class="entry__date">{update.when}</p>
+            <span class="entry__status">
+              {update.status === 'delivered' ? 'Delivered' : 'Planned'}
+            </span>
+          </div>
+          <div>
+            <h2 class="entry__heading">{update.heading}</h2>
+            <p class="entry__body">{update.body}</p>
+            {update.href && update.linkLabel && (
+              <a class="link-action" href={update.href}>{update.linkLabel}</a>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+
+    {!todos.newsletterProvider && (
+      <TodoNote
+        item={4}
+        what="A newsletter provider, before a signup form ships. There is nowhere for an address to go yet, so no form is built."
+      />
+    )}
+  </div>
+</Layout>
+
+<style>
+  .timeline { list-style: none; margin: 0; padding: 0; }
+  .entry {
+    max-width: none;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: var(--space-md);
+    padding-block: clamp(var(--space-md), 4vh, 2.375rem);
+    border-top: var(--hairline) solid var(--rule-quiet);
+  }
+  .entry:last-of-type { border-bottom: var(--hairline) solid var(--rule-quiet); }
+  .entry.is-planned { opacity: 0.85; }
+
+  .entry__date {
+    margin: 0;
+    font-size: var(--step-utility);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--link);
+    max-width: none;
+  }
+  .entry.is-planned .entry__date { color: var(--text-softer); }
+  .entry__status {
+    display: inline-block;
+    margin-top: var(--space-xs);
+    font-size: var(--step-utility-sm);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 0.3em 0.7em;
+  }
+  .entry.is-delivered .entry__status { background: var(--accent-fill); color: var(--paper); }
+  .entry.is-planned .entry__status {
+    background: var(--paper-cool);
+    border: var(--hairline) solid var(--rule-quiet);
+    color: var(--ink);
+  }
+
+  .entry__heading { font-size: clamp(1.4rem, 1rem + 1.5vw, 1.9rem); letter-spacing: -0.014em; }
+  .entry__body { margin: var(--space-sm) 0 var(--space-sm); max-width: 34rem; }
+
+  @media (max-width: 40rem) {
+    .entry { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

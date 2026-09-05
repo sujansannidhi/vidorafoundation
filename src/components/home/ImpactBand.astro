@@ -1,0 +1,50 @@
+---
+/**
+ * Section 07. The three June 2026 figures on navy.
+ *
+ * Three separate named imports, rendered by three separate elements. There
+ * is no array here to map over, which is the structural reason no code path
+ * on this page can sum them. Plan section 8, rule 1.
+ */
+import SectionIndex from '../SectionIndex.astro';
+import ImpactFigure from '../ImpactFigure.astro';
+import { impactSection } from '../../content/home.ts';
+import {
+  studentsWhoReceivedKits,
+  schoolsReached,
+  campaignCost,
+  methodologyNote,
+} from '../../content/impact.ts';
+---
+<section class="band band--tall on-dark impact-band" id={impactSection.id} aria-labelledby="impact-heading">
+  <div class="shell">
+    <SectionIndex eyebrow={impactSection.eyebrow} index={impactSection.index} />
+    <h2 id="impact-heading" class="impact-band__headline">{impactSection.headline}</h2>
+
+    <div class="impact-band__figures">
+      <ImpactFigure figure={studentsWhoReceivedKits} />
+      <ImpactFigure figure={schoolsReached} />
+      <ImpactFigure figure={campaignCost} />
+    </div>
+
+    <p class="impact-band__method">{methodologyNote}</p>
+  </div>
+</section>
+
+<style>
+  .impact-band__headline { margin-top: var(--space-lg); max-width: 22ch; }
+  .impact-band__figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: clamp(1.875rem, 4vw, 3.5rem);
+    margin-top: clamp(2.75rem, 7vh, 5.375rem);
+  }
+  .impact-band__method {
+    margin: clamp(2.375rem, 6vh, 4.375rem) 0 0;
+    padding-top: var(--space-md);
+    border-top: var(--hairline) solid var(--rule-quiet);
+    font-size: var(--step-body-sm);
+    color: var(--text-soft);
+    max-width: 56rem;
+  }
+</style>

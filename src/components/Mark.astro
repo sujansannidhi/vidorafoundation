@@ -1,0 +1,53 @@
+---
+/**
+ * The Vidora Foundation mark: a serif V whose interior forms an open book
+ * with a sunburst rising from the spine.
+ *
+ * Two files, one artwork. Both are cropped to the SAME ink box, so the mark
+ * does not shift or resize when a surface changes. `tone="light"` is the
+ * variant drawn for navy surfaces; the default is drawn for cream.
+ *
+ * Brand rule: never recolour, alter, stretch or rotate the mark. Which is
+ * why this component takes a width and nothing else: there is no prop here
+ * that can distort it.
+ */
+interface Props {
+  /** Rendered width in px. Height follows the intrinsic ratio. */
+  width?: number;
+  /** 'light' is the variant for navy surfaces. */
+  tone?: 'light' | 'dark';
+  /** Empty when the mark sits beside the name, which is the usual case. */
+  alt?: string;
+  class?: string;
+  loading?: 'eager' | 'lazy';
+}
+
+/* Intrinsic size of both files. Kept here so width and height are always
+   emitted together and the mark never causes layout shift. */
+const RATIO = 360 / 280;
+
+const {
+  width = 34,
+  tone = 'dark',
+  alt = '',
+  class: className,
+  loading = 'lazy',
+} = Astro.props;
+
+const src = tone === 'light' ? '/brand/vidora-mark-light.png' : '/brand/vidora-mark.png';
+const height = Math.round((width / RATIO) * 100) / 100;
+---
+<img
+  src={src}
+  alt={alt}
+  width={width}
+  height={height}
+  loading={loading}
+  decoding="async"
+  class:list={['mark', className]}
+  style={`width: ${width}px;`}
+/>
+
+<style>
+  .mark { flex: none; height: auto; }
+</style>

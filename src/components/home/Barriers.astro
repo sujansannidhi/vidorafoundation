@@ -1,0 +1,147 @@
+---
+/**
+ * Section 02. The navy block: what gets in the way, one entry per pillar.
+ *
+ * The status line under each barrier is derived from pillars.ts rather than
+ * written here, so "planned, not yet running" cannot say one thing on the
+ * homepage and another on /programs.
+ */
+import SectionIndex from '../SectionIndex.astro';
+import PhotoSlot from '../PhotoSlot.astro';
+import { barriers } from '../../content/home.ts';
+import { pillars } from '../../content/pillars.ts';
+
+const statusLine = (slug: string) => {
+  const pillar = pillars.find((p) => p.slug === slug);
+  if (!pillar) return null;
+  return pillar.status === 'active'
+    ? `${pillar.name} · running now`
+    : `${pillar.name} · planned, not yet running`;
+};
+---
+<section class="band band--tall on-dark barriers" id={barriers.id} aria-labelledby="barriers-heading">
+  <div class="barriers__fade" aria-hidden="true"></div>
+  <div class="shell">
+    <div class="barriers__grid">
+      <div class="barriers__intro">
+        <SectionIndex eyebrow={barriers.eyebrow} index={barriers.index} />
+        <h2 id="barriers-heading" class="barriers__headline reveal">{barriers.headline}</h2>
+        <p class="barriers__standfirst reveal">{barriers.standfirst}</p>
+      </div>
+
+      <ol class="barriers__list">
+        {barriers.items.map((item) => {
+          const status = statusLine(item.pillar);
+          const isActive = pillars.find((p) => p.slug === item.pillar)?.status === 'active';
+          return (
+            <li class="barrier reveal">
+              <div class="barrier__row">
+                <div class="barrier__text">
+                  <p class="barrier__number" aria-hidden="true">{item.number}</p>
+                  <h3>{item.heading}</h3>
+                  <p class="barrier__body">{item.body}</p>
+                  {status && (
+                    <p class:list={['barrier__status', { 'is-active': isActive }]}>{status}</p>
+                  )}
+                </div>
+                <div class="barrier__photo reveal--wipe">
+                  <PhotoSlot
+                    subject={item.photo}
+                    ratio="4 / 3"
+                    variant={isActive ? 'pending' : 'none'}
+                    noneLabel="No imagery, because nothing has been delivered yet"
+                  />
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .barriers { margin-top: -1px; }
+  /* The cream hero does not end at a hard edge. The band fades up into it
+     so the two surfaces meet without a seam across the scroll path. */
+  .barriers__fade {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 180px;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      var(--plum) 0%,
+      rgb(16 42 67 / 0.82) 22%,
+      rgb(16 42 67 / 0.42) 52%,
+      rgb(16 42 67 / 0.12) 78%,
+      var(--plum-deep-fade) 100%
+    );
+  }
+
+  .barriers__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+    gap: clamp(2.125rem, 5vw, 4.5rem);
+  }
+  .barriers__intro { position: sticky; top: 7rem; align-self: start; }
+  .barriers__headline {
+    margin-top: var(--space-lg);
+    max-width: 20ch;
+  }
+  .barriers__standfirst {
+    margin: var(--space-md) 0 0;
+    max-width: 30rem;
+    font-size: var(--step-body-lg);
+    color: var(--text-soft);
+  }
+
+  .barriers__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: clamp(2.5rem, 6vh, 5.25rem);
+  }
+  .barrier { max-width: none; }
+  .barrier__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-md);
+  }
+  .barrier__number {
+    font-family: var(--font-display);
+    font-size: var(--step-stat-sm);
+    line-height: 0.85;
+    color: var(--link);
+    margin: 0;
+    max-width: none;
+  }
+  .barrier__text h3 { margin-top: var(--space-md); }
+  .barrier__body { margin: var(--space-sm) 0 0; color: var(--text-soft); max-width: 30rem; }
+  .barrier__status {
+    margin: var(--space-sm) 0 0;
+    font-size: var(--step-utility);
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--text-softer);
+    max-width: none;
+  }
+  .barrier__status.is-active { color: var(--link); }
+
+  /* No border here: PhotoSlot draws the frame. Two nested boxes with
+     different sizing rules produced a border offset from its own label. */
+  .barrier__photo { min-width: 0; }
+
+  @media (max-width: 56.25rem) {
+    .barriers__grid { grid-template-columns: minmax(0, 1fr); }
+    .barriers__intro { position: static; }
+  }
+  @media (max-width: 40rem) {
+    .barrier__row { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

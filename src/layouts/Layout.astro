@@ -1,0 +1,71 @@
+---
+/**
+ * The one page shell. Static output, so the head is real HTML in the
+ * response body: crawlers and link unfurlers get content, not an empty shell.
+ *
+ * Fonts are self-hosted rather than fetched from Google, which is why the
+ * weights are enumerated: only the six faces the design actually uses ship.
+ */
+import '@fontsource/source-sans-3/latin-300.css';
+import '@fontsource/source-sans-3/latin-400.css';
+import '@fontsource/source-sans-3/latin-400-italic.css';
+import '@fontsource/source-sans-3/latin-600.css';
+import '@fontsource/source-sans-3/latin-700.css';
+import '@fontsource/libre-baskerville/latin-400.css';
+import '@fontsource/libre-baskerville/latin-400-italic.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { org } from '../content/site.ts';
+import '../styles/tokens.css';
+import '../styles/base.css';
+
+interface Props {
+  title: string;
+  description: string;
+  /**
+   * Set on the homepage, which paints its own full-bleed backgrounds and
+   * manages its own vertical rhythm rather than sitting in a padded column.
+   */
+  bare?: boolean;
+}
+
+const { title, description, bare = false } = Astro.props;
+const fullTitle = title === org.name ? org.name : `${title} | ${org.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og/default.png', Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/brand/logo-mark.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/brand/vidora-mark.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={org.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main" tabindex="-1" class={bare ? '' : 'page-main'}>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  /* Inner pages sit in a padded column. The homepage opts out with `bare`
+     and paints its own bands edge to edge. */
+  .page-main { padding-block: var(--section-y) var(--section-y-lg); }
+</style>

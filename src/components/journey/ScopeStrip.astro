@@ -1,0 +1,108 @@
+---
+/**
+ * The three pillars, immediately after the hero.
+ *
+ * This is the answer to "what does this organisation actually do", and it is
+ * placed high on purpose: one delivered programme plus two named intentions
+ * describes an organisation, where a single product describes a supply run.
+ *
+ * Plan section 8, rule 3 still binds. Planned pillars sit further from the
+ * road, at reduced opacity, with a Planned chip. They are on the horizon,
+ * not things she walks past, and that is literally true.
+ */
+import StatusChip from '../StatusChip.astro';
+import { pillars } from '../../content/pillars.ts';
+import { stage1 } from '../../content/journey.ts';
+---
+<section class="scope" aria-labelledby="scope-heading" data-stage="2">
+  <div class="shell">
+    <div class="scope__meta">
+      <h2 class="eyebrow scope__heading" id="scope-heading">{stage1.scopeHeading}</h2>
+      <p class="scope__index" aria-hidden="true">02</p>
+    </div>
+    <ol class="scope__list">
+      {pillars.map((pillar, i) => (
+        <li class:list={['scope__item', `is-${pillar.status}`]}>
+          <span class="scope__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <div class="scope__title">
+            <h3>{pillar.name}</h3>
+            <StatusChip status={pillar.status} />
+          </div>
+          <div class="scope__body">
+            <p>{pillar.summary}</p>
+            <a class="scope__link" href={`/programs#${pillar.slug}`}>
+              {pillar.status === 'active' ? 'How it works' : 'What it would take'}
+            </a>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .scope { position: relative; z-index: 1; padding-block: var(--space-2xl); }
+  .scope__meta {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: var(--space-md);
+    border-top: var(--hairline) solid var(--rule);
+    padding-top: var(--space-sm);
+    margin-bottom: var(--space-lg);
+  }
+  .scope__heading { margin-bottom: 0; }
+  .scope__index {
+    font-family: var(--font-display); font-size: var(--step-display-4);
+    opacity: 0.4; margin: 0; flex: none;
+  }
+  .scope__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: var(--hairline) solid var(--rule);
+  }
+  .scope__item {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    grid-template-areas: 'num title' '.   body';
+    column-gap: var(--space-md);
+    row-gap: var(--space-xs);
+    padding-block: var(--space-lg);
+    border-bottom: var(--hairline) solid var(--rule);
+    transition: opacity var(--dur) var(--ease-out);
+  }
+  /* Planned pillars sit further from the road and quieter. The distinction is
+     opacity, indent, a dashed chip and different link wording, never colour alone. */
+  .scope__item.is-planned { opacity: 0.62; padding-left: var(--space-lg); }
+  .scope__item.is-planned:hover,
+  .scope__item.is-planned:focus-within { opacity: 0.85; }
+
+  .scope__num {
+    grid-area: num;
+    font-family: var(--font-display);
+    font-size: var(--step-display-3);
+    line-height: 1;
+    opacity: 0.35;
+    font-variant-numeric: lining-nums;
+  }
+  .scope__title {
+    grid-area: title;
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    flex-wrap: wrap;
+  }
+  .scope__title h3 { font-size: var(--step-display-3); line-height: 1; }
+  .scope__body { grid-area: body; }
+  .scope__body p { margin-bottom: var(--space-xs); }
+  .scope__link { font-size: var(--step-body-sm); }
+
+  @media (min-width: 62rem) {
+    .scope__item {
+      grid-template-columns: 5rem minmax(0, 20rem) minmax(0, 1fr);
+      grid-template-areas: 'num title body';
+      align-items: baseline;
+      column-gap: var(--space-xl);
+    }
+  }
+</style>

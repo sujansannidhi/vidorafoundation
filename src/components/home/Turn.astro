@@ -1,0 +1,91 @@
+---
+/**
+ * Section 03. The hinge of the page, and the only section with no index
+ * numeral and no supporting detail: a claim, centred, on a surface that
+ * climbs out of the navy and back into the cream.
+ *
+ * The gradient is the transition between the two halves of the argument, so
+ * it is the section rather than a divider stuck on the end of one.
+ */
+import { turn } from '../../content/home.ts';
+---
+<section class="turn" id={turn.id} aria-labelledby="turn-heading">
+  <div class="shell turn__inner">
+    <p class="turn__eyebrow">{turn.eyebrow}</p>
+    <h2 id="turn-heading" class="turn__headline reveal">{turn.headline}</h2>
+    <p class="turn__standfirst reveal">{turn.standfirst}</p>
+  </div>
+
+  <svg class="turn__road" viewBox="0 0 1200 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <path
+      class="reveal--draw"
+      pathLength="1000"
+      d="M0 190 C 300 120 900 120 1200 190"
+    />
+  </svg>
+</section>
+
+<style>
+  .turn {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    padding-block: clamp(6.25rem, 18vh, 13.75rem) clamp(7.5rem, 20vh, 15rem);
+    /* Navy at the top, dawn in the middle, cream at the bottom. The stops
+       are uneven on purpose: an even ramp reads as a UI gradient, this one
+       reads as a horizon. */
+    background: linear-gradient(
+      to bottom,
+      var(--plum) 0%,
+      var(--plum) 42%,
+      var(--dawn-mid) 62%,
+      var(--dawn-warm) 80%,
+      var(--copper-text-on-dark) 92%,
+      var(--blush) 100%
+    );
+  }
+  .turn__inner {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+    text-align: center;
+  }
+  .turn__eyebrow {
+    margin: 0;
+    font-size: var(--step-utility);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: rgb(250 247 242 / 0.75);
+    max-width: none;
+  }
+  .turn__headline {
+    margin-top: var(--space-lg);
+    color: var(--blush);
+    font-size: clamp(2rem, 1rem + 4.2vw, 4rem);
+    line-height: 1.08;
+    letter-spacing: -0.022em;
+  }
+  .turn__standfirst {
+    margin: var(--space-lg) auto 0;
+    max-width: 38rem;
+    font-size: var(--step-body-lg);
+    color: var(--blush);
+  }
+  .turn__road {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 200px;
+    z-index: 1;
+    pointer-events: none;
+  }
+  .turn__road path {
+    fill: none;
+    stroke: var(--accent-fill);
+    stroke-width: 3;
+    opacity: 0.85;
+  }
+</style>

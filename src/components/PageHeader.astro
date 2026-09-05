@@ -1,0 +1,59 @@
+---
+/**
+ * The opening of an inner page. Two variants:
+ *   'rule' (default) an eyebrow over a hairline, on the cream paper
+ *   'dark'           a full bleed navy band
+ *
+ * The dark variant is for the pages that make a claim the reader has to
+ * weigh (mission, impact, get involved). The quiet variant is for the pages
+ * that are mostly a document.
+ */
+interface Props {
+  eyebrow: string;
+  title: string;
+  /** One or two sentences. Longer than that belongs in the body. */
+  standfirst?: string;
+  /** Sits under the eyebrow on the campaign report. */
+  dateline?: string;
+  variant?: 'rule' | 'dark';
+}
+const { eyebrow, title, standfirst, dateline, variant = 'rule' } = Astro.props;
+---
+<header class:list={['page-header', `page-header--${variant}`, { 'on-dark': variant === 'dark' }]}>
+  <div class="shell">
+    <p class="eyebrow page-header__eyebrow">{eyebrow}</p>
+    {dateline && <p class="page-header__dateline">{dateline}</p>}
+    <h1 class="page-header__title">{title}</h1>
+    {standfirst && <p class="page-header__standfirst">{standfirst}</p>}
+    <slot />
+  </div>
+</header>
+
+<style>
+  .page-header--rule { padding-block: 0 var(--space-lg); }
+  .page-header--rule .page-header__eyebrow {
+    padding-top: var(--space-sm);
+    border-top: var(--hairline) solid var(--rule-accent);
+  }
+  .page-header--dark {
+    padding-block: clamp(3.75rem, 10vh, 7.5rem);
+    /* The band is full bleed, so it breaks out of the padded column the
+       layout puts inner pages in. */
+    margin-block-start: calc(-1 * var(--section-y));
+    margin-block-end: var(--section-y);
+  }
+  .page-header--dark .page-header__eyebrow { color: var(--accent-on-dark); }
+
+  .page-header__dateline {
+    margin: var(--space-xs) 0 0;
+    font-size: var(--step-body-sm);
+    color: var(--text-softer);
+  }
+  .page-header__title { margin-top: var(--space-md); max-width: 20ch; }
+  .page-header__standfirst {
+    margin: var(--space-md) 0 0;
+    max-width: 36rem;
+    font-size: var(--step-body-lg);
+    color: var(--text-soft);
+  }
+</style>

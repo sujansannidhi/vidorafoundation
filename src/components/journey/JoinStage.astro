@@ -1,0 +1,83 @@
+---
+/**
+ * Stage 7. The brightest stage, and where the journey ends.
+ *
+ * Ordered by what the organisation actually needs: chapter recruitment is the
+ * conversion goal, so Donate is third rather than first.
+ *
+ * The 501(c)(3) line sits beside the donate waypoint at body size, not in the
+ * footer and not in small grey type.
+ */
+import PendingStatus from '../PendingStatus.astro';
+import TodoNote from '../TodoNote.astro';
+import { stage7 } from '../../content/journey.ts';
+import { todos } from '../../content/site.ts';
+---
+<section class="join" id={stage7.id} data-stage="7">
+  <div class="shell">
+    <div class="join__meta">
+      <p class="eyebrow">{stage7.eyebrow}</p>
+      <p class="join__index" aria-hidden="true">07</p>
+    </div>
+    <h2 class="join__headline">{stage7.headline}</h2>
+
+    <ol class="join__ways">
+      {stage7.ways.map((way) => (
+        <li class:list={['join__way', { 'is-primary': way.primary }]}>
+          <span class="join__waypoint" aria-hidden="true"></span>
+          <div>
+            <h3>{way.label}</h3>
+            <p>{way.body}</p>
+
+            {way.id === 'chapter' && !todos.chapterProcess && (
+              <TodoNote item={7} what="Chapter requirements and the application process. The page can describe the model, but it cannot tell someone how to actually start one until this is written." />
+            )}
+
+            {way.id === 'donate' && (
+              <>
+                <PendingStatus />
+                {!todos.gofundmeUrl && (
+                  <TodoNote item={3} what="The GoFundMe URL. It is the only donation channel, so there is nothing to link to yet. No payment form is built here." />
+                )}
+              </>
+            )}
+
+            <a class:list={['btn', way.primary ? 'btn--primary' : 'btn--secondary']} href={way.href}>
+              {way.label}
+            </a>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .join { position: relative; z-index: 1; padding-block: var(--space-3xl) var(--space-2xl); }
+  .join__meta {
+    display: flex; align-items: baseline; justify-content: space-between;
+    border-top: var(--hairline) solid var(--rule); padding-top: var(--space-sm);
+  }
+  .join__index { font-family: var(--font-display); font-size: var(--step-display-4); opacity: 0.4; margin: 0; }
+  .join__headline { margin-top: var(--space-lg); }
+  .join__ways { list-style: none; padding: 0; margin: var(--space-2xl) 0 0; display: grid; gap: var(--space-xl); }
+  .join__way {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    gap: var(--space-md);
+    align-items: start;
+  }
+  /* Waypoints on the road rather than rectangular buttons in a row. */
+  .join__waypoint {
+    width: 13px; height: 13px;
+    margin-top: 0.55rem;
+    border: 2px solid var(--copper-fill);
+    border-radius: 50%;
+    background: var(--blush);
+    justify-self: center;
+  }
+  .join__way.is-primary .join__waypoint { background: var(--copper-fill); }
+  .join__way h3 { font-size: var(--step-display-3); margin-bottom: var(--space-xs); }
+  .join__way .btn { margin-top: var(--space-sm); }
+</style>

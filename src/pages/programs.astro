@@ -1,0 +1,85 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import StatusChip from '../components/StatusChip.astro';
+import TodoNote from '../components/TodoNote.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import { pillars, activePillar } from '../content/pillars.ts';
+import { todos } from '../content/site.ts';
+import { campaign } from '../content/campaign-june-2026.ts';
+
+const planned = pillars.filter((p) => p.status === 'planned');
+---
+<Layout
+  title="Programs"
+  description="Three pillars. Learning Kits is active. Teaching and Access are planned."
+>
+  <PageHeader
+    eyebrow="Programs"
+    title="Three pillars. One of them is running."
+    standfirst="Learning Kits is active and has delivered. Teaching and Access are labelled Planned everywhere they appear, so that nobody reads a plan as a promise."
+  />
+
+  <div class="shell">
+    <article class="active" id={activePillar.slug}>
+      <div class="active__row">
+        <PhotoSlot subject="Learning Kits, June 2026" ratio="4 / 3" />
+        <div>
+          <StatusChip status={activePillar.status} />
+          <h2 class="active__name">{activePillar.name}</h2>
+          <p class="active__summary">{activePillar.summary}</p>
+          {activePillar.body.map((para) => <p class="active__para">{para}</p>)}
+          {!todos.kitContentsByGrade && (
+            <TodoNote
+              item={6}
+              what="Exact kit contents broken down by grade. The kits are grade specific, which is the point of them, so this page cannot show what a given student actually receives until the breakdown exists."
+            />
+          )}
+          <a class="link-action" href={`/campaigns/${campaign.slug}`}>
+            Read the June 2026 field report
+          </a>
+        </div>
+      </div>
+    </article>
+
+    <div class="planned">
+      {planned.map((pillar) => (
+        <article class="planned__item" id={pillar.slug}>
+          <StatusChip status={pillar.status} />
+          <h2 class="planned__name">{pillar.name}</h2>
+          <p class="planned__summary">{pillar.summary}</p>
+          {pillar.body.map((para) => <p class="planned__para">{para}</p>)}
+        </article>
+      ))}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .active { border-top: var(--hairline) solid var(--rule-quiet); padding-top: clamp(1.875rem, 5vh, 3.125rem); }
+  .active__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: clamp(1.375rem, 3vw, 3rem);
+  }
+  .active__name { margin-top: var(--space-md); font-size: clamp(1.7rem, 1rem + 2.1vw, 2.5rem); }
+  .active__summary { margin: var(--space-sm) 0 0; font-size: var(--step-body-lg); max-width: 33rem; }
+  .active__para { margin: var(--space-sm) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); max-width: 33rem; }
+  .active :global(.link-action) { margin-top: var(--space-md); }
+
+  .planned {
+    margin-top: clamp(2.5rem, 6vh, 4.5rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: var(--hairline);
+    background: var(--rule-quiet);
+  }
+  .planned__item { background: var(--paper-cool); padding: clamp(var(--space-md), 3vw, 2.375rem); }
+  .planned__name { margin-top: var(--space-md); font-size: 1.7rem; letter-spacing: -0.016em; }
+  .planned__summary { margin: var(--space-sm) 0 0; font-size: var(--step-body-sm); }
+  .planned__para { margin: var(--space-xs) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); }
+
+  @media (max-width: 48rem) {
+    .active__row { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

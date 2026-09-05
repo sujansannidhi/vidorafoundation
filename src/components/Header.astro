@@ -1,0 +1,217 @@
+---
+/**
+ * Sticky header. Translucent over the cream paper, with a blur behind it,
+ * so the scroll path and the hero read through it rather than being cut off
+ * by a solid bar.
+ *
+ * The mobile menu is the one piece of interactivity in the chrome. It is
+ * built as a <details> element: it opens and closes with no JavaScript at
+ * all, which matters because a navigation that depends on a script is a
+ * navigation that can fail. The script below only closes it on Escape and
+ * on resize past the breakpoint, which are refinements rather than
+ * requirements.
+ */
+import Wordmark from './Wordmark.astro';
+import { nav, navCta } from '../content/site.ts';
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <Wordmark />
+    </a>
+
+    <nav class="site-header__nav" aria-label="Primary">
+      <ul class="site-nav">
+        {nav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+              class="site-nav__link"
+            >{item.label}</a>
+          </li>
+        ))}
+      </ul>
+
+      <a
+        href={navCta.href}
+        aria-current={isCurrent(navCta.href) ? 'page' : undefined}
+        class="site-header__cta"
+      >{navCta.label}</a>
+
+      <details class="menu" data-menu>
+        <summary class="menu__button" aria-label="Menu">
+          <span class="menu__icon">
+            <svg viewBox="0 0 20 14" width="20" height="14" aria-hidden="true" focusable="false">
+              <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+                <path d="M1 1h18" /><path d="M1 7h18" /><path d="M1 13h18" />
+              </g>
+            </svg>
+          </span>
+        </summary>
+        <div class="menu__panel">
+          <ul class="menu__list">
+            {nav.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={isCurrent(item.href) ? 'page' : undefined}
+                >{item.label}</a>
+              </li>
+            ))}
+            <li>
+              <a href={navCta.href} aria-current={isCurrent(navCta.href) ? 'page' : undefined}>
+                {navCta.label}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </details>
+    </nav>
+  </div>
+</header>
+
+<script>
+  /* Refinements only. The menu opens and closes without this file. */
+  const menu = document.querySelector<HTMLDetailsElement>('[data-menu]');
+  if (menu) {
+    const wide = window.matchMedia('(min-width: 56.25rem)');
+    const close = () => { menu.open = false; };
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.open) { close(); menu.querySelector('summary')?.focus(); }
+    });
+    /* Leaving the panel visible after a resize into the desktop layout would
+       strand an open sheet over the page with no visible control to shut it. */
+    wide.addEventListener('change', (e) => { if (e.matches) close(); });
+  }
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    background: rgb(250 247 242 / 0.86);
+    backdrop-filter: saturate(140%) blur(14px);
+    border-bottom: var(--hairline) solid var(--rule-quiet);
+  }
+  /* Without the blur the translucent bar is unreadable over a photograph or
+     a dark band, so fall back to the solid surface. */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-header { background: var(--paper); }
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    padding-block: var(--space-sm);
+  }
+  .site-header__brand { text-decoration: none; color: inherit; flex: none; }
+
+  .site-header__nav { display: flex; align-items: center; gap: 26px; }
+
+  .site-nav {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    max-width: none;
+  }
+  .site-nav li { max-width: none; }
+  .site-nav__link {
+    font-size: var(--step-utility);
+    letter-spacing: var(--tracking-nav);
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+    padding-bottom: 4px;
+    border-bottom: var(--hairline) solid transparent;
+  }
+  .site-nav__link:hover { border-bottom-color: var(--rule); }
+  .site-nav__link[aria-current='page'] { border-bottom-color: var(--text); }
+
+  .site-header__cta {
+    flex: none;
+    font-size: var(--step-utility);
+    letter-spacing: var(--tracking-nav);
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--paper);
+    background: var(--accent-fill);
+    border: var(--hairline) solid var(--accent-fill);
+    text-decoration: none;
+    padding: 0.9em 1.5em;
+    transition: background-color var(--dur) var(--ease-out),
+                border-color var(--dur) var(--ease-out);
+  }
+  .site-header__cta:hover { background: var(--ink); border-color: var(--ink); }
+
+  /* ---- The mobile sheet ---- */
+  .menu { display: none; }
+  /*
+   * The summary keeps its `display: list-item`. Overriding a summary's
+   * display to flex stops Chrome treating it as the disclosure's summary:
+   * the panel then renders even while the details is closed, laid out at
+   * the button's own width and hidden only by the body's overflow clip.
+   * The centring happens on a span inside it instead.
+   */
+  .menu__button {
+    width: 40px;
+    height: 40px;
+    border: var(--hairline) solid var(--rule-quiet);
+    color: var(--text);
+    cursor: pointer;
+    list-style: none;
+  }
+  .menu__button::-webkit-details-marker { display: none; }
+  .menu__button::marker { content: ''; }
+  .menu__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  /* Anchored to the header, not to the button, so the sheet spans the full
+     width. The header is the containing block: it is sticky, and its
+     backdrop-filter establishes one regardless. */
+  .menu__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: var(--paper);
+    border-top: var(--hairline) solid var(--rule-quiet);
+    border-bottom: var(--hairline) solid var(--rule-quiet);
+    padding: var(--space-sm) var(--gutter) var(--space-md);
+  }
+  .menu__list { list-style: none; margin: 0; padding: 0; display: grid; }
+  .menu__list li { max-width: none; }
+  .menu__list a {
+    display: block;
+    padding: 12px 0;
+    font-family: var(--font-display);
+    font-size: 1.3125rem;
+    color: var(--text);
+    text-decoration: none;
+    border-bottom: var(--hairline) solid var(--rule-quiet);
+  }
+  .menu__list li:last-child a { border-bottom: 0; }
+  .menu__list a[aria-current='page'] { color: var(--link); }
+
+  @media (max-width: 56.1875rem) {
+    .site-nav { display: none; }
+    .menu { display: block; }
+    .site-header__nav { gap: var(--space-md); }
+  }
+  @media (max-width: 26rem) {
+    .site-header__cta { padding: 0.9em 1.1em; }
+  }
+</style>

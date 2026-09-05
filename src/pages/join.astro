@@ -1,0 +1,81 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import PendingStatus from '../components/PendingStatus.astro';
+import TodoNote from '../components/TodoNote.astro';
+import { todos } from '../content/site.ts';
+---
+<Layout title="Get involved" description="Start a chapter, volunteer, fundraise, or donate.">
+  <PageHeader
+    variant="dark"
+    eyebrow="Get involved"
+    title="Three ways in."
+    standfirst="Ordered by what the organisation actually needs."
+  />
+
+  <div class="shell">
+    <article class="feature" id="chapter">
+      <p class="eyebrow">Most needed</p>
+      <h2 class="feature__heading">Start a chapter</h2>
+      <p class="feature__body">
+        A chapter is a group at one high school that raises for and runs a
+        distribution. One chapter can supply a school.
+      </p>
+      {todos.chapterProcess
+        ? <p>{todos.chapterProcess}</p>
+        : (
+          <TodoNote
+            item={7}
+            what="Chapter requirements and the application process: who can start one, what a chapter commits to, and how someone applies. Without it this page can describe the model but cannot tell anyone how to join."
+          />
+        )}
+    </article>
+
+    <div class="ways">
+      <article class="way" id="volunteer">
+        <h2 class="way__heading">Volunteer</h2>
+        <p class="way__body">Help with a campaign, outreach, or the ambassador programme.</p>
+        <TodoNote
+          item={7}
+          what="What volunteering actually involves and how someone signs up, including the ambassador programme and whether volunteer hours are tracked."
+        />
+      </article>
+
+      <article class="way" id="fundraise">
+        <h2 class="way__heading">Fundraise</h2>
+        <p class="way__body">
+          Raise what a school's kits cost. Supplies are bought locally in
+          Andhra Pradesh, so the cost per kit reflects local wholesale prices.
+        </p>
+      </article>
+
+      <article class="way" id="donate">
+        <h2 class="way__heading">Donate</h2>
+        <p class="way__body">
+          Money buys educational materials at local wholesale prices in the
+          district.
+        </p>
+        <a class="link-action" href="/donate">Go to donate</a>
+      </article>
+    </div>
+
+    <PendingStatus />
+  </div>
+</Layout>
+
+<style>
+  .feature { border: var(--hairline) solid var(--accent-fill); padding: clamp(1.75rem, 4vw, 3.375rem); }
+  .feature__heading { margin-top: var(--space-sm); max-width: 20ch; font-size: clamp(1.8rem, 1rem + 2.8vw, 2.9rem); }
+  .feature__body { margin: var(--space-md) 0 0; max-width: 34rem; font-size: var(--step-body-lg); }
+
+  .ways {
+    margin-top: clamp(2rem, 5vh, 3.5rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--hairline);
+    background: var(--rule-quiet);
+  }
+  .way { background: var(--paper-cool); padding: clamp(var(--space-md), 3vw, 2.375rem); }
+  .way__heading { font-size: 1.6rem; letter-spacing: -0.014em; }
+  .way__body { margin: var(--space-sm) 0 var(--space-sm); font-size: var(--step-body-sm); }
+</style>

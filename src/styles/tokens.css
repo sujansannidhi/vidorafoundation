@@ -1,0 +1,155 @@
+/*
+ * The ONLY file in this codebase permitted to contain a hex literal.
+ * scripts/check-content-rules.mjs fails the build on hex found anywhere else.
+ *
+ * Palette, September 2026: the Vidora Foundation design canvas. Cream paper,
+ * navy ink, terracotta and amber accents. The token NAMES below are the ones
+ * the contrast audit in check-content-rules.mjs asserts against, so they are
+ * kept even where the name now reads oddly (`blush` is the cream paper,
+ * `plum` is the navy ink). The semantic aliases underneath are what new code
+ * should use.
+ *
+ * The accent split, and why there is no token called plain `--accent`:
+ *   terracotta on cream is 3.55:1. It FAILS WCAG AA and is decorative only.
+ * The failing combination has no name it can be written with. Use:
+ *   --copper-fill / --accent-fill    roads, rules, hairlines, fills, borders,
+ *                                    button backgrounds. Never `color:`.
+ *   --copper-text-on-dark            amber. Text, only on navy surfaces.
+ *   --copper-text-on-light           deep terracotta. Text, only on cream.
+ */
+
+:root {
+  /* ---- Surfaces ---- */
+  --blush: #FAF7F2;        /* cream paper. The default surface. */
+  --blush-warm: #E8EEF2;   /* cool paper. Banded sections and quiet cards. */
+  --paper-lift: #FFFFFF;   /* the paper lifting one step, for card hover only */
+
+  /* ---- Ink ---- */
+  --plum: #102A43;         /* navy. Headings, body text, dark sections  13.70:1 on cream */
+  --plum-deep: #0B1E32;    /* deepest navy. Hover on dark blocks        15.77:1 on cream */
+  /* Zero-alpha companion for gradients. Fading to the CSS keyword
+     `transparent` blends through transparent BLACK, which shows up as a muddy
+     grey band midway through the fade. A gradient must end on the same colour
+     at zero alpha. */
+  --plum-deep-fade: rgb(16 42 67 / 0);
+
+  /* ---- Accent, split by where it is safe ---- */
+  --copper-fill: #D95B43;          /* terracotta. Fills and rules only. 3.55:1 */
+  --copper-text-on-dark: #E6A23C;  /* amber on navy.                    7.70:1 */
+  --copper-text-on-light: #B8402C; /* deep terracotta on cream.         5.16:1 */
+
+  /* Two intermediate stops for the one gradient on the site: the horizon
+     between the navy block and the cream one. Decorative, never text. */
+  --dawn-mid: #1B3A56;
+  --dawn-warm: #8A5A4A;
+
+  /* ---- Semantic aliases. Prefer these in new code. ---- */
+  --paper: var(--blush);
+  --paper-cool: var(--blush-warm);
+  --ink: var(--plum);
+  --ink-deep: var(--plum-deep);
+  --accent-fill: var(--copper-fill);
+  --accent-on-dark: var(--copper-text-on-dark);
+  --accent-on-light: var(--copper-text-on-light);
+
+  /* ---- Semantic roles, resolved per surface ---- */
+  --surface: var(--blush);
+  --text: var(--plum);
+  --text-quiet: var(--plum);
+  --link: var(--copper-text-on-light);
+  --rule: var(--copper-fill);
+  /* Hairlines drawn from the ink rather than the accent, for the quiet
+     rules that separate list rows. */
+  --rule-quiet: rgb(16 42 67 / 0.14);
+  --rule-accent: rgb(217 91 67 / 0.4);
+  /* Body copy one step down from full ink. Set per surface so a dark
+     section does not have to restate it. */
+  --text-soft: rgb(16 42 67 / 0.8);
+  --text-softer: rgb(16 42 67 / 0.6);
+
+  /* ---- Type ---- */
+  --font-display: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+  --font-body: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+  /* Libre Baskerville runs large for its point size and has a tall x-height,
+     so the display steps sit lower than a Didone scale would. */
+  --step-display-1: clamp(2.15rem, 1rem + 4.3vw, 4.4rem);   /* page and hero h1 */
+  --step-display-2: clamp(1.9rem, 1rem + 3.3vw, 3.3rem);    /* section h2 */
+  --step-display-3: clamp(1.7rem, 1rem + 2.1vw, 2.6rem);    /* pillar and card h3 */
+  --step-display-4: 1.35rem;                                 /* list-row headings */
+  /* Statistics only. Never used for prose. */
+  --step-stat: clamp(3.4rem, 2rem + 5vw, 6rem);
+  --step-stat-sm: clamp(3rem, 2rem + 3vw, 4.6rem);
+
+  --step-body-lg: clamp(1.05rem, 1rem + 0.3vw, 1.22rem);
+  --step-body: 1.0625rem;   /* 17px, the design's base */
+  --step-body-sm: 0.9375rem;
+  --step-body-xs: 0.875rem;
+
+  /* Utility role: eyebrows, stat labels, status chips, nav. Source Sans only. */
+  --step-utility: 0.75rem;
+  --step-utility-sm: 0.6875rem;
+  --tracking-utility: 0.15em;
+  --tracking-nav: 0.11em;
+  --tracking-wordmark: 0.19em;
+
+  --leading-display: 1.06;
+  --leading-body: 1.62;
+  --measure: 34rem;
+  --measure-wide: 52rem;
+
+  /* ---- Space ---- */
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3.25rem;
+  --space-2xl: 5rem;
+  --space-3xl: 8rem;
+
+  /* Vertical rhythm for full-bleed sections, viewport aware like the canvas. */
+  --section-y: clamp(5rem, 12vh, 8.75rem);
+  --section-y-lg: clamp(5.25rem, 14vh, 10rem);
+
+  --gutter: clamp(18px, 4vw, 44px);
+  --shell: 1240px;
+
+  /* ---- Line weights. The scroll path and the logo arc share a weight. ---- */
+  --stroke-road: 2.75;
+  --stroke-figure: 2.25;
+  --stroke-object: 1.75;
+  --hairline: 1px;
+
+  /* ---- Motion ---- */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-fast: 140ms;
+  --dur: 260ms;
+}
+
+/*
+ * Inverted surface. Used by the dark narrative blocks and any navy panel.
+ * The flip is discrete, never interpolated: interpolating text colour
+ * would pass through failing contrast ratios mid-scroll.
+ */
+.on-dark {
+  --surface: var(--plum);
+  --text: var(--blush);
+  --text-quiet: var(--blush);
+  --link: var(--copper-text-on-dark);
+  --rule: var(--copper-fill);
+  --rule-quiet: rgb(250 247 242 / 0.18);
+  --rule-accent: rgb(230 162 60 / 0.45);
+  --text-soft: rgb(250 247 242 / 0.78);
+  --text-softer: rgb(250 247 242 / 0.55);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.on-warm {
+  --surface: var(--blush-warm);
+  --text: var(--plum);
+  --link: var(--copper-text-on-light);
+  --rule-quiet: rgb(16 42 67 / 0.22);
+  background: var(--surface);
+}

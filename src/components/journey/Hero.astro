@@ -1,0 +1,142 @@
+---
+/**
+ * Stage 1. The reader's first ten seconds.
+ *
+ * The composition is asymmetric on purpose: display column left, reading
+ * column right. The reference is a university press book jacket or a well
+ * made annual report, not a centred SaaS hero. Nothing is centred, nothing
+ * is in a rounded card, and there is no gradient.
+ */
+import { stage1 } from '../../content/journey.ts';
+---
+<section class="hero" id={stage1.id} data-stage="1">
+  <div class="shell hero__inner">
+    <div class="hero__meta">
+      <p class="eyebrow hero__eyebrow">{stage1.eyebrow}</p>
+      <p class="hero__index" aria-hidden="true">01</p>
+    </div>
+
+    <h1 class="hero__headline">
+      <span class="hero__line">{stage1.headline}</span>
+      <em class="hero__emphasis">{stage1.headlineEmphasis}</em>
+    </h1>
+
+    <div class="hero__read">
+      <p class="hero__standfirst">{stage1.standfirst}</p>
+      <p class="hero__proof">{stage1.proof}</p>
+      <div class="hero__ctas">
+        <a class="btn btn--primary" href={stage1.ctaPrimary.href}>{stage1.ctaPrimary.label}</a>
+        <a class="btn btn--secondary" href={stage1.ctaSecondary.href}>{stage1.ctaSecondary.label}</a>
+      </div>
+    </div>
+  </div>
+
+  <p class="hero__scroll" aria-hidden="true">Scroll</p>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: var(--space-2xl) var(--space-xl);
+  }
+
+  .hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .hero__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-md);
+    border-top: var(--hairline) solid var(--rule);
+    padding-top: var(--space-sm);
+  }
+  .hero__eyebrow { margin: 0; }
+  .hero__index {
+    font-family: var(--font-display);
+    font-size: var(--step-display-4);
+    color: var(--text);
+    opacity: 0.4;
+    margin: 0;
+    font-variant-numeric: lining-nums;
+  }
+
+  .hero__headline {
+    /* Deliberately larger than a body-driven scale would allow. The didone
+       needs the size; below about 20px Bodoni falls apart, and at display
+       size it is the single strongest brand signal on the page. */
+    font-size: clamp(2.25rem, 1rem + 3.5vw, 4.5rem);
+    letter-spacing: -0.025em;
+    line-height: 0.98;
+    max-width: 15ch;
+    margin: 0;
+  }
+  .hero__line { display: block; }
+  .hero__emphasis {
+    display: block;
+    font-style: italic;
+    color: var(--copper-text-on-light);
+    /* optical: italic Bodoni leans, so pull it back to the same left edge */
+    margin-left: -0.02em;
+  }
+
+  .hero__read {
+    display: grid;
+    gap: var(--space-md);
+    justify-self: end;
+    max-width: 32rem;
+    width: 100%;
+    border-top: var(--hairline) solid var(--rule);
+    padding-top: var(--space-md);
+    margin-top: var(--space-md);
+  }
+  .hero__standfirst {
+    font-size: var(--step-body-lg);
+    margin: 0;
+  }
+  .hero__proof {
+    font-size: var(--step-body-sm);
+    margin: 0;
+    padding-left: var(--space-md);
+    border-left: 2px solid var(--rule);
+    opacity: 0.9;
+  }
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-xs);
+  }
+
+  .hero__scroll {
+    position: absolute;
+    bottom: var(--space-md);
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: var(--step-utility);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-utility);
+    opacity: 0.5;
+    max-width: none;
+  }
+
+  @media (min-width: 60rem) {
+    .hero__inner {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      column-gap: var(--space-xl);
+      align-items: start;
+    }
+    .hero__meta { grid-column: 1 / -1; }
+    .hero__headline { grid-column: 1; max-width: none; }
+    .hero__read { grid-column: 2; margin-top: var(--space-2xl); }
+  }
+</style>

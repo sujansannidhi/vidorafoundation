@@ -1,0 +1,118 @@
+---
+/**
+ * Section 10. One primary action, then the three secondary ones.
+ *
+ * The pending 501(c)(3) line sits inside this section rather than only in
+ * the footer, because this is where the page asks for money. Plan section 8,
+ * rule 4.
+ */
+import SectionIndex from '../SectionIndex.astro';
+import PendingStatus from '../PendingStatus.astro';
+import { getInvolved } from '../../content/home.ts';
+---
+<section class="band on-warm join" id={getInvolved.id} aria-labelledby="join-heading">
+  <div class="shell">
+    <SectionIndex eyebrow={getInvolved.eyebrow} index={getInvolved.index} />
+
+    <a class="feature" href={getInvolved.feature.href}>
+      <div class="feature__grid">
+        <div>
+          <p class="feature__label">{getInvolved.feature.label}</p>
+          <h2 id="join-heading" class="feature__heading">{getInvolved.feature.heading}</h2>
+          <p class="feature__body">{getInvolved.feature.body}</p>
+        </div>
+        <p class="feature__cta" aria-hidden="true">{getInvolved.feature.cta}</p>
+      </div>
+    </a>
+
+    <div class="join__cards">
+      {getInvolved.cards.map((card) => (
+        <a class="card" href={card.href}>
+          <h3 class="card__heading">{card.heading}</h3>
+          <p class="card__body">{card.body}</p>
+        </a>
+      ))}
+    </div>
+
+    <PendingStatus />
+  </div>
+</section>
+
+<style>
+  .feature {
+    display: block;
+    text-decoration: none;
+    color: var(--blush);
+    background: var(--plum);
+    margin-top: var(--space-lg);
+    padding: clamp(1.875rem, 5vw, 4rem);
+    transition: background-color var(--dur) var(--ease-out);
+  }
+  .feature:hover { background: var(--plum-deep); }
+  .feature__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: clamp(var(--space-md), 3vw, 3rem);
+    align-items: end;
+  }
+  .feature__label {
+    margin: 0;
+    font-size: var(--step-utility);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--copper-text-on-dark);
+    max-width: none;
+  }
+  .feature__heading {
+    margin-top: var(--space-md);
+    max-width: 18ch;
+    font-size: clamp(2rem, 1rem + 3.6vw, 3.6rem);
+    line-height: 1.04;
+    letter-spacing: -0.022em;
+  }
+  .feature__body {
+    margin: var(--space-md) 0 0;
+    max-width: 32rem;
+    font-size: var(--step-body-lg);
+    color: rgb(250 247 242 / 0.82);
+  }
+  .feature__cta {
+    margin: 0;
+    justify-self: start;
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1rem + 0.4vw, 1.35rem);
+    color: var(--copper-text-on-dark);
+    border-bottom: var(--hairline) solid var(--copper-text-on-dark);
+    padding-bottom: 5px;
+    max-width: none;
+  }
+  /* The arrow is a glyph, not a word, so it is drawn in rather than written
+     into the content file where a screen reader would say "right arrow". */
+  .feature__cta::after { content: ' \2192'; }
+
+  /* One pixel of the cool surface between cards, so the group reads as a
+     ruled table rather than three floating tiles. */
+  .join__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: var(--hairline);
+    margin-top: var(--hairline);
+    background: var(--rule-quiet);
+  }
+  .card {
+    display: block;
+    text-decoration: none;
+    color: var(--ink);
+    background: var(--paper);
+    padding: clamp(var(--space-md), 3vw, 2.25rem);
+    transition: background-color var(--dur) var(--ease-out);
+  }
+  .card:hover { background: var(--paper-lift); }
+  .card__heading { font-family: var(--font-display); font-size: 1.32rem; font-weight: 400; }
+  .card__body { margin: var(--space-xs) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); }
+
+  @media (max-width: 56.25rem) {
+    .feature__grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

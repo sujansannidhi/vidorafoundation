@@ -1,0 +1,105 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import ImpactFigure from '../components/ImpactFigure.astro';
+import TodoNote from '../components/TodoNote.astro';
+import {
+  studentsWhoReceivedKits,
+  schoolsReached,
+  campaignCost,
+  methodologyNote,
+} from '../content/impact.ts';
+import { todos } from '../content/site.ts';
+import { campaign } from '../content/campaign-june-2026.ts';
+---
+<Layout
+  title="Impact"
+  description="The three June 2026 figures, what each one counts, and what it does not."
+>
+  <PageHeader variant="dark" eyebrow="Impact" title="Three numbers, each counting one thing.">
+    <div class="figures">
+      <ImpactFigure figure={studentsWhoReceivedKits} />
+      <ImpactFigure figure={schoolsReached} />
+      <ImpactFigure figure={campaignCost} />
+    </div>
+  </PageHeader>
+
+  <div class="shell">
+    <div class="split">
+      <h2 class="split__heading">How to read these numbers</h2>
+      <div class="split__body">
+        <p>{methodologyNote}</p>
+        <p class="is-quiet">
+          Enrolment at partner schools is a different figure again, and it is
+          not published here.
+        </p>
+      </div>
+    </div>
+
+    {todos.enrolmentFigurePublishable === null && (
+      <TodoNote
+        item={10}
+        what="Whether to publish total enrolment at the schools visited. It is a different figure from the kits headcount and would need its own explicit label, well away from it, so that nobody reads enrolment as reach."
+      />
+    )}
+
+    <a class="evidence" href={`/campaigns/${campaign.slug}`}>
+      <p class="eyebrow">The evidence</p>
+      <h2 class="evidence__heading">{campaign.title}, the full field report</h2>
+      <p class="evidence__body">
+        Written up in the order the work happened, ending with what we would do
+        differently.
+      </p>
+    </a>
+
+    <h2 class="steward">Stewardship</h2>
+    <p>
+      Supplies were bought in person at local wholesale prices in Narasaraopeta
+      and receipts were retained.
+    </p>
+  </div>
+</Layout>
+
+<style>
+  .figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: clamp(1.75rem, 4vw, 3.375rem);
+    margin-top: clamp(2.75rem, 7vh, 5rem);
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(var(--space-md), 4vw, 3.75rem);
+  }
+  .split__heading { max-width: 18ch; font-size: clamp(1.6rem, 1rem + 2.2vw, 2.3rem); }
+  .split__body { display: grid; gap: var(--space-sm); align-content: start; }
+  .split__body p { margin: 0; max-width: 34rem; }
+  .split__body p.is-quiet { font-size: var(--step-body-sm); color: var(--text-soft); }
+
+  .evidence {
+    display: block;
+    margin-top: clamp(2.75rem, 7vh, 5rem);
+    padding: clamp(1.625rem, 4vw, 2.75rem);
+    border: var(--hairline) solid var(--rule-quiet);
+    text-decoration: none;
+    color: var(--text);
+    transition: background-color var(--dur) var(--ease-out),
+                border-color var(--dur) var(--ease-out);
+  }
+  .evidence:hover { background: var(--paper-cool); border-color: var(--ink); }
+  .evidence__heading { margin-top: var(--space-sm); font-size: clamp(1.5rem, 1rem + 1.9vw, 2.2rem); }
+  .evidence__heading::after { content: ' \2192'; }
+  .evidence__body { margin: var(--space-sm) 0 0; max-width: 36rem; color: var(--text-soft); }
+
+  .steward {
+    margin-top: clamp(2.5rem, 7vh, 4.5rem);
+    margin-bottom: var(--space-sm);
+    font-size: clamp(1.6rem, 1rem + 2.2vw, 2.3rem);
+  }
+
+  @media (max-width: 48rem) {
+    .split { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

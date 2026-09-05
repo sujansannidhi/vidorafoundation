@@ -1,0 +1,103 @@
+---
+/**
+ * Section 09. How the organisation grows: one active chapter, and the
+ * branches it could add.
+ *
+ * Every branch is a CHAPTER, not a student. The three planned branches are
+ * drawn as dashed lines and labelled Planned, because a solid line to a
+ * chapter that does not exist is a claim.
+ */
+import SectionIndex from '../SectionIndex.astro';
+import { chapterModel } from '../../content/home.ts';
+import { stage6 } from '../../content/journey.ts';
+---
+<section class="band branch" id={chapterModel.id} aria-labelledby="branch-heading">
+  <div class="shell">
+    <SectionIndex eyebrow={chapterModel.eyebrow} index={chapterModel.index} />
+    <h2 id="branch-heading" class="branch__headline">{chapterModel.headline}</h2>
+    <p class="branch__standfirst">{chapterModel.standfirst}</p>
+
+    <div class="branch__grid">
+      <svg class="branch__diagram" viewBox="0 0 600 240" aria-hidden="true" focusable="false">
+        <g fill="none" stroke-linecap="round">
+          <path class="trunk reveal--draw" pathLength="1000" d="M0 120 H 170" />
+          <path class="limb limb--active reveal--draw" pathLength="1000" d="M170 120 C 260 120 270 34 360 34" />
+          <path class="limb limb--planned reveal--draw" pathLength="1000" d="M170 120 C 260 120 270 90 360 90" />
+          <path class="limb limb--planned reveal--draw" pathLength="1000" d="M170 120 C 260 120 270 150 360 150" />
+          <path class="limb limb--planned reveal--draw" pathLength="1000" d="M170 120 C 260 120 270 210 360 210" />
+        </g>
+        <circle class="node" cx="170" cy="120" r="6" />
+        <circle class="node node--active" cx="360" cy="34" r="5" />
+      </svg>
+
+      <ol class="branch__list">
+        {stage6.branches.map((b, i) => (
+          <li class:list={['chapter', { 'is-extra': i > 1 }]}>
+            <span class="chapter__name">{b.label}</span>
+            <span class:list={['chapter__status', `is-${b.status}`]}>
+              {b.status === 'active' ? 'Active' : 'Planned'}
+            </span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .branch__headline { margin-top: var(--space-lg); max-width: 24ch; }
+  .branch__standfirst { margin: var(--space-md) 0 0; max-width: 34rem; font-size: var(--step-body-lg); color: var(--text-soft); }
+
+  .branch__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: clamp(var(--space-md), 4vw, 3.375rem);
+    align-items: center;
+    margin-top: clamp(2.5rem, 6vh, 4.5rem);
+  }
+  .branch__diagram { width: 100%; height: auto; }
+  .trunk { stroke: var(--accent-fill); stroke-width: 3; }
+  .limb--active { stroke: var(--accent-fill); stroke-width: 3; }
+  .limb--planned {
+    stroke: var(--accent-fill);
+    stroke-width: 2;
+    opacity: 0.45;
+    stroke-dasharray: 6 7;
+  }
+  .node { fill: var(--ink); }
+  .node--active { fill: var(--accent-on-dark); }
+
+  .branch__list { list-style: none; margin: 0; padding: 0; display: grid; }
+  .chapter {
+    max-width: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    padding-block: var(--space-sm);
+    border-bottom: var(--hairline) solid var(--rule-quiet);
+  }
+  .chapter__name { font-family: var(--font-display); font-size: 1.28rem; }
+  .chapter__status {
+    font-size: var(--step-utility-sm);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 0.3em 0.7em;
+    white-space: nowrap;
+  }
+  .chapter__status.is-active { background: var(--accent-fill); color: var(--paper); }
+  .chapter__status.is-planned {
+    background: var(--paper-cool);
+    border: var(--hairline) solid var(--rule-quiet);
+    color: var(--ink);
+  }
+  .chapter:not(:has(.is-active)) { opacity: 0.65; }
+
+  /* Narrow screens keep the active chapter and one planned branch. Four
+     identical "Next Texas chapter" rows on a phone is a list of nothing. */
+  @media (max-width: 40rem) {
+    .branch__grid { grid-template-columns: minmax(0, 1fr); }
+    .chapter.is-extra { display: none; }
+  }
+</style>

@@ -1,0 +1,185 @@
+---
+/**
+ * Stage 2. The darkest point of the page and the only inverted stage.
+ *
+ * The content flips the brief. Instead of floating words naming deficits,
+ * the objects that accumulate around her are the things she ALREADY HAS,
+ * supplied by the state. Then the road narrows and what is missing renders
+ * as absence: three empty outlines, not floating words.
+ *
+ * This is the most persuasive content on the site and it lands harder as a
+ * subtraction than as a list of barriers. It also happens to be accurate,
+ * which the deficit framing is not.
+ */
+import { stage2 } from '../../content/journey.ts';
+---
+<section class="gap on-dark" id={stage2.id} data-stage="3" data-invert>
+  <div class="shell gap__inner">
+    <div class="gap__meta">
+      <p class="eyebrow">{stage2.eyebrow}</p>
+      <p class="gap__index" aria-hidden="true">03</p>
+    </div>
+
+    <h2 class="gap__headline">{stage2.headline}</h2>
+    <p class="gap__scheme">{stage2.schemeNote}</p>
+
+    <ul class="gap__provided" aria-label="Supplied by the state scheme">
+      {stage2.provided.map((item) => (
+        <li class="gap__has" data-provided={item.id}>
+          <svg class="gap__tick" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+            <path d="M2 8.5 L6 12.5 L14 3.5" fill="none" stroke="currentColor"
+                  stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          {item.label}
+        </li>
+      ))}
+    </ul>
+
+    <h2 class="gap__headline gap__headline--second">{stage2.headlineSecond}</h2>
+
+    <ul class="gap__missing" aria-label="Not supplied by the state scheme">
+      {stage2.missing.map((item) => (
+        <li class="gap__slot" data-missing={item.id}>
+          <span class="gap__outline" aria-hidden="true"></span>
+          <span class="gap__slot-label">{item.label}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .gap {
+    position: relative;
+    z-index: 1;
+    padding-block: var(--space-3xl);
+    /* The stage owns its own background. This used to be painted by
+       scroll-driven fixed colour layers, which meant a blush-on-blush
+       invisible page whenever the timeline and the section disagreed.
+       Legibility must never depend on scroll position. */
+    background: var(--plum-deep);
+    color: var(--text);
+  }
+  /* The stages are parts of one landscape, not a stack of rectangles, so the
+     dark bleeds into its neighbours instead of starting at a hard edge.
+     Pure CSS: correct with no JS, and correct under reduced motion. */
+  .gap::before,
+  .gap::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 15rem;
+    pointer-events: none;
+    z-index: -1;
+  }
+  .gap::before {
+    bottom: 100%;
+    /* Smoothstep, not a linear ramp. A straight alpha ramp between two very
+       different values reads as a flat grey band; easing the ends makes it
+       dissolve like dusk instead. */
+    background: linear-gradient(
+      to bottom,
+      var(--plum-deep-fade) 0%,
+      color-mix(in srgb, var(--plum-deep) 6%, var(--plum-deep-fade)) 24%,
+      color-mix(in srgb, var(--plum-deep) 22%, var(--plum-deep-fade)) 45%,
+      color-mix(in srgb, var(--plum-deep) 52%, var(--plum-deep-fade)) 66%,
+      color-mix(in srgb, var(--plum-deep) 82%, var(--plum-deep-fade)) 85%,
+      var(--plum-deep) 100%
+    );
+  }
+  .gap::after {
+    top: 100%;
+    background: linear-gradient(
+      to top,
+      var(--plum-deep-fade) 0%,
+      color-mix(in srgb, var(--plum-deep) 6%, var(--plum-deep-fade)) 24%,
+      color-mix(in srgb, var(--plum-deep) 22%, var(--plum-deep-fade)) 45%,
+      color-mix(in srgb, var(--plum-deep) 52%, var(--plum-deep-fade)) 66%,
+      color-mix(in srgb, var(--plum-deep) 82%, var(--plum-deep-fade)) 85%,
+      var(--plum-deep) 100%
+    );
+  }
+
+  .gap__inner { max-width: 62rem; }
+  .gap__meta {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-top: var(--hairline) solid var(--rule);
+    padding-top: var(--space-sm);
+    margin-bottom: var(--space-xl);
+  }
+  .gap__index {
+    font-family: var(--font-display);
+    font-size: var(--step-display-4);
+    opacity: 0.5;
+    margin: 0;
+  }
+
+  .gap__headline {
+    font-size: clamp(1.9rem, 1rem + 3.6vw, 3.6rem);
+    max-width: 20ch;
+    line-height: 1.02;
+  }
+  .gap__headline--second {
+    margin-top: var(--space-2xl);
+    color: var(--copper-text-on-dark);
+    max-width: 24ch;
+  }
+  .gap__scheme {
+    margin-top: var(--space-md);
+    font-size: var(--step-body-sm);
+    opacity: 0.8;
+  }
+
+  /* What she already has. Accumulates in copper line. */
+  .gap__provided {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-xl) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    max-width: none;
+  }
+  .gap__has {
+    max-width: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    border: var(--hairline) solid var(--copper-fill);
+    padding: 0.45em 0.9em;
+    font-size: var(--step-body-sm);
+  }
+  .gap__tick { width: 1em; height: 1em; color: var(--copper-text-on-dark); flex: none; }
+
+  /* What is missing. Empty outlines, sized like the objects that belong there. */
+  .gap__missing {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-xl) 0 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: var(--space-lg);
+    max-width: none;
+  }
+  .gap__slot { max-width: none; }
+  .gap__outline {
+    display: block;
+    height: 6.5rem;
+    border: var(--hairline) dashed var(--copper-fill);
+    /* The absence is the point: no fill, and it stays empty until stage 3,
+       where the outlines fill with copper as she passes them. */
+    background: transparent;
+    margin-bottom: var(--space-sm);
+  }
+  .gap__slot-label {
+    font-family: var(--font-body);
+    font-size: var(--step-utility);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-utility);
+    font-weight: 700;
+    color: var(--copper-text-on-dark);
+  }
+</style>

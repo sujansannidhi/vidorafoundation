@@ -1,0 +1,62 @@
+---
+/**
+ * The homepage is one continuous argument in eleven sections. The scroll
+ * path is drawn over the whole container; the sections are ordinary flowing
+ * elements with real text in them, which is what lets reduced motion, a
+ * browser with no scroll timeline support, and a reader with no JavaScript
+ * all get a complete document rather than a broken animation.
+ */
+import Layout from '../layouts/Layout.astro';
+import ScrollPath from '../components/home/ScrollPath.astro';
+import Hero from '../components/home/Hero.astro';
+import Barriers from '../components/home/Barriers.astro';
+import Turn from '../components/home/Turn.astro';
+import Pillars from '../components/home/Pillars.astro';
+import HowItWorks from '../components/home/HowItWorks.astro';
+import Where from '../components/home/Where.astro';
+import ImpactBand from '../components/home/ImpactBand.astro';
+import FieldReport from '../components/home/FieldReport.astro';
+import ChapterModel from '../components/home/ChapterModel.astro';
+import GetInvolved from '../components/home/GetInvolved.astro';
+import Closing from '../components/home/Closing.astro';
+import { org } from '../content/site.ts';
+import { hero } from '../content/home.ts';
+---
+<Layout title={org.name} description={hero.standfirst} bare>
+  <div class="home">
+    <ScrollPath />
+    <Hero />
+    <Barriers />
+    <Turn />
+    <Pillars />
+    <HowItWorks />
+    <Where />
+    <ImpactBand />
+    <FieldReport />
+    <ChapterModel />
+    <GetInvolved />
+    <Closing />
+  </div>
+</Layout>
+
+<style>
+  .home {
+    position: relative;
+    isolation: isolate;
+    overflow-x: clip;
+    background: var(--paper);
+  }
+
+  /* Reserve the right hand lane the scroll path runs down, so no line of
+     copy on the homepage ever runs underneath it. ScrollPath.astro hides
+     the path at the same breakpoint that releases this padding. */
+  .home :global(.shell) { padding-right: max(var(--gutter), 13vw); }
+  /* The two centred sections opt back out. Their copy is short and set to a
+     narrow measure, so it never reaches the lane, and an asymmetric padding
+     would centre them off the page's own axis. */
+  .home :global(.turn .shell),
+  .home :global(.closing .shell) { padding-right: var(--gutter); }
+  @media (max-width: 48rem) {
+    .home :global(.shell) { padding-right: var(--gutter); }
+  }
+</style>

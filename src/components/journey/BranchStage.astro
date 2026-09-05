@@ -1,0 +1,86 @@
+---
+/**
+ * Stage 6. The road branches.
+ *
+ * The brief's ripple section, with the subject changed. Its original claim,
+ * that helping one student ripples outward, is an empirical claim about
+ * downstream outcomes with no data behind it, and it could sit on any
+ * nonprofit's site unchanged.
+ *
+ * Each new path here is a CHAPTER, not a student. That is a real
+ * multiplication the organisation can evidence, and it points straight at the
+ * conversion goal.
+ */
+import StatusChip from '../StatusChip.astro';
+import { stage6 } from '../../content/journey.ts';
+---
+<section class="branch" id={stage6.id} data-stage="6">
+  <div class="shell">
+    <div class="branch__meta">
+      <p class="eyebrow">{stage6.eyebrow}</p>
+      <p class="branch__index" aria-hidden="true">06</p>
+    </div>
+    <h2 class="branch__headline">{stage6.headline}</h2>
+    <p class="branch__standfirst">{stage6.standfirst}</p>
+
+    <div class="branch__diagram">
+      <svg viewBox="0 0 600 220" aria-hidden="true" focusable="false" class="branch__svg">
+        <g fill="none" stroke="var(--copper-fill)" stroke-width="2" stroke-linecap="round">
+          <path d="M0 110 H 170" />
+          <path d="M170 110 C 250 110, 260 30, 340 30" opacity="0.95" />
+          <path d="M170 110 C 250 110, 260 84, 340 84" opacity="0.5" stroke-dasharray="5 6" />
+          <path d="M170 110 C 250 110, 260 138, 340 138" opacity="0.5" stroke-dasharray="5 6" />
+          <path d="M170 110 C 250 110, 260 192, 340 192" opacity="0.5" stroke-dasharray="5 6" />
+        </g>
+        <g fill="var(--plum)">
+          <circle cx="170" cy="110" r="4" />
+        </g>
+      </svg>
+
+      <ol class="branch__list">
+        {stage6.branches.map((b) => (
+          <li class:list={['branch__item', `is-${b.status}`]}>
+            <span class="branch__label">{b.label}</span>
+            <StatusChip status={b.status} />
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .branch { position: relative; z-index: 1; padding-block: var(--space-3xl); }
+  .branch__meta {
+    display: flex; align-items: baseline; justify-content: space-between;
+    border-top: var(--hairline) solid var(--rule); padding-top: var(--space-sm);
+  }
+  .branch__index { font-family: var(--font-display); font-size: var(--step-display-4); opacity: 0.4; margin: 0; }
+  .branch__headline { margin-top: var(--space-lg); max-width: 20ch; }
+  .branch__standfirst { margin-top: var(--space-md); font-size: var(--step-body-lg); }
+  .branch__diagram {
+    margin-top: var(--space-2xl);
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--space-xl);
+    align-items: center;
+  }
+  .branch__svg { width: 100%; height: auto; }
+  .branch__list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-sm); }
+  .branch__item {
+    max-width: none;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: var(--space-sm);
+    padding-block: var(--space-sm);
+    border-bottom: var(--hairline) solid var(--rule);
+  }
+  .branch__item.is-planned { opacity: 0.6; }
+  .branch__label { font-family: var(--font-display); font-size: var(--step-display-4); }
+  /* Mobile reduces the branching to two paths. */
+  @media (max-width: 48rem) {
+    .branch__diagram { grid-template-columns: 1fr; }
+    .branch__svg g path:nth-of-type(4),
+    .branch__svg g path:nth-of-type(5) { display: none; }
+    .branch__item:nth-child(n + 3) { display: none; }
+  }
+</style>

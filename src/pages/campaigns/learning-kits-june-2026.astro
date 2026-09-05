@@ -1,0 +1,101 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import TodoNote from '../../components/TodoNote.astro';
+import PhotoSlot from '../../components/PhotoSlot.astro';
+import ImpactFigure from '../../components/ImpactFigure.astro';
+import { campaign, stops } from '../../content/campaign-june-2026.ts';
+import {
+  studentsWhoReceivedKits,
+  schoolsReached,
+  campaignCost,
+} from '../../content/impact.ts';
+import { todos } from '../../content/site.ts';
+---
+<Layout title={campaign.title} description="A field report on the first Learning Kits campaign.">
+  <PageHeader
+    eyebrow="Field report"
+    dateline={campaign.dateline}
+    title={campaign.title}
+    standfirst={campaign.standfirst}
+  />
+
+  <div class="shell">
+    <div class="figures">
+      <ImpactFigure figure={studentsWhoReceivedKits} detail={false} />
+      <ImpactFigure figure={schoolsReached} detail={false} />
+      <ImpactFigure figure={campaignCost} detail={false} />
+    </div>
+
+    {todos.schoolNamesPublishable === null && (
+      <TodoNote
+        item={9}
+        what="Whether any partner school has agreed to be named publicly. Until one has, the schools are counted but not named."
+      />
+    )}
+
+    <div class="report">
+      <ol class="stops">
+        {stops.map((stop) => (
+          <li class="stop">
+            <p class="stop__marker" aria-hidden="true">{stop.marker}</p>
+            <div>
+              <h2 class="stop__heading">{stop.heading}</h2>
+              {stop.body.map((para) => <p class="stop__para">{para}</p>)}
+              {stop.todo && <TodoNote what={stop.todo} item={5} />}
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div class="photos">
+        <PhotoSlot subject="Distribution day" ratio="3 / 4" />
+        <PhotoSlot subject="Wholesale market, Narasaraopeta" ratio="1 / 1" />
+        {!todos.junePhotos && (
+          <TodoNote
+            item={5}
+            what="Which photographs from the June 2026 distribution exist, and which of them have consent to publish. Until that is settled this report is written rather than shown."
+          />
+        )}
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .figures {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: clamp(var(--space-md), 3vw, 2.5rem);
+    padding-bottom: clamp(2rem, 5vh, 3rem);
+    border-bottom: var(--hairline) solid var(--rule-quiet);
+  }
+
+  .report {
+    margin-top: clamp(2.5rem, 6vh, 4rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+    gap: clamp(1.875rem, 4vw, 3.5rem);
+  }
+
+  .stops { list-style: none; margin: 0; padding: 0; }
+  .stop {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr);
+    gap: var(--space-md);
+    padding-block: var(--space-lg);
+    border-top: var(--hairline) solid var(--rule-quiet);
+  }
+  .stop:last-child { border-bottom: var(--hairline) solid var(--rule-quiet); }
+  .stop__marker { margin: 0; font-family: var(--font-display); font-size: var(--step-body-sm); color: var(--link); }
+  .stop__heading { font-size: 1.28rem; letter-spacing: -0.01em; }
+  .stop__para { margin: var(--space-xs) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); max-width: 34rem; }
+
+  .photos { display: grid; gap: var(--space-sm); align-content: start; }
+
+  @media (max-width: 56.25rem) {
+    .report { grid-template-columns: minmax(0, 1fr); }
+    .photos { order: -1; }
+  }
+</style>

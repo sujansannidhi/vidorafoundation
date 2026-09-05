@@ -1,0 +1,46 @@
+---
+/**
+ * Plan section 8, rule 3. A planned programme is labelled everywhere it
+ * appears, and the label has to be unmistakable rather than decorative.
+ *
+ * Active is a filled terracotta block; Planned is an outline on the cool
+ * surface. The difference is weight and fill, not hue alone, so it survives
+ * a colour blind reader and a greyscale print.
+ */
+import type { PillarStatus } from '../content/pillars.ts';
+interface Props { status: PillarStatus; }
+const { status } = Astro.props;
+const label = status === 'active' ? 'Active' : 'Planned';
+---
+<span class:list={['chip', `chip--${status}`]}>{label}</span>
+
+<style>
+  .chip {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: var(--step-utility-sm);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-utility);
+    font-weight: 700;
+    padding: 0.42em 0.85em;
+    border: var(--hairline) solid transparent;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+  .chip--active {
+    background: var(--accent-fill);
+    border-color: var(--accent-fill);
+    color: var(--paper);
+  }
+  .chip--planned {
+    background: var(--paper-cool);
+    border-color: var(--rule-quiet);
+    color: var(--ink);
+  }
+  /* On navy the cool chip has nothing to sit on, so it becomes an outline. */
+  :global(.on-dark) .chip--planned {
+    background: transparent;
+    border-color: var(--rule-quiet);
+    color: var(--text);
+  }
+</style>

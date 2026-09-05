@@ -1,0 +1,112 @@
+---
+/**
+ * Section 04. The three pillars as alternating rows.
+ *
+ * Every row is driven by pillars.ts, including which side the image sits on
+ * and whether there is an image at all. A Planned pillar gets a stated
+ * absence rather than a stock photograph: nothing has been delivered under
+ * it, so there is nothing to show, and showing something anyway would be the
+ * exact failure the status label exists to prevent.
+ */
+import SectionIndex from '../SectionIndex.astro';
+import StatusChip from '../StatusChip.astro';
+import PhotoSlot from '../PhotoSlot.astro';
+import { whatWeDo } from '../../content/home.ts';
+import { pillars } from '../../content/pillars.ts';
+
+const PHOTO_SUBJECT: Record<string, string> = {
+  'learning-kits': 'Learning Kits being handed out',
+};
+---
+<section class="band pillars" id={whatWeDo.id} aria-labelledby="pillars-heading">
+  <div class="shell">
+    <SectionIndex eyebrow={whatWeDo.eyebrow} index={whatWeDo.index} />
+
+    <div class="pillars__intro">
+      <h2 id="pillars-heading" class="pillars__headline">{whatWeDo.headline}</h2>
+      <div class="pillars__body">
+        {whatWeDo.body.map((para, i) => (
+          <p class:list={[{ 'is-quiet': i > 0 }]}>{para}</p>
+        ))}
+      </div>
+    </div>
+
+    <ol class="pillars__list">
+      {pillars.map((pillar, i) => (
+        <li class:list={['pillar', { 'is-flipped': i % 2 === 1, 'is-planned': pillar.status === 'planned' }]}>
+          <div class="pillar__row">
+            <div class="pillar__media reveal--wipe-left">
+              <PhotoSlot
+                subject={PHOTO_SUBJECT[pillar.slug] ?? pillar.name}
+                variant={pillar.status === 'active' ? 'pending' : 'none'}
+                noneLabel={whatWeDo.noImageryNote}
+                ratio="4 / 3"
+              />
+            </div>
+            <div class="pillar__text reveal">
+              <StatusChip status={pillar.status} />
+              <h3>{pillar.name}</h3>
+              <p class="pillar__summary">{pillar.summary}</p>
+              {pillar.body.map((para) => <p class="pillar__para">{para}</p>)}
+              {pillar.status === 'active' && (
+                <a class="link-action pillar__link" href={`/programs#${pillar.slug}`}>
+                  Read the programme
+                </a>
+              )}
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .pillars__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(var(--space-md), 4vw, 4rem);
+    margin-top: var(--space-lg);
+  }
+  .pillars__headline { max-width: 22ch; }
+  .pillars__body { display: grid; gap: var(--space-md); align-content: start; }
+  .pillars__body p { margin: 0; font-size: var(--step-body-lg); max-width: 34rem; }
+  .pillars__body p.is-quiet { font-size: var(--step-body-sm); color: var(--text-soft); }
+
+  .pillars__list {
+    list-style: none;
+    margin: clamp(3rem, 8vh, 6rem) 0 0;
+    padding: 0;
+    border-top: var(--hairline) solid var(--rule-quiet);
+  }
+  .pillar {
+    max-width: none;
+    border-bottom: var(--hairline) solid var(--rule-quiet);
+  }
+  .pillar__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: clamp(var(--space-md), 3vw, 3rem);
+    padding-block: clamp(1.875rem, 5vh, 3.5rem);
+    align-items: center;
+  }
+  /* Alternating sides, done by swapping the grid order rather than by
+     reordering the markup, so the reading order stays image then text. */
+  .pillar.is-flipped .pillar__row { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+  .pillar.is-flipped .pillar__media { order: 2; }
+  .pillar.is-flipped .pillar__text { order: 1; }
+  .pillar.is-planned { opacity: 0.92; }
+
+  .pillar__text h3 { margin-top: var(--space-md); }
+  .pillar__summary { margin: var(--space-sm) 0 0; font-size: var(--step-body-lg); max-width: 32rem; }
+  .pillar__para { margin: var(--space-sm) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); max-width: 32rem; }
+  .pillar__link { margin-top: var(--space-md); }
+
+  @media (max-width: 40rem) {
+    .pillars__intro { grid-template-columns: minmax(0, 1fr); }
+    .pillar__row,
+    .pillar.is-flipped .pillar__row { grid-template-columns: minmax(0, 1fr); }
+    .pillar.is-flipped .pillar__media { order: 0; }
+    .pillar.is-flipped .pillar__text { order: 0; }
+  }
+</style>

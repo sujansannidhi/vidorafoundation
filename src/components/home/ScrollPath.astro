@@ -1,0 +1,73 @@
+---
+/**
+ * The path that runs the whole length of the homepage: a dotted route drawn
+ * over by a solid one as the reader scrolls.
+ *
+ * It is decorative and it is the only element on the page that is purely so,
+ * which is why it sits behind everything at z-index 0, is aria-hidden, and
+ * takes no pointer events. If the browser has no scroll timeline the solid
+ * line simply renders complete: a finished road is a sensible still image,
+ * an empty one is a bug.
+ *
+ * The path runs in a reserved lane down the right hand side rather than
+ * wandering the full width. Given its own column neither the copy nor the
+ * road has to dodge the other, and the result reads like a ruled page
+ * instead of a line drawn through a paragraph. Full width, it crosses the
+ * hero headline. Below the tablet breakpoint there is no room for a lane,
+ * so the path is not drawn at all.
+ */
+const D = 'M 64 0 C 64 38 68 66 58 100 C 46 142 20 160 18 210 C 16 262 40 282 44 322 C 47 356 28 380 28 422 C 28 468 62 484 70 522 C 78 558 58 582 54 622 C 50 664 74 686 78 726 C 82 768 40 786 38 826 C 36 868 50 886 50 936 L 50 1000';
+---
+<svg
+  class="path"
+  viewBox="0 0 100 1000"
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path class="path__ghost" d={D} vector-effect="non-scaling-stroke" />
+  <path class="path__drawn" pathLength="1000" d={D} vector-effect="non-scaling-stroke" />
+</svg>
+
+<style>
+  .path {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: clamp(4.5rem, 12vw, 11.5rem);
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .path__ghost {
+    fill: none;
+    stroke: var(--accent-fill);
+    stroke-width: 1.25;
+    stroke-dasharray: 2 5;
+    opacity: 0.3;
+  }
+  .path__drawn {
+    fill: none;
+    stroke: var(--accent-fill);
+    stroke-width: var(--stroke-road);
+    stroke-linecap: round;
+  }
+
+  @supports (animation-timeline: scroll(root block)) {
+    @media (prefers-reduced-motion: no-preference) {
+      .path__drawn {
+        stroke-dasharray: 1000;
+        animation: draw linear both;
+        animation-timeline: scroll(root block);
+        animation-range: 2% 94%;
+      }
+    }
+  }
+
+  /* Below the tablet breakpoint the copy runs full width, so there is no
+     lane left to run the path down. */
+  @media (max-width: 48rem) {
+    .path { display: none; }
+  }
+</style>

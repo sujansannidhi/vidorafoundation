@@ -1,0 +1,30 @@
+{
+  "name": "vidorafoundation",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "check": "node scripts/check-content-rules.mjs && astro check",
+    "rules": "node scripts/check-content-rules.mjs",
+    "build": "node scripts/check-content-rules.mjs && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@fontsource/libre-baskerville": "^5.3.0",
+    "@fontsource/source-sans-3": "^5.3.0",
+    "astro": "^5.14.1",
+    "gsap": "^3.13.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@fontsource/bodoni-moda": "^5.2.5",
+    "@fontsource/lato": "^5.2.5",
+    "typescript": "^5.9.2"
+  },
+  "allowScripts": {
+    "esbuild@0.27.7": true,
+    "esbuild@0.25.12": true,
+    "sharp@0.34.5": true
+  }
+}

@@ -1,0 +1,81 @@
+---
+/**
+ * The road. One continuous copper line from the hero to the footer logo.
+ *
+ * Three layers, bottom to top:
+ *   1. #road-ahead   faint hairline, the road not yet travelled
+ *   2. #road-walked  full strength, dash offset driven by scroll
+ *   3. #figure       the student, on a motion path along the same geometry
+ *
+ * The walked layer starts partly drawn: she is already walking when the page
+ * loads. Vidora did not start her journey and is not carrying her.
+ *
+ * preserveAspectRatio="none" stretches the 100x700 coordinate space to the
+ * journey container. vector-effect="non-scaling-stroke" keeps the road a
+ * constant weight through that stretch, which is the whole reason this works.
+ */
+import { ROAD_DESKTOP, ROAD_MOBILE, ROAD_VIEWBOX } from './road-paths.ts';
+---
+<svg
+  class="road"
+  viewBox={ROAD_VIEWBOX}
+  preserveAspectRatio="none"
+  aria-hidden="true"
+  focusable="false"
+  data-road
+>
+  <g data-road-group>
+    <path id="road-ahead" class="road__ahead" d={ROAD_DESKTOP} data-road-ahead />
+    <path id="road-walked" class="road__walked" d={ROAD_DESKTOP} data-road-walked />
+  </g>
+</svg>
+
+<script is:inline define:vars={{ ROAD_MOBILE, ROAD_DESKTOP }}>
+  // Swap geometry before first paint so the mobile road never flashes as the
+  // desktop serpentine. A descending straight road undercuts the idea, so on
+  // narrow screens she advances left to right while the page scrolls down.
+  (() => {
+    const mq = window.matchMedia('(max-width: 48rem)');
+    const apply = () => {
+      const d = mq.matches ? ROAD_MOBILE : ROAD_DESKTOP;
+      document.querySelectorAll('[data-road-ahead], [data-road-walked]')
+        .forEach((p) => p.setAttribute('d', d));
+      document.dispatchEvent(new CustomEvent('road:geometry'));
+    };
+    apply();
+    mq.addEventListener('change', apply);
+  })();
+</script>
+
+<style>
+  .road {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .road__ahead,
+  .road__walked {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+  }
+  .road__ahead {
+    stroke: var(--copper-fill);
+    stroke-width: 1.5;
+    opacity: 0.28;
+  }
+  .road__walked {
+    stroke: var(--copper-fill);
+    stroke-width: 3;
+    opacity: 1;
+  }
+  /* No JS and reduced motion both land here: the whole road simply reads as
+     drawn, which is a correct final state rather than a broken initial one. */
+  @media (prefers-reduced-motion: reduce) {
+    .road__ahead { opacity: 0.28; }
+  }
+</style>

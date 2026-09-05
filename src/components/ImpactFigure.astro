@@ -1,0 +1,69 @@
+---
+/**
+ * Renders exactly ONE figure. There is no list prop and no list export in
+ * impact.ts, so there is no code path that can sum, average, or conflate
+ * the three figures. Plan section 8, rule 1.
+ *
+ * The digits do NOT animate. They are correct on arrival. Motion belongs to
+ * the rule beneath them, which draws on scroll. An animated counter displays
+ * a wrong number on every frame but the last.
+ *
+ * `detail` prints the source and the exclusion under the figure. On the
+ * homepage that is the whole methodology the reader gets in place, so it is
+ * on by default: a number whose caveat lives on another page is a number
+ * without a caveat.
+ */
+import type { ImpactFigureData } from '../content/impact.ts';
+interface Props {
+  figure: ImpactFigureData;
+  detail?: boolean;
+}
+const { figure, detail = true } = Astro.props;
+---
+<figure class="impact">
+  <p class="impact__value">{figure.value}</p>
+  <hr class="impact__rule reveal--grow" data-impact-rule aria-hidden="true" />
+  <figcaption class="impact__caption">
+    <span class="impact__label">
+      {figure.label}{figure.sublabel ? ` ${figure.sublabel}` : ''}
+    </span>
+    {detail && (
+      <>
+        <span class="impact__source">{figure.source}</span>
+        <span class="impact__excludes">{figure.excludes}</span>
+      </>
+    )}
+  </figcaption>
+</figure>
+
+<style>
+  .impact { margin: 0; max-width: 24rem; }
+  .impact__value {
+    font-family: var(--font-display);
+    font-size: var(--step-stat);
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    font-variant-numeric: lining-nums tabular-nums;
+    color: var(--link);
+    margin: 0;
+    max-width: none;
+  }
+  .impact__rule {
+    border: 0;
+    border-top: 2px solid var(--rule);
+    margin: var(--space-md) 0 var(--space-md);
+    width: 100%;
+    /* The rule is what moves. Full width by default, so reduced motion and
+       a browser without scroll timelines both read correctly. */
+    transform-origin: left center;
+  }
+  .impact__caption { display: flex; flex-direction: column; gap: var(--space-sm); }
+  .impact__label {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    line-height: 1.2;
+    color: var(--text);
+  }
+  .impact__source { font-size: var(--step-body-xs); color: var(--text-soft); }
+  .impact__excludes { font-size: var(--step-body-xs); color: var(--text-softer); }
+</style>

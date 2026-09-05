@@ -1,0 +1,88 @@
+---
+/**
+ * Section 05. Four stages across one row, each with a node and a connector
+ * that grows as it scrolls into view.
+ *
+ * The last connector fades out instead of stopping at a node, because the
+ * last stage is the open ended one: more chapters, no fixed end.
+ */
+import SectionIndex from '../SectionIndex.astro';
+import { howItWorks } from '../../content/home.ts';
+---
+<section class="band on-warm how" id={howItWorks.id} aria-labelledby="how-heading">
+  <div class="shell">
+    <SectionIndex eyebrow={howItWorks.eyebrow} index={howItWorks.index} />
+    <h2 id="how-heading" class="how__headline">{howItWorks.headline}</h2>
+
+    <ol class="how__list">
+      {howItWorks.stages.map((stage) => (
+        <li class="stage reveal">
+          <p class="stage__label">{stage.label}</p>
+          <div class="stage__track" aria-hidden="true">
+            <span class:list={['stage__node', { 'is-open': stage.open }]}></span>
+            <span class:list={['stage__line', 'reveal--grow', { 'is-open': stage.open }]}></span>
+          </div>
+          <h3 class="stage__heading">{stage.heading}</h3>
+          <p class="stage__body">{stage.body}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .how__headline { margin-top: var(--space-lg); max-width: 24ch; }
+
+  .how__list {
+    list-style: none;
+    margin: clamp(2.75rem, 7vh, 5.25rem) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: 0;
+    row-gap: clamp(1.875rem, 5vh, 2.875rem);
+  }
+  .stage {
+    max-width: none;
+    /* The connector runs into the gutter of the next column, which is what
+       makes the four stages read as one line rather than four cards. */
+    padding-right: clamp(var(--space-md), 3vw, 2.375rem);
+  }
+  .stage__label {
+    margin: 0;
+    font-size: var(--step-utility);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--text-softer);
+    max-width: none;
+  }
+  .stage__track { display: flex; align-items: center; margin: var(--space-md) 0 var(--space-md); }
+  .stage__node {
+    flex: none;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: var(--accent-fill);
+  }
+  .stage__node.is-open { background: var(--accent-on-dark); }
+  .stage__line {
+    flex: 1;
+    min-width: 0;
+    height: 2px;
+    margin-right: calc(-1 * clamp(var(--space-md), 3vw, 2.375rem));
+    background: var(--accent-fill);
+  }
+  .stage__line.is-open {
+    background: linear-gradient(to right, var(--copper-text-on-dark), rgb(230 162 60 / 0));
+  }
+  .stage__heading { font-size: var(--step-display-4); }
+  .stage__body { margin: var(--space-sm) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); max-width: 26rem; }
+
+  @media (max-width: 56.25rem) {
+    .how__list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 40rem) {
+    .how__list { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

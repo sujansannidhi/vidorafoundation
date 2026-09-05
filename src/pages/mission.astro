@@ -1,0 +1,117 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import { org, values } from '../content/site.ts';
+import { stage2 } from '../content/journey.ts';
+import { foundingNote } from '../content/people.ts';
+---
+<Layout
+  title="Mission"
+  description="What Vidora Foundation does, the gap it fills, and the values it works by."
+>
+  <PageHeader
+    variant="dark"
+    eyebrow="Mission and vision"
+    title="Educational materials, into the hands of students who need them."
+    standfirst="Vidora Foundation works in government schools in Palnadu and Prakasam districts, Andhra Pradesh. Learning Kits is running now. Teaching and Access are what comes next."
+  />
+
+  <div class="shell">
+    <div class="split">
+      <h2 class="split__heading">The gap, plainly.</h2>
+      <div class="split__body">
+        <p>{stage2.schemeNote}</p>
+        <p>
+          It does not provide compass boxes, atlases, slates, or notebooks
+          matched to a student's grade. That is the gap Learning Kits fills.
+          It is narrow enough to name and cheap enough to buy, which is why a
+          student run organisation can close it.
+        </p>
+      </div>
+    </div>
+
+    <div class="split split--spaced">
+      <h2 class="split__heading">Why Andhra Pradesh, plainly.</h2>
+      <div class="split__body">
+        <p>
+          The work runs in Palnadu and Prakasam because the founder's family
+          has ties there and the door opened easiest. That is the reason for
+          the location. It is not a claim that the region needs help more than
+          anywhere else.
+        </p>
+        <p class="is-quiet">
+          Narasaraopeta is an entry point, not a ceiling. The kit model is
+          portable, which is why the organisation is built around chapters
+          rather than around one place.
+        </p>
+      </div>
+    </div>
+
+    <h2 class="values__heading">What the organisation values</h2>
+    <ol class="values">
+      {values.map((value) => (
+        <li class="value">
+          <p class="value__name">{value.name}</p>
+          <p class="value__body">{value.body}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="who">
+      <PhotoSlot subject="The team, or a distribution" ratio="4 / 3" />
+      <div>
+        <h2 class="who__heading">Who runs it</h2>
+        <p>{foundingNote}</p>
+        <p class="is-quiet">{org.basedIn}. Operations in {org.operationsIn}.</p>
+        <a class="link-action" href="/people">Meet the team</a>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(var(--space-md), 4vw, 4rem);
+  }
+  .split--spaced { margin-top: clamp(2.5rem, 7vh, 4.5rem); }
+  .split__heading { max-width: 20ch; font-size: clamp(1.7rem, 1rem + 2.6vw, 2.7rem); }
+  .split__body { display: grid; gap: var(--space-md); align-content: start; }
+  .split__body p { margin: 0; font-size: var(--step-body-lg); max-width: 34rem; }
+  .split__body p.is-quiet { font-size: var(--step-body-sm); color: var(--text-soft); }
+
+  .values__heading {
+    margin-top: clamp(3.5rem, 9vh, 6.25rem);
+    padding-top: var(--space-md);
+    border-top: var(--hairline) solid var(--rule-accent);
+    font-size: clamp(1.6rem, 1rem + 2.2vw, 2.3rem);
+  }
+  .values {
+    list-style: none;
+    margin: var(--space-lg) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: var(--hairline);
+    background: var(--rule-quiet);
+  }
+  .value { max-width: none; background: var(--paper); padding: var(--space-lg) var(--space-md); }
+  .value__name { margin: 0; font-family: var(--font-display); font-size: 1.24rem; }
+  .value__body { margin: var(--space-xs) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); }
+
+  .who {
+    margin-top: clamp(3.5rem, 9vh, 6.25rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: clamp(var(--space-md), 4vw, 3.375rem);
+    align-items: center;
+  }
+  .who__heading { font-size: clamp(1.5rem, 1rem + 1.8vw, 2.1rem); margin-bottom: var(--space-sm); }
+  .is-quiet { color: var(--text-soft); font-size: var(--step-body-sm); }
+
+  @media (max-width: 48rem) {
+    .split, .who { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

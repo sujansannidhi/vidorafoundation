@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import TodoNote from '../components/TodoNote.astro';
+import { todos } from '../content/site.ts';
+---
+<Layout title="Partners" description="What a partnership with Vidora Foundation involves.">
+  <PageHeader
+    eyebrow="Partners"
+    title="No organisation is listed here until it has agreed to be."
+    standfirst="Organisations Vidora Foundation has approached are not partners. This page stays empty until there is a confirmed list with written permission to publish it."
+  />
+
+  <div class="shell">
+    {todos.partners
+      ? (
+        <ul class="partners">
+          {todos.partners.map((p) => <li>{p.name}</li>)}
+        </ul>
+      )
+      : (
+        <>
+          <div class="empty">
+            <p class="empty__label">Confirmed partner list, pending written permission</p>
+          </div>
+          <TodoNote
+            item={2}
+            what="The confirmed partner list, plus written permission from each organisation to display their name. Several organisations have been contacted, but a prospect is not a partner and none of them appear here."
+          />
+        </>
+      )}
+
+    <div class="split">
+      <h2 class="split__heading">Want to supply a distribution?</h2>
+      <div class="split__body">
+        <p>
+          Schools, businesses, and organisations can fund a school's kits
+          directly. Supplies are bought locally in Andhra Pradesh, and the
+          receipts get shared.
+        </p>
+        <p class="is-quiet">
+          A school or local organisation decides what its students need and
+          when a distribution happens. Vidora Foundation specifies and buys the
+          kits against that.
+        </p>
+        <a class="link-action" href="/contact">Get in touch</a>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .empty {
+    margin-top: clamp(2.5rem, 6vh, 4.5rem);
+    border: var(--hairline) dashed var(--rule-quiet);
+    background: var(--paper-cool);
+    padding: clamp(1.875rem, 5vw, 3.75rem);
+    text-align: center;
+  }
+  .empty__label {
+    margin: 0;
+    font-size: var(--step-body-xs);
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--text-softer);
+    max-width: none;
+  }
+
+  .partners { margin-top: var(--space-lg); }
+
+  .split {
+    margin-top: clamp(2.5rem, 6vh, 4.5rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.375rem, 3vw, 3rem);
+  }
+  .split__heading { max-width: 20ch; font-size: clamp(1.6rem, 1rem + 2.2vw, 2.3rem); }
+  .split__body { display: grid; gap: var(--space-sm); align-content: start; }
+  .split__body p { margin: 0; max-width: 33rem; }
+  .split__body p.is-quiet { font-size: var(--step-body-sm); color: var(--text-soft); }
+  .split__body :global(.link-action) { justify-self: start; margin-top: var(--space-xs); }
+
+  @media (max-width: 48rem) {
+    .split { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

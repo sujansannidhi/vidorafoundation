@@ -1,0 +1,84 @@
+---
+/**
+ * Section 11. The mark, the motto, and the two actions again.
+ *
+ * The lines overhead converge on the mark: the same rays as the hero,
+ * arriving rather than setting out. It is the only place on the site where
+ * the mark is used at size, which is why it loads at its full intrinsic
+ * width rather than being scaled up past it.
+ */
+import Mark from '../Mark.astro';
+import { closing } from '../../content/home.ts';
+---
+<section class="closing" id={closing.id} aria-labelledby="closing-heading">
+  <svg class="closing__rays" viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+    <g fill="none" stroke-linecap="round">
+      <path class="reveal--draw" pathLength="1000" d="M60 0 C 200 120 420 190 600 240" />
+      <path class="reveal--draw" pathLength="1000" d="M330 0 C 400 120 500 200 600 240" />
+      <path class="reveal--draw" pathLength="1000" d="M870 0 C 800 120 700 200 600 240" />
+      <path class="reveal--draw" pathLength="1000" d="M1140 0 C 1000 120 780 190 600 240" />
+    </g>
+  </svg>
+
+  <div class="shell closing__inner">
+    <div class="closing__mark">
+      <Mark width={230} alt="" />
+    </div>
+    <h2 id="closing-heading" class="closing__headline reveal">{closing.headline}</h2>
+    <p class="closing__body">{closing.body}</p>
+    <div class="closing__actions">
+      <a class="btn btn--accent" href={closing.ctaPrimary.href}>{closing.ctaPrimary.label}</a>
+      <a class="btn btn--secondary" href={closing.ctaSecondary.href}>{closing.ctaSecondary.label}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .closing {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    text-align: center;
+    padding-block: clamp(5.625rem, 14vh, 11.25rem) clamp(4.375rem, 10vh, 7.5rem);
+  }
+  .closing__rays {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 260px;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .closing__rays path {
+    stroke: var(--accent-fill);
+    stroke-width: 2;
+    opacity: 0.55;
+  }
+
+  .closing__inner { position: relative; z-index: 1; max-width: 900px; }
+  /* The wrapper does the centring. Passing a scoped class into Mark.astro
+     would not match, because Astro scopes a selector to the component that
+     declares it, not to the component that renders the element. */
+  .closing__mark { display: flex; justify-content: center; }
+  .closing__mark :global(.mark) { width: min(230px, 44vw) !important; }
+  .closing__headline {
+    margin-top: clamp(var(--space-md), 4vh, 2.75rem);
+    font-size: clamp(2.1rem, 1rem + 4.4vw, 4.2rem);
+    line-height: 1.05;
+    letter-spacing: -0.024em;
+  }
+  .closing__body {
+    margin: var(--space-lg) auto 0;
+    max-width: 38rem;
+    font-size: var(--step-body-lg);
+    color: var(--text-soft);
+  }
+  .closing__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    justify-content: center;
+    margin-top: var(--space-lg);
+  }
+</style>

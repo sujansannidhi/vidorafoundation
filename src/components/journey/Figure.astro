@@ -1,0 +1,55 @@
+---
+/**
+ * The student.
+ *
+ * Three rules from the brief, all load bearing:
+ *   1. Small. Roughly 30px against a full viewport. A small person on a long
+ *      road reads as dignified; a large hero figure reads as stock illustration.
+ *   2. Already walking on load. See Road.astro.
+ *   3. No face. A drawn face invents a particular child. The figure is a single
+ *      stroke at the logo arc's weight so it reads as part of the mark.
+ *
+ * Drawn in its own 24x34 space and positioned by GSAP MotionPathPlugin, so the
+ * geometry here is independent of the road's stretched coordinate system.
+ */
+---
+<svg
+  class="figure"
+  viewBox="0 0 24 34"
+  width="26"
+  height="37"
+  aria-hidden="true"
+  focusable="false"
+  data-figure
+>
+  <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- head: a closed arc, no features -->
+    <circle cx="12" cy="5" r="4" />
+    <!-- torso -->
+    <path d="M12 9.5 V 20" />
+    <!-- schoolbag, the one identifying detail -->
+    <path d="M15.5 11.5 q4 1.5 3 6 q-0.5 2 -3 2" />
+    <!-- arms, mid stride -->
+    <path d="M12 13 L 7.5 17" />
+    <!-- legs, mid stride -->
+    <path d="M12 20 L 8 28 L 7 33" />
+    <path d="M12 20 L 16.5 27 L 18 32.5" />
+  </g>
+</svg>
+
+<style>
+  .figure {
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--plum);
+    /* Behind the copy, with the road. She is part of the landscape; the text
+       is the foreground. A figure that slides over a paragraph reads as a bug. */
+    z-index: 0;
+    pointer-events: none;
+    /* Positioned by GSAP. Before JS runs it sits at the path start rather than
+       at the origin, so it is never briefly stranded in the corner. */
+    will-change: transform;
+  }
+  .on-dark .figure { color: var(--blush); }
+</style>

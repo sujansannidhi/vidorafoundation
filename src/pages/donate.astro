@@ -1,0 +1,70 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PendingStatus from '../components/PendingStatus.astro';
+import TodoNote from '../components/TodoNote.astro';
+import { todos } from '../content/site.ts';
+---
+<Layout title="Donate" description="How to give to Vidora Foundation, and what the money buys.">
+  <div class="shell">
+    <div class="give">
+      <div class="give__copy">
+        <p class="eyebrow give__eyebrow">Donate</p>
+        <h1 class="give__title">Money buys materials, in the district.</h1>
+        <p class="give__lede">
+          Supplies are bought in person at local wholesale prices in
+          Narasaraopeta. Nothing is shipped from the United States, so what
+          you give is spent at local prices.
+        </p>
+        <p class="give__detail">
+          The June 2026 campaign reached approximately 1,200 students across 12
+          schools for approximately $3,500 in supplies.
+        </p>
+        <PendingStatus />
+      </div>
+
+      <aside class="channel on-dark">
+        <p class="eyebrow channel__eyebrow">One channel</p>
+        <h2 class="channel__heading">GoFundMe</h2>
+        <p class="channel__body">
+          GoFundMe is the only donation channel. There are no card fields on
+          this site.
+        </p>
+        {todos.gofundmeUrl
+          ? <a class="btn btn--primary channel__cta" href={todos.gofundmeUrl} rel="noopener">Give on GoFundMe</a>
+          : (
+            <TodoNote
+              item={3}
+              what="The GoFundMe URL. It is the only donation channel, so there is nothing to link to yet. No payment form, no embedded widget, and no card fields are built on this site."
+            />
+          )}
+        <p class="channel__note">
+          No claim is published about how funds move between the United States
+          and India.
+        </p>
+      </aside>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .give {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(1.75rem, 4vw, 4rem);
+  }
+  .give__eyebrow { padding-top: var(--space-sm); border-top: var(--hairline) solid var(--rule-accent); }
+  .give__title { margin-top: var(--space-md); max-width: 18ch; }
+  .give__lede { margin: var(--space-md) 0 0; max-width: 33rem; font-size: var(--step-body-lg); }
+  .give__detail { margin: var(--space-md) 0 0; max-width: 33rem; font-size: var(--step-body-sm); color: var(--text-soft); }
+
+  .channel { align-self: start; padding: clamp(1.625rem, 3vw, 2.5rem); }
+  .channel__eyebrow { color: var(--accent-on-dark); }
+  .channel__heading { margin-top: var(--space-sm); font-size: clamp(1.5rem, 1rem + 1.8vw, 2rem); }
+  .channel__body { margin: var(--space-sm) 0 var(--space-md); font-size: var(--step-body-sm); color: var(--text-soft); }
+  .channel__cta { display: block; text-align: center; }
+  .channel__note { margin: var(--space-md) 0 0; font-size: var(--step-body-xs); color: var(--text-softer); }
+
+  @media (max-width: 48rem) {
+    .give { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>
