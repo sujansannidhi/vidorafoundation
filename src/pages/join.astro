@@ -1,15 +1,41 @@
 ---
+/**
+ * Ordered by what the organisation actually needs, which is why starting a
+ * chapter gets the whole first block and everything else is arranged beneath
+ * it. Four equal cards would say the four are equally useful, and they are
+ * not.
+ */
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PendingStatus from '../components/PendingStatus.astro';
 import TodoNote from '../components/TodoNote.astro';
 import { todos } from '../content/site.ts';
+
+/* The volunteer roles, as they actually exist. These replaced a placeholder
+   note that stood in for them while they were undecided. */
+const roles = [
+  {
+    id: 'social-media',
+    name: 'Social media',
+    body: 'Run the accounts. Post what a campaign is doing while it is doing it, rather than writing it up months later.',
+  },
+  {
+    id: 'article-writing',
+    name: 'Article writing',
+    body: 'Write the field reports and updates. Every campaign gets written up in the order the work happened, including the parts that ran tight.',
+  },
+  {
+    id: 'outreach-ambassador',
+    name: 'Outreach ambassador',
+    body: 'Talk to schools, businesses and other students. Ambassadors are how a second chapter starts.',
+  },
+];
 ---
 <Layout title="Get involved" description="Start a chapter, volunteer, fundraise, or donate.">
   <PageHeader
     variant="dark"
     eyebrow="Get involved"
-    title="Three ways in."
+    title="Start where you can."
     standfirst="Ordered by what the organisation actually needs."
   />
 
@@ -31,28 +57,37 @@ import { todos } from '../content/site.ts';
         )}
     </article>
 
-    <div class="ways">
-      <article class="way" id="volunteer">
-        <h2 class="way__heading">Volunteer</h2>
-        <p class="way__body">Help with a campaign, outreach, or the ambassador programme.</p>
-        <TodoNote
-          item={7}
-          what="What volunteering actually involves and how someone signs up, including the ambassador programme and whether volunteer hours are tracked."
-        />
-      </article>
+    <section class="volunteer" id="volunteer" aria-labelledby="volunteer-heading">
+      <div class="volunteer__intro">
+        <h2 id="volunteer-heading" class="volunteer__heading">Volunteer</h2>
+        <p class="volunteer__body">
+          Three roles, and you can hold more than one. All of them are done by
+          students.
+        </p>
+      </div>
+      <ol class="roles">
+        {roles.map((role) => (
+          <li class="role" id={role.id}>
+            <h3 class="role__name">{role.name}</h3>
+            <p class="role__body">{role.body}</p>
+          </li>
+        ))}
+      </ol>
+    </section>
 
-      <article class="way" id="fundraise">
-        <h2 class="way__heading">Fundraise</h2>
-        <p class="way__body">
+    <div class="also">
+      <article class="also__item" id="fundraise">
+        <h2 class="also__heading">Fundraise</h2>
+        <p class="also__body">
           Raise what a school's kits cost. Supplies are bought local to the
           school receiving them, so the cost per kit reflects prices where it
           is going rather than prices where the money was raised.
         </p>
       </article>
 
-      <article class="way" id="donate">
-        <h2 class="way__heading">Donate</h2>
-        <p class="way__body">
+      <article class="also__item" id="donate">
+        <h2 class="also__heading">Donate</h2>
+        <p class="also__body">
           Money buys educational materials at local prices, near the school
           receiving them.
         </p>
@@ -69,14 +104,65 @@ import { todos } from '../content/site.ts';
   .feature__heading { margin-top: var(--space-sm); max-width: 20ch; font-size: clamp(1.8rem, 1rem + 2.8vw, 2.9rem); }
   .feature__body { margin: var(--space-md) 0 0; max-width: 34rem; font-size: var(--step-body-lg); }
 
-  .ways {
-    margin-top: clamp(2rem, 5vh, 3.5rem);
+  /* ---- Volunteer, as its own section rather than one card among four ---- */
+  .volunteer {
+    margin-top: clamp(2.5rem, 7vh, 4.5rem);
+    padding-top: var(--space-md);
+    border-top: var(--hairline) solid var(--rule-accent);
+  }
+  .volunteer__intro {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(var(--space-md), 4vw, 3rem);
+    align-items: baseline;
+  }
+  .volunteer__heading { font-size: clamp(1.7rem, 1rem + 2.4vw, 2.5rem); }
+  .volunteer__body { margin: 0; max-width: 30rem; color: var(--text-soft); }
+
+  /* Numbered rows under their own rule. The roles are a short list to read
+     down, not three products to compare across. */
+  .roles {
+    list-style: none;
+    margin: clamp(1.5rem, 4vh, 2.5rem) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(var(--space-md), 3vw, 2.5rem);
+    counter-reset: role;
+  }
+  .role {
+    max-width: none;
+    counter-increment: role;
+    padding-top: var(--space-md);
+    border-top: 2px solid var(--rule);
+  }
+  .role::before {
+    content: counter(role, decimal-leading-zero);
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--step-body-sm);
+    color: var(--link);
+    margin-bottom: var(--space-xs);
+  }
+  .role__name { font-size: var(--step-display-4); }
+  .role__body { margin: var(--space-xs) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); }
+
+  /* ---- The quieter two ---- */
+  .also {
+    margin-top: clamp(2.5rem, 7vh, 4.5rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
     gap: var(--hairline);
     background: var(--rule-quiet);
   }
-  .way { background: var(--paper-cool); padding: clamp(var(--space-md), 3vw, 2.375rem); }
-  .way__heading { font-size: 1.6rem; letter-spacing: -0.014em; }
-  .way__body { margin: var(--space-sm) 0 var(--space-sm); font-size: var(--step-body-sm); }
+  .also__item { background: var(--paper-cool); padding: clamp(var(--space-md), 3vw, 2.375rem); }
+  .also__heading { font-size: 1.6rem; letter-spacing: -0.014em; }
+  .also__body { margin: var(--space-sm) 0 var(--space-sm); font-size: var(--step-body-sm); }
+
+  @media (max-width: 52rem) {
+    .roles { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 40rem) {
+    .volunteer__intro { grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); }
+  }
 </style>

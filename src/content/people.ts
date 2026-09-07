@@ -16,6 +16,8 @@ export interface Person {
    *  do at Vidora. Not aspirations, not "passionate about". What they do. */
   bio: string[] | null;
   photo: { src: string; alt: string } | null;
+  /** Organisation address. Null until the person has one to publish. */
+  email: string | null;
   linkedin: string | null;
   /** True while the copy is assembled from source fragments and awaits sign off. */
   needsReview?: boolean;
@@ -30,12 +32,29 @@ export const people: Person[] = [
       'He chairs the team’s meetings and led the June 2026 Learning Kits campaign, including buying supplies in person at wholesale prices in Narasaraopeta. The Andhra Pradesh state scheme already provides uniforms, textbooks, and bags. What it leaves out is a compass box, an atlas, a slate, and a notebook that matches a student’s grade. Those are the small, fixable barriers that stop students from showing up ready to learn.',
     ],
     photo: null,
+    email: 'sujan@vidorafoundation.org',
     linkedin: null,
     needsReview: true,
   },
-  { name: 'Praneel Rondla', role: null, bio: null, photo: null, linkedin: null },
-  { name: 'Neha Manikandan', role: null, bio: null, photo: null, linkedin: null },
-  { name: 'Mani', role: null, bio: null, photo: null, linkedin: null },
+  /* Title and address are known; the bios are not, so they stay null and each
+     renders its own TodoNote. A title is not a bio, and filling the gap with
+     something plausible is exactly what the note exists to prevent. */
+  {
+    name: 'Praneel Rondla',
+    role: 'Executive',
+    bio: null,
+    photo: null,
+    email: 'praneel@vidorafoundation.org',
+    linkedin: null,
+  },
+  {
+    name: 'Neha Manikandan',
+    role: 'Executive',
+    bio: null,
+    photo: null,
+    email: 'neha@vidorafoundation.org',
+    linkedin: null,
+  },
 ];
 
 export const foundingNote =

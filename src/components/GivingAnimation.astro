@@ -1,0 +1,237 @@
+---
+/**
+ * What a donation turns into, drawn rather than described: coins fall, become
+ * books, and arrive as an open book in a student's hands, where a sunburst
+ * rises from the spine. The last beat quotes the Vidora mark, whose interior
+ * is an open book with a sunburst rising from between the pages.
+ *
+ * Notes on the drawing, since they are not obvious from the paths:
+ *
+ *   - The open book carries a FILL of the panel surface, not `none`. It is
+ *     what masks the student's torso, so the book reads as held in front of
+ *     them rather than drawn on top of them. Every other shape is unfilled
+ *     line work.
+ *   - The rays fan up and to the right rather than straight up. Centred, they
+ *     run through the student's face.
+ *
+ * Three rules govern the implementation:
+ *
+ *   1. Reduced motion gets the FINISHED scene, not a blank one: the student
+ *      holds the open book, the sunburst is up, nothing moves. An animation
+ *      whose un-animated state is empty is a broken page for anyone who has
+ *      asked their system to stop moving things.
+ *   2. Colours come from tokens only. `scripts/check-content-rules.mjs` fails
+ *      the build on a hex literal outside tokens.css.
+ *   3. Line art on the shared stroke weights, so it belongs to the same hand
+ *      as the hero sunburst, the scroll path and the chapter diagram.
+ */
+---
+<div class="giving">
+  <svg
+    class="giving__svg"
+    viewBox="76 14 268 364"
+    role="img"
+    aria-labelledby="giving-title giving-desc"
+  >
+    <title id="giving-title">A donation becoming school materials</title>
+    <desc id="giving-desc">
+      Coins fall and become books, which arrive as an open book held by a
+      student, with light rising from its pages.
+    </desc>
+
+    <!-- ── Falling money. Each coin fades as its book takes over. ── -->
+    <g class="coins">
+      <g class="coin coin--1">
+        <circle cx="146" cy="40" r="15" />
+        <circle cx="146" cy="40" r="8" class="coin__inner" />
+      </g>
+      <g class="coin coin--2">
+        <circle cx="212" cy="40" r="15" />
+        <circle cx="212" cy="40" r="8" class="coin__inner" />
+      </g>
+      <g class="coin coin--3">
+        <circle cx="278" cy="40" r="15" />
+        <circle cx="278" cy="40" r="8" class="coin__inner" />
+      </g>
+    </g>
+
+    <!-- ── The books they become: closed, with spine and page edges. ── -->
+    <g class="books">
+      <g class="book book--1">
+        <rect x="116" y="96" width="60" height="18" rx="1.5" />
+        <path d="M116 108 h60" class="book__pages" />
+        <path d="M125 96 v18" class="book__spine" />
+      </g>
+      <g class="book book--2">
+        <rect x="182" y="96" width="60" height="18" rx="1.5" />
+        <path d="M182 108 h60" class="book__pages" />
+        <path d="M191 96 v18" class="book__spine" />
+      </g>
+      <g class="book book--3">
+        <rect x="248" y="96" width="60" height="18" rx="1.5" />
+        <path d="M248 108 h60" class="book__pages" />
+        <path d="M257 96 v18" class="book__spine" />
+      </g>
+    </g>
+
+    <!--
+      The student, as a filled silhouette rather than line art. Drawn as
+      outlines, a head and shoulders is a circle on a stick with a dome
+      behind it, which is a stick figure however carefully the curves are
+      placed. A solid shape reads as a person immediately, and it is also
+      what lets the book in front of it register as being held.
+    -->
+    <g class="student">
+      <circle cx="210" cy="176" r="38" />
+      <!-- neck, bridging head to shoulders so the head is not a floating disc -->
+      <rect x="198" y="202" width="24" height="48" rx="9" />
+      <path d="M92 376 c 4 -66 48 -130 118 -130 s 114 64 118 130 z" />
+    </g>
+
+    <!-- ── The open book, filled so it masks the torso behind it. ── -->
+    <g class="lap-book">
+      <path
+        class="lap-book__page"
+        d="M210 292 c -26 -18 -56 -25 -92 -23 v50 c 36 -2 66 5 92 23 z"
+      />
+      <path
+        class="lap-book__page"
+        d="M210 292 c 26 -18 56 -25 92 -23 v50 c -36 -2 -66 5 -92 23 z"
+      />
+      <path d="M210 292 v50" class="lap-book__spine" />
+      <!-- page lines, to give the pages some thickness -->
+      <path d="M199 304 c -22 -12 -46 -17 -73 -16" class="lap-book__lines" />
+      <path d="M221 304 c 22 -12 46 -17 73 -16" class="lap-book__lines" />
+      <path d="M199 320 c -22 -12 -46 -17 -73 -16" class="lap-book__lines" />
+      <path d="M221 320 c 22 -12 46 -17 73 -16" class="lap-book__lines" />
+    </g>
+
+    <!-- ── The sunburst, over the figure. The rays fan sideways rather than
+             straight up: centred, they would run through the student's face. ── -->
+    <g class="rays">
+      <path d="M210 286 l-96 -40" />
+      <path d="M210 286 l-74 -58" />
+      <path d="M210 286 l-44 -72" />
+      <path d="M210 286 l44 -72" />
+      <path d="M210 286 l74 -58" />
+      <path d="M210 286 l96 -40" />
+    </g>
+
+    <!-- ── Thumbs over the outer pages, so the book reads as held. ── -->
+    <g class="hands">
+      <rect x="115" y="300" width="23" height="27" rx="11" />
+      <rect x="282" y="300" width="23" height="27" rx="11" />
+    </g>
+  </svg>
+</div>
+
+<style>
+  .giving {
+    /* The scene sits in its own field of paper so the line work has room.
+       Squeezed against text it reads as a diagram rather than an image. */
+    background: var(--paper-cool);
+    padding: clamp(var(--space-md), 4vw, var(--space-xl));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .giving__svg {
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    overflow: visible;
+  }
+
+  /* ---- Shared line quality ---- */
+  .coins g,
+  .books g,
+  .lap-book,
+  .rays {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .coin circle { stroke: var(--accent-on-dark); stroke-width: var(--stroke-object); }
+  .coin__inner { stroke-width: 1; opacity: 0.55; }
+
+  .book rect { stroke: var(--accent-fill); stroke-width: var(--stroke-object); }
+  .book__pages,
+  .book__spine { stroke: var(--accent-fill); stroke-width: 1; opacity: 0.55; }
+
+  /* Solid, not stroked. See the note on the silhouette above. */
+  .student circle,
+  .student rect,
+  .student path { fill: var(--ink); stroke: none; }
+  .hands rect { fill: var(--ink); stroke: none; }
+
+  /* The fill is load bearing: it masks the shoulders so the book is held in
+     front of the student rather than drawn over them. */
+  .lap-book__page {
+    fill: var(--paper-cool);
+    stroke: var(--accent-fill);
+    stroke-width: var(--stroke-object);
+  }
+  .lap-book__spine { stroke: var(--accent-fill); stroke-width: 1.5; }
+  .lap-book__lines { stroke: var(--accent-fill); stroke-width: 1; opacity: 0.5; }
+
+  .rays path { stroke: var(--accent-on-dark); stroke-width: 1.7; stroke-dasharray: 130; }
+
+  /*
+   * The finished scene is the default: the student holds the open book, the
+   * sunburst is up, the coins are already spent and so are not drawn. Every
+   * rule below only adds movement on top of a picture that is already
+   * complete and correct.
+   */
+  .coin { opacity: 0; }
+  .book { opacity: 0; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* One 8s cycle: coins fall, coins give way to books, books drop into the
+       open book, the sunburst rises, hold, repeat. */
+    .coin { animation: coin-fall 8s cubic-bezier(0.4, 0, 0.65, 1) infinite; }
+    .coin--1 { animation-delay: 0s; }
+    .coin--2 { animation-delay: 0.4s; }
+    .coin--3 { animation-delay: 0.8s; }
+
+    .book { animation: book-appear 8s var(--ease-out) infinite; }
+    .book--1 { animation-delay: 0s; }
+    .book--2 { animation-delay: 0.4s; }
+    .book--3 { animation-delay: 0.8s; }
+
+    .rays path { animation: ray-rise 8s var(--ease-out) infinite; }
+    .rays path:nth-child(1), .rays path:nth-child(6) { animation-delay: 3.9s; }
+    .rays path:nth-child(2), .rays path:nth-child(5) { animation-delay: 3.75s; }
+    .rays path:nth-child(3), .rays path:nth-child(4) { animation-delay: 3.6s; }
+  }
+
+  /* The coin falls to where the book will be and fades on arrival: the
+     moment the money stops being money. */
+  @keyframes coin-fall {
+    0%   { opacity: 0; transform: translateY(-56px) scale(0.85); }
+    5%   { opacity: 1; transform: translateY(-36px) scale(1); }
+    25%  { opacity: 1; transform: translateY(50px) scale(1); }
+    31%  { opacity: 0; transform: translateY(60px) scale(0.9); }
+    100% { opacity: 0; transform: translateY(60px) scale(0.9); }
+  }
+
+  /* The book takes over exactly where the coin gave up, holds, then drops
+     into the open book the student is already holding. */
+  @keyframes book-appear {
+    0%, 27% { opacity: 0; transform: translateY(-8px); }
+    33%     { opacity: 1; transform: translateY(0); }
+    46%     { opacity: 1; transform: translateY(0); }
+    58%     { opacity: 0; transform: translateY(190px) scale(0.8); }
+    100%    { opacity: 0; transform: translateY(190px) scale(0.8); }
+  }
+
+  /* The rays draw themselves out of the spine once the books have arrived,
+     using a dash offset rather than a scale. A scale needs an origin in user
+     units, and getting that wrong silently sends each ray off on its own
+     axis. This is also how the hero sunburst is drawn. */
+  @keyframes ray-rise {
+    0%, 44% { opacity: 0; stroke-dashoffset: 130; }
+    58%     { opacity: 1; stroke-dashoffset: 0; }
+    92%     { opacity: 1; stroke-dashoffset: 0; }
+    100%    { opacity: 0; stroke-dashoffset: 130; }
+  }
+</style>

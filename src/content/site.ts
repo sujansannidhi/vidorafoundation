@@ -110,10 +110,13 @@ export const values = [
  * Fill the value in and the note disappears on its own.
  */
 export const todos = {
-  contactEmail: null as string | null,
-  socialHandles: null as { label: string; href: string }[] | null,
+  contactEmail: 'sujan@vidorafoundation.org' as string | null,
+  socialHandles: [
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/company/vidora-foundation/' },
+    { label: 'Instagram', href: 'https://www.instagram.com/vidorafoundation/' },
+  ] as { label: string; href: string }[] | null,
   newsletterProvider: null as string | null,
-  gofundmeUrl: null as string | null,
+  gofundmeUrl: 'https://www.gofundme.com/f/vidora-learning-kits' as string | null,
   chapterProcess: null as string | null,
   kitContentsByGrade: null as string | null,
   partners: null as { name: string; href?: string }[] | null,

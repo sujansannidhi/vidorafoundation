@@ -15,14 +15,20 @@ import { todos } from '../content/site.ts';
           <div class="entry__when">
             <p class="entry__date">{update.when}</p>
             <span class="entry__status">
-              {update.status === 'delivered' ? 'Delivered' : 'Planned'}
+              {update.status === 'delivered' && 'Delivered'}
+              {update.status === 'raising' && 'Raising now'}
+              {update.status === 'planned' && 'Planned'}
             </span>
           </div>
           <div>
             <h2 class="entry__heading">{update.heading}</h2>
             <p class="entry__body">{update.body}</p>
             {update.href && update.linkLabel && (
-              <a class="link-action" href={update.href}>{update.linkLabel}</a>
+              <a
+                class="link-action"
+                href={update.href}
+                rel={update.external ? 'noopener' : undefined}
+              >{update.linkLabel}</a>
             )}
           </div>
         </li>
@@ -61,6 +67,7 @@ import { todos } from '../content/site.ts';
     max-width: none;
   }
   .entry.is-planned .entry__date { color: var(--text-softer); }
+  .entry.is-raising .entry__date { color: var(--link); }
   .entry__status {
     display: inline-block;
     margin-top: var(--space-xs);
@@ -71,6 +78,13 @@ import { todos } from '../content/site.ts';
     padding: 0.3em 0.7em;
   }
   .entry.is-delivered .entry__status { background: var(--accent-fill); color: var(--paper); }
+  /* Raising reads as live but not finished: the accent as an outline rather
+     than the filled block that marks something actually delivered. */
+  .entry.is-raising .entry__status {
+    background: transparent;
+    border: var(--hairline) solid var(--accent-fill);
+    color: var(--link);
+  }
   .entry.is-planned .entry__status {
     background: var(--paper-cool);
     border: var(--hairline) solid var(--rule-quiet);

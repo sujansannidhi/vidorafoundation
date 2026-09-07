@@ -1,48 +1,58 @@
 ---
+/**
+ * The page shows what a donation becomes rather than explaining it, which is
+ * why the copy is short. The two blocks that remain in words are the ones
+ * that have to be: the 501(c)(3) status, and the deliberate non-claim about
+ * cross border movement of funds. Both are legal positions, not marketing,
+ * and neither is safe to cut for the sake of a cleaner page.
+ */
 import Layout from '../layouts/Layout.astro';
+import GivingAnimation from '../components/GivingAnimation.astro';
 import PendingStatus from '../components/PendingStatus.astro';
 import TodoNote from '../components/TodoNote.astro';
 import { todos } from '../content/site.ts';
 ---
-<Layout title="Donate" description="How to give to Vidora Foundation, and what the money buys.">
+<Layout
+  title="Donate"
+  description="Give to Vidora Foundation. Money buys educational materials at local prices, near the school receiving them."
+>
   <div class="shell">
     <div class="give">
-      <div class="give__copy">
-        <p class="eyebrow give__eyebrow">Donate</p>
-        <h1 class="give__title">Money buys materials, near the school.</h1>
-        <p class="give__lede">
-          Supplies are bought in person, at local prices, near the school
-          receiving them. Nothing is shipped in from somewhere more expensive,
-          so what you give is spent where it goes furthest.
-        </p>
-        <p class="give__detail">
-          The June 2026 campaign, in government schools in Andhra Pradesh,
-          reached approximately 1,200 students across 12 schools for
-          approximately $3,500 in supplies.
-        </p>
-        <PendingStatus />
+      <div class="give__visual">
+        <GivingAnimation />
       </div>
 
-      <aside class="channel on-dark">
-        <p class="eyebrow channel__eyebrow">One channel</p>
-        <h2 class="channel__heading">GoFundMe</h2>
-        <p class="channel__body">
-          GoFundMe is the only donation channel. There are no card fields on
-          this site.
-        </p>
-        {todos.gofundmeUrl
-          ? <a class="btn btn--primary channel__cta" href={todos.gofundmeUrl} rel="noopener">Give on GoFundMe</a>
-          : (
-            <TodoNote
-              item={3}
-              what="The GoFundMe URL. It is the only donation channel, so there is nothing to link to yet. No payment form, no embedded widget, and no card fields are built on this site."
-            />
-          )}
-        <p class="channel__note">
-          No claim is published about how funds move between the United States
-          and India.
-        </p>
-      </aside>
+      <div class="give__aside">
+        <p class="eyebrow give__eyebrow">Donate</p>
+        <h1 class="give__title">Money becomes materials.</h1>
+
+        <aside class="channel on-dark">
+          <p class="channel__for">For the second Learning Kits campaign</p>
+          <h2 class="channel__heading">GoFundMe</h2>
+          <p class="channel__body">
+            GoFundMe is the only donation channel. There are no card fields on
+            this site.
+          </p>
+          {todos.gofundmeUrl
+            ? (
+              <a class="btn btn--primary channel__cta" href={todos.gofundmeUrl} rel="noopener">
+                Give on GoFundMe
+              </a>
+            )
+            : (
+              <TodoNote
+                item={3}
+                what="The GoFundMe URL. It is the only donation channel, so there is nothing to link to yet. No payment form, no embedded widget, and no card fields are built on this site."
+              />
+            )}
+          <p class="channel__note">
+            No claim is published about how funds move between the United
+            States and India.
+          </p>
+        </aside>
+
+        <PendingStatus />
+      </div>
     </div>
   </div>
 </Layout>
@@ -50,22 +60,35 @@ import { todos } from '../content/site.ts';
 <style>
   .give {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
     gap: clamp(1.75rem, 4vw, 4rem);
+    align-items: start;
   }
-  .give__eyebrow { padding-top: var(--space-sm); border-top: var(--hairline) solid var(--rule-accent); }
-  .give__title { margin-top: var(--space-md); max-width: 18ch; }
-  .give__lede { margin: var(--space-md) 0 0; max-width: 33rem; font-size: var(--step-body-lg); }
-  .give__detail { margin: var(--space-md) 0 0; max-width: 33rem; font-size: var(--step-body-sm); color: var(--text-soft); }
+  .give__visual { position: sticky; top: 7rem; }
 
-  .channel { align-self: start; padding: clamp(1.625rem, 3vw, 2.5rem); }
-  .channel__eyebrow { color: var(--accent-on-dark); }
+  .give__eyebrow { padding-top: var(--space-sm); border-top: var(--hairline) solid var(--rule-accent); }
+  .give__title { margin-top: var(--space-md); max-width: 14ch; }
+
+  .channel { margin-top: var(--space-lg); padding: clamp(1.625rem, 3vw, 2.5rem); }
+  .channel__for {
+    margin: 0;
+    font-size: var(--step-utility);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--accent-on-dark);
+    max-width: none;
+  }
   .channel__heading { margin-top: var(--space-sm); font-size: clamp(1.5rem, 1rem + 1.8vw, 2rem); }
   .channel__body { margin: var(--space-sm) 0 var(--space-md); font-size: var(--step-body-sm); color: var(--text-soft); }
   .channel__cta { display: block; text-align: center; }
   .channel__note { margin: var(--space-md) 0 0; font-size: var(--step-body-xs); color: var(--text-softer); }
 
-  @media (max-width: 48rem) {
+  @media (max-width: 52rem) {
     .give { grid-template-columns: minmax(0, 1fr); }
+    /* Sticky is meaningless once the columns stack, and it strands the
+       drawing over the copy on the way down. */
+    .give__visual { position: static; order: 2; }
+    .give__aside { order: 1; }
   }
 </style>

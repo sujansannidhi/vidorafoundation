@@ -38,7 +38,10 @@ const [lead, ...rest] = people;
             awaiting sign off.
           </p>
         )}
-        {lead.linkedin && <p><a href={lead.linkedin} rel="noopener">LinkedIn</a></p>}
+        <p class="lead__contact">
+          {lead.email && <a href={`mailto:${lead.email}`}>{lead.email}</a>}
+          {lead.linkedin && <a href={lead.linkedin} rel="noopener">LinkedIn</a>}
+        </p>
       </div>
     </article>
 
@@ -55,14 +58,18 @@ const [lead, ...rest] = people;
           </div>
           <h2 class="member__name">{person.name}</h2>
           {person.role && <p class="eyebrow member__role">{person.role}</p>}
+          {person.email && (
+            <p class="member__contact">
+              <a href={`mailto:${person.email}`}>{person.email}</a>
+            </p>
+          )}
           {person.bio
             ? person.bio.map((para) => <p class="member__para">{para}</p>)
-            : <TodoNote item={1} what={`Role, bio, and photo for ${person.name}. Not written yet, and not invented here.`} />}
+            : <TodoNote item={1} what={`A bio and photo for ${person.name}. Not written yet, and not invented here.`} />}
         </li>
       ))}
     </ul>
 
-    <p class="note">The team are minors, so their schools are not named here.</p>
   </div>
 </Layout>
 
@@ -100,14 +107,15 @@ const [lead, ...rest] = people;
   .member__role { margin-top: var(--space-2xs); }
   .member__para { margin: var(--space-xs) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); }
 
-  .note {
-    margin-top: var(--space-lg);
+  .lead__contact {
+    margin-top: var(--space-md);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
     font-size: var(--step-body-sm);
-    color: var(--text-soft);
-    padding-left: var(--space-md);
-    border-left: 2px solid var(--rule-quiet);
-    max-width: 44rem;
   }
+  .member__contact { margin: var(--space-xs) 0 0; font-size: var(--step-body-sm); }
+  .member__contact a { overflow-wrap: anywhere; }
 
   @media (max-width: 48rem) {
     .lead { grid-template-columns: minmax(0, 1fr); }

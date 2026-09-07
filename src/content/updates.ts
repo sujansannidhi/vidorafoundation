@@ -8,7 +8,12 @@
  * quickly still leaves the right impression.
  */
 
-export type UpdateStatus = 'delivered' | 'planned';
+/**
+ * Three states, because two were not enough once a campaign was underway.
+ * `raising` is the honest middle: money is being collected and nothing has
+ * been handed to a student yet, which is neither Delivered nor Planned.
+ */
+export type UpdateStatus = 'delivered' | 'raising' | 'planned';
 
 export interface Update {
   id: string;
@@ -17,9 +22,11 @@ export interface Update {
   status: UpdateStatus;
   heading: string;
   body: string;
-  /** Where the evidence for a delivered entry lives. */
+  /** Where the evidence for a delivered entry, or the ask for a live one, lives. */
   href?: string;
   linkLabel?: string;
+  /** True when `href` leaves the site, so the link can be marked up as such. */
+  external?: boolean;
 }
 
 export const updates: Update[] = [
@@ -33,11 +40,24 @@ export const updates: Update[] = [
     linkLabel: 'Read the field report',
   },
   {
-    id: 'more-chapters',
-    when: 'Next',
+    id: 'learning-kits-second',
+    when: 'Now',
+    status: 'raising',
+    heading: 'Second Learning Kits campaign',
+    body: 'Collecting funds now. The kits will go to more schools in India. Nothing has been distributed under this campaign yet, so there are no figures to publish for it.',
+    href: 'https://www.gofundme.com/f/vidora-learning-kits',
+    linkLabel: 'Give on GoFundMe',
+    external: true,
+  },
+  {
+    /* Deliberately unspecified. The campaign has been decided on in outline
+       and not in contents, and naming items nobody has chosen would be an
+       invention dressed as a plan. */
+    id: 'local-texas-campaign',
+    when: 'Later',
     status: 'planned',
-    heading: 'More chapters',
-    body: "Frisco is the first chapter. The model is portable: a chapter would raise what a school's kits cost, and the supplies would be bought local to that school, whether it is in the chapter's own community or abroad. No second chapter has started.",
+    heading: 'A local campaign in Texas',
+    body: "The chapter model works close to home as well as abroad. A Texas chapter would supply schools in its own community with materials that make school more enjoyable. What those materials would be has not been specified yet, and nothing has been raised or delivered for it.",
   },
   {
     id: 'teaching-and-access',
