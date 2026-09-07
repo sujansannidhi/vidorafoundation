@@ -210,10 +210,22 @@ for (const f of srcFiles) {
     if (body.toLowerCase().includes(p)) fail('R7 non-public topic', rel(f), `"${p}"`);
   }
 }
-// The FCRA position is under legal review: no claims about cross border movement of funds.
+// The FCRA position is under legal review: no claims about cross border
+// movement of funds. The destination is deliberately NOT hard coded to India.
+// The organisation is built around chapters that may serve schools anywhere,
+// so a guard that only knew one country would silently go quiet the first
+// time a chapter raised for a school somewhere else.
+const FUND_VERB = '(?:wire|transfer|send|remit|move|convert)';
+const CROSS_BORDER = new RegExp(
+  `${FUND_VERB}(?:s|ed|ing)?\\s+(?:the\\s+)?(?:money|funds|donations)\\s+(?:to|into|overseas|abroad)`
+  + `|${FUND_VERB}(?:s|ed|ing)?\\s+(?:the\\s+)?(?:money|funds|donations)\\s+\\w+\\s+(?:to|into)\\s+\\w`,
+  'i',
+);
 for (const f of srcFiles) {
-  if (/wire (the )?(money|funds)|transfer(red)? funds to india|send(s|ing)? money to india/i.test(text(f))) {
-    fail('R7 cross-border funds', rel(f), 'describes how funds move to India. Under legal review.');
+  if (basename(f) === 'check-content-rules.mjs') continue;
+  if (CROSS_BORDER.test(text(f))) {
+    fail('R7 cross-border funds', rel(f),
+      'describes how funds move across a border. Under legal review.');
   }
 }
 

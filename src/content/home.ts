@@ -14,7 +14,7 @@
 export const hero = {
   id: 'hero',
   index: '01',
-  eyebrow: 'Government schools · Palnadu and Prakasam districts · Andhra Pradesh',
+  eyebrow: 'A student run chapter network · First campaign, June 2026',
   /**
    * The claim is deliberately the opposite of the sector default. Most
    * education copy opens on scarcity. This opens on what a student already
@@ -24,10 +24,10 @@ export const hero = {
   headline: 'Every student arrives with potential.',
   headlineEmphasis: 'What they need is the material to use it.',
   standfirst:
-    'Vidora Foundation puts educational materials into the hands of students in government schools in Andhra Pradesh who need them.',
+    'Vidora Foundation puts educational materials into the hands of students who need them, through chapters that raise for and run their own distributions.',
   /** The proof, stated once at the top and expanded at sections 07 and 08. */
   proof:
-    'In June 2026 the first Learning Kits campaign reached approximately 1,200 students across 12 schools, for a total of about $3,500 in supplies.',
+    'In June 2026 the first Learning Kits campaign reached approximately 1,200 students across 12 government schools in Andhra Pradesh, for a total of about $3,500 in supplies.',
   ctaPrimary: { label: 'See our impact', href: '/impact' },
   ctaSecondary: { label: 'Our work', href: '/programs' },
   scrollCue: 'Scroll',
@@ -39,7 +39,7 @@ export const barriers = {
   eyebrow: 'What gets in the way',
   headline: 'A classroom can be full and still be short of what learning takes.',
   standfirst:
-    'Students in Palnadu and Prakasam show up ready. Three things stand between them and the next step, and Vidora Foundation works on all three.',
+    'Students show up ready. Three things stand between them and the next step, and Vidora Foundation works on all three.',
   /**
    * One barrier per pillar, in pillar order. `pillar` is the slug in
    * pillars.ts, which is where the Active or Planned status comes from, so a
@@ -81,11 +81,11 @@ export const turn = {
 
 export const whatWeDo = {
   id: 'what-we-do',
-  index: '04',
+  index: '03',
   eyebrow: 'What Vidora Foundation does',
   headline: 'Three pillars. One of them is running.',
   body: [
-    "Vidora Foundation is run by high school students in Frisco, Texas. The legal entity is registered as Sambhav. The work happens in government schools in Palnadu and Prakasam districts, Andhra Pradesh, where the founder's family has ties and the door opened easiest.",
+    "Vidora Foundation is run by high school students and organised into chapters. The first is in Frisco, Texas; the legal entity is registered as Sambhav. The first campaign ran in government schools in Palnadu and Prakasam districts, Andhra Pradesh, where the founder's family has ties and the door opened easiest.",
     'Learning Kits has delivered. Teaching and Access are labelled Planned everywhere they appear, so a plan is never read as a promise.',
   ],
   /** Rendered where a Planned pillar would otherwise show a photograph. */
@@ -111,9 +111,9 @@ export const howItWorks: {
   stages: HowStage[];
 } = {
   id: 'how-it-works',
-  index: '05',
+  index: '04',
   eyebrow: 'How it works',
-  headline: 'From a chapter in Texas to a desk in Andhra Pradesh.',
+  headline: 'A chapter raises it. A student opens it.',
   stages: [
     {
       label: 'Stage one',
@@ -127,71 +127,37 @@ export const howItWorks: {
     },
     {
       label: 'Stage three',
-      heading: 'Reach schools',
-      body: 'Supplies are bought in person in Narasaraopeta at local wholesale prices, then distributed at the schools.',
+      heading: 'Reach the school',
+      body: 'Supplies are bought in person near the school they are going to, at local prices, then handed over there. Nothing is shipped in from somewhere more expensive.',
     },
     {
       label: 'Stage four',
       heading: 'Expand opportunity',
-      body: 'One chapter can supply a school. More chapters supply more schools, and the receipts get shared.',
+      body: 'One chapter can supply a school, whether that school is in its own community or on the other side of the world. More chapters supply more schools, and the receipts get shared.',
       open: true,
     },
   ],
 };
 
-export const where = {
-  id: 'where-we-work',
-  index: '06',
-  eyebrow: 'Where we work',
-  from: {
-    label: 'Where the chapter is',
-    place: 'Frisco, Texas',
-    body: "The first chapter. High school students raise what a school's kits cost.",
-  },
-  to: {
-    label: 'Where the work is',
-    place: 'Palnadu and Prakasam districts',
-    body: 'Andhra Pradesh, India. Supplies are bought in Narasaraopeta, in the district, at local wholesale prices.',
-  },
-  note:
-    "Money is raised in Texas. Supplies are bought in the district. The location is where the founder's family has ties and where the door opened easiest, not a claim that this region needs help more than anywhere else.",
-} as const;
-
 export const impactSection = {
   id: 'impact',
-  index: '07',
+  index: '05',
   eyebrow: 'Impact · June 2026',
   headline: 'What the first campaign cost, and what it reached.',
 } as const;
 
-export const fieldReportSection = {
-  id: 'field-report',
-  index: '08',
-  eyebrow: 'Field report · June 2026',
-  headline: 'How the campaign actually ran.',
-  standfirst:
-    'Told as stops in the order the work happened. No testimonials appear here, because none have been collected with consent yet.',
-  photoNote:
-    'Photographs from the June 2026 distribution. Only images with confirmed consent are published.',
-  photos: [
-    'Distribution day, June 2026',
-    'Buying supplies in Narasaraopeta',
-    'Kits assembled by grade',
-  ],
-} as const;
-
 export const chapterModel = {
   id: 'the-chapter-model',
-  index: '09',
+  index: '06',
   eyebrow: 'The chapter model',
   headline: 'One chapter can supply a school. More chapters supply more schools.',
   standfirst:
-    "Frisco is the first chapter. The model is portable: a chapter raises what a school's kits cost, and supplies are bought locally in Andhra Pradesh.",
+    "Frisco is the first chapter. The model is portable: a chapter raises what a school's kits cost, and the supplies are bought local to that school. Some chapters will serve schools in their own community, some will partner with schools abroad.",
 } as const;
 
 export const getInvolved = {
   id: 'get-involved',
-  index: '10',
+  index: '07',
   eyebrow: 'Get involved',
   feature: {
     label: 'Start here',
@@ -208,7 +174,7 @@ export const getInvolved = {
     },
     {
       heading: 'Donate',
-      body: 'Money buys educational materials at local wholesale prices in the district.',
+      body: 'Money buys educational materials at local prices, near the school receiving them.',
       href: '/donate',
     },
     {

@@ -27,10 +27,10 @@ export const pillars: Pillar[] = [
     name: 'Learning Kits',
     status: 'active',
     summary:
-      'Grade specific supplies for government school students in Palnadu and Prakasam districts.',
+      'Grade specific supplies for government school students, matched to what their year of the syllabus requires.',
     body: [
-      'The Andhra Pradesh state scheme, Sarvepalli Radhakrishnan Vidyarthi Mitra, already supplies uniforms, shoes, socks, a belt, a school bag, textbooks, and generic notebooks. Learning Kits fill what the scheme does not cover: compass boxes, atlases, slates, and notebooks matched to a student’s grade.',
-      'Supplies are bought in person at local wholesale prices in Narasaraopeta. They are not shipped from the United States.',
+      'A kit fills what a student is missing rather than what is easy to donate, so the contents are decided against the grade being taught. In the June 2026 campaign in Andhra Pradesh, where the state scheme already supplies uniforms, shoes, a school bag, textbooks and generic notebooks, that meant compass boxes, atlases, slates, and notebooks matched to a student’s grade.',
+      'Supplies are bought in person, at local prices, near the school receiving them. They are not shipped in from somewhere more expensive.',
     ],
   },
   {

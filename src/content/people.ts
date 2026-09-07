@@ -26,7 +26,7 @@ export const people: Person[] = [
     name: 'Sujan Sannidhi',
     role: 'Founder',
     bio: [
-      'Sujan founded Vidora Foundation as a high school student in Frisco, Texas. The work runs in Palnadu and Prakasam districts in Andhra Pradesh, where his family has ties and where the door opened easiest. That is the reason for the location. It is not a claim that the region needs help more than anywhere else.',
+      'Sujan founded Vidora Foundation as a high school student in Frisco, Texas. The first campaign ran in Palnadu and Prakasam districts in Andhra Pradesh, where his family has ties and where the door opened easiest. That is the reason it started there. It is not a claim that the region needs help more than anywhere else.',
       'He chairs the team’s meetings and led the June 2026 Learning Kits campaign, including buying supplies in person at wholesale prices in Narasaraopeta. The Andhra Pradesh state scheme already provides uniforms, textbooks, and bags. What it leaves out is a compass box, an atlas, a slate, and a notebook that matches a student’s grade. Those are the small, fixable barriers that stop students from showing up ready to learn.',
     ],
     photo: null,

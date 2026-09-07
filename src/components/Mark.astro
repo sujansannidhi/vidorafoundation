@@ -22,9 +22,11 @@ interface Props {
   loading?: 'eager' | 'lazy';
 }
 
-/* Intrinsic size of both files. Kept here so width and height are always
-   emitted together and the mark never causes layout shift. */
-const RATIO = 360 / 280;
+/* Intrinsic size of both files, including the transparent margin they carry.
+   Kept here so width and height are always emitted together and the mark
+   never causes layout shift. The margin is deliberate: cropped tight to the
+   ink, the book arc reads as sliced off against a dark surface. */
+const RATIO = 392 / 312;
 
 const {
   width = 34,

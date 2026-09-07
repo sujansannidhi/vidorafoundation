@@ -4,9 +4,29 @@
  * impact.ts, so there is no code path that can sum, average, or conflate
  * the three figures. Plan section 8, rule 1.
  *
- * The digits do NOT animate. They are correct on arrival. Motion belongs to
- * the rule beneath them, which draws on scroll. An animated counter displays
- * a wrong number on every frame but the last.
+ * ---------------------------------------------------------------------------
+ * On the counting animation
+ *
+ * This component previously refused to animate the digits, on the grounds
+ * that a counter "displays a wrong number on every frame but the last". The
+ * counter was asked for, so it is here, but that objection was a real one and
+ * the implementation answers it rather than ignoring it:
+ *
+ *   - The number in the DOM is the true, final value, server rendered. No
+ *     JavaScript, a failed script, or `prefers-reduced-motion: reduce` all
+ *     leave the correct figure on screen with no animation at all. The
+ *     animation is an enhancement layered on a correct page, never the thing
+ *     that produces the correct page.
+ *   - Assistive technology is never handed an intermediate number. The
+ *     counting text is aria-hidden; a visually hidden sibling carries the
+ *     real value, and that is what gets read.
+ *   - It runs once, on entering the viewport, and writes back the exact
+ *     original string on finish rather than a re-formatted one, so "$3,500"
+ *     cannot land as "3500".
+ *
+ * The digits are tabular, so the number does not jitter its own width as it
+ * climbs. Motion still belongs to the rule beneath as well, which draws.
+ * ---------------------------------------------------------------------------
  *
  * `detail` prints the source and the exclusion under the figure. On the
  * homepage that is the whole methodology the reader gets in place, so it is
@@ -21,7 +41,10 @@ interface Props {
 const { figure, detail = true } = Astro.props;
 ---
 <figure class="impact">
-  <p class="impact__value">{figure.value}</p>
+  <p class="impact__value">
+    <span class="visually-hidden">{figure.value}</span>
+    <span class="impact__count" aria-hidden="true" data-count>{figure.value}</span>
+  </p>
   <hr class="impact__rule reveal--grow" data-impact-rule aria-hidden="true" />
   <figcaption class="impact__caption">
     <span class="impact__label">
@@ -36,6 +59,93 @@ const { figure, detail = true } = Astro.props;
   </figcaption>
 </figure>
 
+<script>
+  /*
+   * Progressive enhancement only. Everything below is skipped when the reader
+   * has asked for reduced motion, and the page is already correct without it.
+   */
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  function animate(el: HTMLElement) {
+    const finalText = el.textContent ?? '';
+    /* Split the value into what comes before the digits, the digits
+       themselves, and what comes after, so a currency mark or a trailing
+       unit survives the count. */
+    const match = finalText.match(/^(\D*)([\d,.]+)(\D*)$/);
+    if (!match) return;
+    const [, prefix, digits, suffix] = match;
+    const grouped = digits.includes(',');
+    const target = Number(digits.replace(/,/g, ''));
+    if (!Number.isFinite(target) || target <= 0) return;
+
+    const DURATION = 1100;
+    const start = performance.now();
+    let done = false;
+
+    const settle = () => {
+      /* Write back the original string verbatim. Re-formatting the number
+         here is how a "$3,500" quietly becomes "3500". */
+      if (done) return;
+      done = true;
+      el.textContent = finalText;
+    };
+
+    /*
+     * The safety net, and the reason the counter is safe to ship at all.
+     * requestAnimationFrame stops in a backgrounded tab and can be throttled
+     * to a crawl; without this, a reader who scrolls the figure into view and
+     * switches away comes back to a number frozen part way up. A wrong
+     * number left on screen is worse than no animation, so a plain timer
+     * guarantees the true value lands whatever happens to the frame loop.
+     */
+    window.setTimeout(settle, DURATION + 400);
+    /* Ease out: fast at first, settling onto the real number rather than
+       arriving at full speed. */
+    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
+
+    function frame(now: number) {
+      if (done) return;
+      const t = Math.min((now - start) / DURATION, 1);
+      if (t >= 1) {
+        settle();
+        return;
+      }
+      const value = Math.round(target * ease(t));
+      el.textContent =
+        prefix + (grouped ? value.toLocaleString('en-US') : String(value)) + suffix;
+      requestAnimationFrame(frame);
+    }
+
+    el.textContent = prefix + (grouped ? '0' : '0') + suffix;
+    requestAnimationFrame(frame);
+  }
+
+  function init() {
+    const targets = document.querySelectorAll<HTMLElement>('[data-count]');
+    if (!targets.length || reduced.matches) return;
+    if (!('IntersectionObserver' in window)) return;
+
+    const seen = new WeakSet<HTMLElement>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const el = entry.target as HTMLElement;
+          if (!entry.isIntersecting || seen.has(el)) continue;
+          /* Once only. A figure that re-counts every time it scrolls back
+             into view reads as a broken widget, not as emphasis. */
+          seen.add(el);
+          observer.unobserve(el);
+          animate(el);
+        }
+      },
+      { threshold: 0.4 },
+    );
+    targets.forEach((el) => observer.observe(el));
+  }
+
+  init();
+</script>
+
 <style>
   .impact { margin: 0; max-width: 24rem; }
   .impact__value {
@@ -43,6 +153,7 @@ const { figure, detail = true } = Astro.props;
     font-size: var(--step-stat);
     line-height: 0.9;
     letter-spacing: -0.03em;
+    /* Tabular figures so the number holds its width while it counts. */
     font-variant-numeric: lining-nums tabular-nums;
     color: var(--link);
     margin: 0;

@@ -9,6 +9,7 @@
 import SectionIndex from '../SectionIndex.astro';
 import ImpactFigure from '../ImpactFigure.astro';
 import { impactSection } from '../../content/home.ts';
+import { campaign } from '../../content/campaign-june-2026.ts';
 import {
   studentsWhoReceivedKits,
   schoolsReached,
@@ -28,6 +29,12 @@ import {
     </div>
 
     <p class="impact-band__method">{methodologyNote}</p>
+
+    {/* The homepage's only route to the evidence, since the field report
+        section was removed. A figure the reader cannot check is a claim. */}
+    <a class="link-action impact-band__evidence" href={`/campaigns/${campaign.slug}`}>
+      Read the June 2026 field report
+    </a>
   </div>
 </section>
 
@@ -39,6 +46,7 @@ import {
     gap: clamp(1.875rem, 4vw, 3.5rem);
     margin-top: clamp(2.75rem, 7vh, 5.375rem);
   }
+  .impact-band__evidence { margin-top: var(--space-md); }
   .impact-band__method {
     margin: clamp(2.375rem, 6vh, 4.375rem) 0 0;
     padding-top: var(--space-md);

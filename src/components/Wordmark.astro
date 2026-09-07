@@ -16,7 +16,9 @@ interface Props {
   tone?: 'light' | 'dark';
 }
 const { size = 'sm', tone = 'dark' } = Astro.props;
-const markWidth = size === 'lg' ? 56 : 34;
+/* Sized up from 34/56 to hold the same optical weight now that the mark
+   file carries a transparent margin. */
+const markWidth = size === 'lg' ? 61 : 37;
 ---
 <span class:list={['wordmark', `wordmark--${size}`]} aria-label="Vidora Foundation">
   <Mark width={markWidth} tone={tone} loading="eager" />

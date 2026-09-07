@@ -9,13 +9,19 @@ export const org = {
   /** Registered legal entity. Only appears where the legal name is required. */
   legalEntity: 'Sambhav',
   basedIn: 'Frisco, Texas',
-  operationsIn: 'Palnadu and Prakasam districts, Andhra Pradesh, India',
-  tagline: 'Grade specific school supplies for government schools in Andhra Pradesh.',
+  /**
+   * Where the FIRST campaign ran. Deliberately not an `operationsIn` field:
+   * that shape asserted the organisation has one permanent operating
+   * location, which is the opposite of a chapter model. A chapter serves the
+   * school it raises for, wherever that school is.
+   */
+  firstCampaignIn: 'Palnadu and Prakasam districts, Andhra Pradesh, India',
+  tagline: 'Grade specific school supplies, put into the hands of students who need them.',
   /** The line under the mark. Shorter than the tagline and never a claim. */
   motto: 'Opening paths to potential.',
   /** One sentence, for the footer and share cards. */
   summary:
-    'Educational materials for students in government schools in Andhra Pradesh.',
+    'Educational materials for students who need them, delivered by student run chapters.',
 } as const;
 
 /**

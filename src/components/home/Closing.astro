@@ -22,7 +22,7 @@ import { closing } from '../../content/home.ts';
 
   <div class="shell closing__inner">
     <div class="closing__mark">
-      <Mark width={230} alt="" />
+      <Mark width={250} alt="" />
     </div>
     <h2 id="closing-heading" class="closing__headline reveal">{closing.headline}</h2>
     <p class="closing__body">{closing.body}</p>
@@ -61,7 +61,7 @@ import { closing } from '../../content/home.ts';
      would not match, because Astro scopes a selector to the component that
      declares it, not to the component that renders the element. */
   .closing__mark { display: flex; justify-content: center; }
-  .closing__mark :global(.mark) { width: min(230px, 44vw) !important; }
+  .closing__mark :global(.mark) { width: min(250px, 48vw) !important; }
   .closing__headline {
     margin-top: clamp(var(--space-md), 4vh, 2.75rem);
     font-size: clamp(2.1rem, 1rem + 4.4vw, 4.2rem);

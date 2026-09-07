@@ -9,7 +9,7 @@
 
 export const stage1 = {
   id: 'beginning',
-  eyebrow: 'Government schools, Palnadu and Prakasam districts, Andhra Pradesh',
+  eyebrow: 'A student run chapter network',
   /**
    * Open register item 13.
    *
@@ -26,7 +26,7 @@ export const stage1 = {
   headline: 'The gap between a student and their next opportunity',
   headlineEmphasis: 'is small, specific, and fixable.',
   standfirst:
-    'Vidora Foundation works in government schools in Andhra Pradesh, finding the narrow things a student is missing and closing them. Learning Kits is running now. Teaching and computer access are what comes next.',
+    'Vidora Foundation finds the narrow things a student is missing and closes them. Learning Kits is running now. Teaching and computer access are what comes next.',
   /** The proof, stated once at the top and expanded at stages 2 and 4. */
   proof:
     'In June 2026 the gap was a compass box, an atlas, and a notebook that matched her grade.',
@@ -94,13 +94,13 @@ export const stage6 = {
   eyebrow: 'The chapter model',
   headline: 'One chapter can supply a school. More chapters supply more schools.',
   standfirst:
-    'Frisco is the first chapter. The model is portable: a chapter raises what a school’s kits cost, and supplies are bought locally in Andhra Pradesh.',
+    'Frisco is the first chapter. The model is portable: a chapter raises what a school’s kits cost, and the supplies are bought local to that school.',
   /** Each branch is a CHAPTER, not a student. Plan section 4.6. */
   branches: [
     { id: 'frisco', label: 'Frisco', status: 'active' as const },
-    { id: 'texas-2', label: 'Next Texas chapter', status: 'planned' as const },
-    { id: 'texas-3', label: 'Next Texas chapter', status: 'planned' as const },
-    { id: 'texas-4', label: 'Next Texas chapter', status: 'planned' as const },
+    { id: 'chapter-2', label: 'Next chapter', status: 'planned' as const },
+    { id: 'chapter-3', label: 'Next chapter', status: 'planned' as const },
+    { id: 'chapter-4', label: 'Next chapter', status: 'planned' as const },
   ],
   /** Mobile reduces to two paths. Plan section 6. */
   mobileBranchCount: 2,
@@ -129,7 +129,7 @@ export const stage7 = {
     {
       id: 'donate',
       label: 'Donate',
-      body: 'Money buys compass boxes, atlases, slates, and grade matched notebooks at local wholesale prices.',
+      body: 'Money buys educational materials at local prices, near the school receiving them.',
       href: '/donate',
       primary: false,
     },

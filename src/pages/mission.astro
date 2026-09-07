@@ -3,7 +3,6 @@ import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PhotoSlot from '../components/PhotoSlot.astro';
 import { org, values } from '../content/site.ts';
-import { stage2 } from '../content/journey.ts';
 import { foundingNote } from '../content/people.ts';
 ---
 <Layout
@@ -14,36 +13,47 @@ import { foundingNote } from '../content/people.ts';
     variant="dark"
     eyebrow="Mission and vision"
     title="Educational materials, into the hands of students who need them."
-    standfirst="Vidora Foundation works in government schools in Palnadu and Prakasam districts, Andhra Pradesh. Learning Kits is running now. Teaching and Access are what comes next."
+    standfirst="Vidora Foundation is organised into chapters. A chapter raises what a school's kits cost and runs the distribution, wherever that school is. Learning Kits is running now. Teaching and Access are what comes next."
   />
 
   <div class="shell">
     <div class="split">
       <h2 class="split__heading">The gap, plainly.</h2>
       <div class="split__body">
-        <p>{stage2.schemeNote}</p>
         <p>
-          It does not provide compass boxes, atlases, slates, or notebooks
-          matched to a student's grade. That is the gap Learning Kits fills.
-          It is narrow enough to name and cheap enough to buy, which is why a
+          A student is usually not missing everything. They are missing one
+          specific thing their year of the syllabus assumes they have. That
+          gap is narrow enough to name and cheap enough to buy, which is why a
           student run organisation can close it.
+        </p>
+        {/* The state scheme is context for the first campaign, not the
+            organisation's universal thesis. What a kit contains is decided
+            against the grade being taught and against what a student already
+            has, which differs from place to place. */}
+        <p class="is-quiet">
+          What that thing is depends on where the school is. In Andhra
+          Pradesh, where the first campaign ran, the state scheme already
+          supplies uniforms, shoes, a school bag, textbooks and generic
+          notebooks. What it leaves out is a compass box, an atlas, a slate,
+          and a notebook matched to a student's grade. Those became the kit.
         </p>
       </div>
     </div>
 
     <div class="split split--spaced">
-      <h2 class="split__heading">Why Andhra Pradesh, plainly.</h2>
+      <h2 class="split__heading">Why it started in Andhra Pradesh, plainly.</h2>
       <div class="split__body">
         <p>
-          The work runs in Palnadu and Prakasam because the founder's family
-          has ties there and the door opened easiest. That is the reason for
-          the location. It is not a claim that the region needs help more than
-          anywhere else.
+          The first campaign ran in Palnadu and Prakasam because the
+          founder's family has ties there and the door opened easiest. That is
+          the reason it started there. It is not a claim that the region needs
+          help more than anywhere else.
         </p>
         <p class="is-quiet">
           Narasaraopeta is an entry point, not a ceiling. The kit model is
           portable, which is why the organisation is built around chapters
-          rather than around one place.
+          rather than around one place. A chapter may serve a school in its own
+          community or partner with one abroad.
         </p>
       </div>
     </div>
@@ -63,7 +73,7 @@ import { foundingNote } from '../content/people.ts';
       <div>
         <h2 class="who__heading">Who runs it</h2>
         <p>{foundingNote}</p>
-        <p class="is-quiet">{org.basedIn}. Operations in {org.operationsIn}.</p>
+        <p class="is-quiet">The first chapter is in {org.basedIn}. The first campaign ran in {org.firstCampaignIn}.</p>
         <a class="link-action" href="/people">Meet the team</a>
       </div>
     </div>

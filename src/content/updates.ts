@@ -36,8 +36,8 @@ export const updates: Update[] = [
     id: 'more-chapters',
     when: 'Next',
     status: 'planned',
-    heading: 'More chapters in Texas',
-    body: "Frisco is the first chapter. The model is portable: a chapter would raise what a school's kits cost, and supplies would be bought locally in Andhra Pradesh. No second chapter has started.",
+    heading: 'More chapters',
+    body: "Frisco is the first chapter. The model is portable: a chapter would raise what a school's kits cost, and the supplies would be bought local to that school, whether it is in the chapter's own community or abroad. No second chapter has started.",
   },
   {
     id: 'teaching-and-access',
