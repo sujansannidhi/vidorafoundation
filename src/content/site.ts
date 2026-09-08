@@ -118,6 +118,14 @@ export const todos = {
   newsletterProvider: null as string | null,
   gofundmeUrl: 'https://www.gofundme.com/f/vidora-learning-kits' as string | null,
   chapterProcess: null as string | null,
+  /**
+   * The chapter application form. The query string Google appends to a share
+   * link (`usp=sharing`, and an `ouid` that is the sharing account's own
+   * identifier) is stripped: it adds nothing for the applicant and publishing
+   * an account id on a public page is not something to do by accident.
+   */
+  chapterFormUrl:
+    'https://docs.google.com/forms/d/e/1FAIpQLSdQ-hP2prU0-PJnpOM6ScwEyDNg0jcathuX7rJ5AbVELSfGtA/viewform' as string | null,
   kitContentsByGrade: null as string | null,
   partners: null as { name: string; href?: string }[] | null,
   junePhotos: null as { src: string; alt: string; caption: string }[] | null,

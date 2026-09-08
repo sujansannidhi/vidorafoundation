@@ -47,8 +47,15 @@ const roles = [
         A chapter is a group at one high school that raises for and runs a
         distribution. One chapter can supply a school.
       </p>
-      {todos.chapterProcess
-        ? <p>{todos.chapterProcess}</p>
+      {todos.chapterProcess && <p>{todos.chapterProcess}</p>}
+      {todos.chapterFormUrl
+        ? (
+          <a
+            class="btn btn--accent feature__cta"
+            href={todos.chapterFormUrl}
+            rel="noopener"
+          >Apply to start a chapter</a>
+        )
         : (
           <TodoNote
             item={7}
@@ -103,6 +110,7 @@ const roles = [
   .feature { border: var(--hairline) solid var(--accent-fill); padding: clamp(1.75rem, 4vw, 3.375rem); }
   .feature__heading { margin-top: var(--space-sm); max-width: 20ch; font-size: clamp(1.8rem, 1rem + 2.8vw, 2.9rem); }
   .feature__body { margin: var(--space-md) 0 0; max-width: 34rem; font-size: var(--step-body-lg); }
+  .feature__cta { margin-top: var(--space-lg); }
 
   /* ---- Volunteer, as its own section rather than one card among four ---- */
   .volunteer {

@@ -8,7 +8,6 @@
  */
 import Mark from './Mark.astro';
 import PendingStatus from './PendingStatus.astro';
-import TodoNote from './TodoNote.astro';
 import { footerNav, org, todos } from '../content/site.ts';
 const year = new Date().getFullYear();
 ---
@@ -45,19 +44,6 @@ const year = new Date().getFullYear();
         </ul>
       )}
 
-      {/* One note rather than three. They are all the same open item, and
-          three stacked boxes read as broken rather than as honest. */}
-      {(!todos.contactEmail || !todos.socialHandles || !todos.newsletterProvider) && (
-        <TodoNote
-          item={4}
-          what={[
-            !todos.contactEmail && 'a contact email',
-            !todos.socialHandles && 'social handles',
-            !todos.newsletterProvider && 'a newsletter provider',
-          ].filter(Boolean).join(', ').replace(/, ([^,]*)$/, ' and $1')
-            + '. Nothing is guessed at and no signup form ships until there is somewhere for an address to go.'}
-        />
-      )}
     </div>
 
     <PendingStatus />
