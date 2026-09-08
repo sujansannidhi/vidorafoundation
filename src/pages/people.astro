@@ -102,7 +102,10 @@ const [lead, ...rest] = people;
     background: var(--rule-quiet);
   }
   .member { max-width: none; background: var(--paper-cool); padding: clamp(var(--space-md), 3vw, 2rem); }
-  .member__photo { max-width: 120px; }
+  /* Sized up from 120px. At thumbnail size a real portrait reads as an
+     avatar rather than as a person, and the placeholder frames beside it
+     looked larger than the photographs they were standing in for. */
+  .member__photo { max-width: 260px; }
   .member__name { margin-top: var(--space-md); font-size: 1.3rem; }
   .member__role { margin-top: var(--space-2xs); }
   .member__para { margin: var(--space-xs) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); }

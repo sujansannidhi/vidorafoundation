@@ -39,7 +39,10 @@ export const people: Person[] = [
       "I'm a rising junior at Independence High School. Education has always been one of the most important parts of my life. Growing up in the United Kingdom and later moving to the United States, I experienced two very different education systems. That change was hard, but not impossible, because of the people around me and the resources I had to overcome any obstacles that came my way.",
       "This isn't the same for everyone, and I want to fight to change that. Not every student has that privilege. Vidora Foundation is my attempt to remove the small, fixable barriers that stop students from showing up ready to learn: a notebook, a pencil, a geometry set.",
     ],
-    photo: null,
+    photo: {
+      src: '/people/sujan-sannidhi.jpg',
+      alt: 'Sujan Sannidhi',
+    },
     email: 'sujan@vidorafoundation.org',
     linkedin: null,
   },
