@@ -66,6 +66,9 @@ const [lead, ...rest] = people;
           {person.bio
             ? person.bio.map((para) => <p class="member__para">{para}</p>)
             : <TodoNote item={1} what={`A bio and photo for ${person.name}. Not written yet, and not invented here.`} />}
+          {person.bio && person.needsReview && (
+            <p class="member__review">Awaiting sign off.</p>
+          )}
         </li>
       ))}
     </ul>
@@ -115,6 +118,13 @@ const [lead, ...rest] = people;
     font-size: var(--step-body-sm);
   }
   .member__contact { margin: var(--space-xs) 0 0; font-size: var(--step-body-sm); }
+  .member__review {
+    margin: var(--space-sm) 0 0;
+    font-size: var(--step-body-xs);
+    color: var(--text-softer);
+    padding-left: var(--space-sm);
+    border-left: var(--hairline) solid var(--rule-quiet);
+  }
   .member__contact a { overflow-wrap: anywhere; }
 
   @media (max-width: 48rem) {

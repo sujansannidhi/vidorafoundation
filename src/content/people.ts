@@ -42,10 +42,16 @@ export const people: Person[] = [
   {
     name: 'Praneel Rondla',
     role: 'Executive',
-    bio: null,
+    /* Written by Praneel, and put into the third person to match the rest of
+       the page. Every fact and claim is his; only the voice was changed. */
+    bio: [
+      'Praneel is a junior at Independence High School. His work at Vidora centres on equipping young people with the tools and knowledge they need to succeed, driven by an interest in academic empowerment and leadership.',
+      'Outside Vidora he is involved in business, research and public policy, from developing financial literacy curricula for young learners to working as a research assistant analysing emerging technology in secondary education. At Vidora he aims to combine his background in strategy, community outreach and instruction to build lasting educational opportunities for students.',
+    ],
     photo: null,
     email: 'praneel@vidorafoundation.org',
     linkedin: null,
+    needsReview: true,
   },
   {
     name: 'Neha Manikandan',
