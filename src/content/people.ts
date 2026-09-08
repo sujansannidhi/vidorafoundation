@@ -27,9 +27,15 @@ export const people: Person[] = [
   {
     name: 'Sujan Sannidhi',
     role: 'Founder',
+    /*
+     * Sujan's own statement, put into the third person to match the rest of
+     * the page. One substitution: he wrote "Sambhav", which is the
+     * registered legal entity and appears only where the legal name is
+     * required. In a bio the operating name is the one that belongs.
+     */
     bio: [
-      'Sujan founded Vidora Foundation as a high school student in Frisco, Texas. The first campaign ran in Palnadu and Prakasam districts in Andhra Pradesh, where his family has ties and where the door opened easiest. That is the reason it started there. It is not a claim that the region needs help more than anywhere else.',
-      'He chairs the team’s meetings and led the June 2026 Learning Kits campaign, including buying supplies in person at wholesale prices in Narasaraopeta. The Andhra Pradesh state scheme already provides uniforms, textbooks, and bags. What it leaves out is a compass box, an atlas, a slate, and a notebook that matches a student’s grade. Those are the small, fixable barriers that stop students from showing up ready to learn.',
+      'Sujan is a rising junior at Independence High School. Education has always been one of the most important parts of his life. Growing up in the United Kingdom and later moving to the United States, he experienced two very different education systems. That change was hard, but not impossible, because of the people around him and the resources he had to overcome the obstacles that came his way.',
+      'It is not the same for everyone, and he wants to fight to change that. Not every student has that privilege. Vidora Foundation is his attempt to remove the small, fixable barriers that stop students from showing up ready to learn: a notebook, a pencil, a geometry set.',
     ],
     photo: null,
     email: 'sujan@vidorafoundation.org',
@@ -48,7 +54,10 @@ export const people: Person[] = [
       'Praneel is a junior at Independence High School. His work at Vidora centres on equipping young people with the tools and knowledge they need to succeed, driven by an interest in academic empowerment and leadership.',
       'Outside Vidora he is involved in business, research and public policy, from developing financial literacy curricula for young learners to working as a research assistant analysing emerging technology in secondary education. At Vidora he aims to combine his background in strategy, community outreach and instruction to build lasting educational opportunities for students.',
     ],
-    photo: null,
+    photo: {
+      src: '/people/praneel-rondla.jpg',
+      alt: 'Praneel Rondla',
+    },
     email: 'praneel@vidorafoundation.org',
     linkedin: null,
     needsReview: true,

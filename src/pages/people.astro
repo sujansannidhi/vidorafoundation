@@ -33,10 +33,7 @@ const [lead, ...rest] = people;
           ? lead.bio.map((para) => <p class="lead__para">{para}</p>)
           : <TodoNote item={1} what={`A short bio for ${lead.name}: where they come from, and what they do at Vidora. Not written yet, and not invented here.`} />}
         {lead.needsReview && (
-          <p class="lead__review">
-            This bio was assembled from previously published copy and is
-            awaiting sign off.
-          </p>
+          <p class="lead__review">Awaiting sign off.</p>
         )}
         <p class="lead__contact">
           {lead.email && <a href={`mailto:${lead.email}`}>{lead.email}</a>}
