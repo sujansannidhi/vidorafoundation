@@ -85,7 +85,7 @@ export const whatWeDo = {
   eyebrow: 'What Vidora Foundation does',
   headline: 'Three pillars. One of them is running.',
   body: [
-    "Vidora Foundation is run by high school students and organised into chapters. The first is in Frisco, Texas; the legal entity is registered as Sambhav. The first campaign ran in government schools in Palnadu and Prakasam districts, Andhra Pradesh, where the founder's family has ties and the door opened easiest.",
+    "Vidora Foundation is run by high school students and organised into chapters. The first is in Frisco, Texas. The first campaign ran in government schools in Palnadu and Prakasam districts, Andhra Pradesh, where the founder's family has ties and the door opened easiest.",
     'Learning Kits has delivered. Teaching and Access are labelled Planned everywhere they appear, so a plan is never read as a promise.',
   ],
   /** Rendered where a Planned pillar would otherwise show a photograph. */

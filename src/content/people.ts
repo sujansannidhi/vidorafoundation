@@ -28,12 +28,9 @@ export const people: Person[] = [
     name: 'Sujan Sannidhi',
     role: 'Founder',
     /*
-     * Sujan's own words, unedited but for one substitution: he wrote
-     * "Sambhav", which is the registered legal entity and by the rule in
-     * site.ts appears only where the legal name is required. The founding
-     * note directly above this on the page already gives the legal name, so
-     * a second, unexplained use of it in a bio reads as a different
-     * organisation.
+     * Sujan's own words, unedited but for one substitution: he named the
+     * organisation by an earlier name, replaced here with the operating
+     * name the rest of the site uses.
      */
     bio: [
       "I'm a rising junior at Independence High School. Education has always been one of the most important parts of my life. Growing up in the United Kingdom and later moving to the United States, I experienced two very different education systems. That change was hard, but not impossible, because of the people around me and the resources I had to overcome any obstacles that came my way.",
@@ -88,4 +85,4 @@ export const people: Person[] = [
 ];
 
 export const foundingNote =
-  'Vidora Foundation is run by high school students. The legal entity is registered as Sambhav; Vidora Foundation is the operating name.';
+  'Vidora Foundation is run by high school students, organised into chapters that raise for the schools they serve.';

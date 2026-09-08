@@ -43,8 +43,18 @@ const ogImage = new URL('/og/default.png', Astro.site);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" href="/brand/logo-mark.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/brand/vidora-mark.png" />
+    <!--
+      The mark itself, square and on the brand cream, at the sizes Google's
+      favicon crawler accepts (a multiple of 48px, square, at a stable URL).
+      /favicon.ico is listed first and also sits at the site root, which is
+      where a crawler looks when it ignores the head.
+    -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/brand/favicon-48.png" type="image/png" sizes="48x48" />
+    <link rel="icon" href="/brand/favicon-96.png" type="image/png" sizes="96x96" />
+    <link rel="icon" href="/brand/favicon-192.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/brand/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={org.name} />

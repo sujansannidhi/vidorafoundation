@@ -6,8 +6,6 @@
 export const org = {
   /** Operating name. Use this everywhere public. */
   name: 'Vidora Foundation',
-  /** Registered legal entity. Only appears where the legal name is required. */
-  legalEntity: 'Sambhav',
   basedIn: 'Frisco, Texas',
   /**
    * Where the FIRST campaign ran. Deliberately not an `operationsIn` field:
