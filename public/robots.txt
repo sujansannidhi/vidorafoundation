@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://vidorafoundation.com/sitemap.xml
