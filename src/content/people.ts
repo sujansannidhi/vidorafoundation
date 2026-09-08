@@ -28,19 +28,20 @@ export const people: Person[] = [
     name: 'Sujan Sannidhi',
     role: 'Founder',
     /*
-     * Sujan's own statement, put into the third person to match the rest of
-     * the page. One substitution: he wrote "Sambhav", which is the
-     * registered legal entity and appears only where the legal name is
-     * required. In a bio the operating name is the one that belongs.
+     * Sujan's own words, unedited but for one substitution: he wrote
+     * "Sambhav", which is the registered legal entity and by the rule in
+     * site.ts appears only where the legal name is required. The founding
+     * note directly above this on the page already gives the legal name, so
+     * a second, unexplained use of it in a bio reads as a different
+     * organisation.
      */
     bio: [
-      'Sujan is a rising junior at Independence High School. Education has always been one of the most important parts of his life. Growing up in the United Kingdom and later moving to the United States, he experienced two very different education systems. That change was hard, but not impossible, because of the people around him and the resources he had to overcome the obstacles that came his way.',
-      'It is not the same for everyone, and he wants to fight to change that. Not every student has that privilege. Vidora Foundation is his attempt to remove the small, fixable barriers that stop students from showing up ready to learn: a notebook, a pencil, a geometry set.',
+      "I'm a rising junior at Independence High School. Education has always been one of the most important parts of my life. Growing up in the United Kingdom and later moving to the United States, I experienced two very different education systems. That change was hard, but not impossible, because of the people around me and the resources I had to overcome any obstacles that came my way.",
+      "This isn't the same for everyone, and I want to fight to change that. Not every student has that privilege. Vidora Foundation is my attempt to remove the small, fixable barriers that stop students from showing up ready to learn: a notebook, a pencil, a geometry set.",
     ],
     photo: null,
     email: 'sujan@vidorafoundation.org',
     linkedin: null,
-    needsReview: true,
   },
   /* Title and address are known; the bios are not, so they stay null and each
      renders its own TodoNote. A title is not a bio, and filling the gap with
@@ -48,11 +49,10 @@ export const people: Person[] = [
   {
     name: 'Praneel Rondla',
     role: 'Executive',
-    /* Written by Praneel, and put into the third person to match the rest of
-       the page. Every fact and claim is his; only the voice was changed. */
+    /* Praneel's own words, verbatim. */
     bio: [
-      'Praneel is a junior at Independence High School. His work at Vidora centres on equipping young people with the tools and knowledge they need to succeed, driven by an interest in academic empowerment and leadership.',
-      'Outside Vidora he is involved in business, research and public policy, from developing financial literacy curricula for young learners to working as a research assistant analysing emerging technology in secondary education. At Vidora he aims to combine his background in strategy, community outreach and instruction to build lasting educational opportunities for students.',
+      'My name is Praneel Rondla, and I am a junior at Independence High School. Primarily driven by a passion for academic empowerment and leadership, my work at Vidora centers on equipping global youth with the tools and knowledge they need to succeed.',
+      'Outside of Vidora, I am actively involved in business, research, and public policy. My experience ranges from developing financial literacy curricula for young learners to working as a research assistant analyzing up-and-coming technology in secondary education. At Vidora, I aim to combine my background in strategy, community outreach, and instruction to build meaningful, lasting educational opportunities for students everywhere.',
     ],
     photo: {
       src: '/people/praneel-rondla.jpg',
@@ -60,7 +60,6 @@ export const people: Person[] = [
     },
     email: 'praneel@vidorafoundation.org',
     linkedin: null,
-    needsReview: true,
   },
   {
     name: 'Neha Manikandan',
