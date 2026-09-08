@@ -56,10 +56,23 @@ export const people: Person[] = [
   {
     name: 'Neha Manikandan',
     role: 'Executive',
-    bio: null,
+    /*
+     * Supplied by the team. One clause was reconciled with the rest of the
+     * site: the original said she met students who go to school "without
+     * basic learning tools", and the mission page, the homepage and the June
+     * field report all say the opposite in as many words, that students
+     * arrive with most of what they need and are missing something narrow.
+     * Her point is unchanged. The deficit framing is not one the site can
+     * carry on one page and contradict on three others.
+     */
+    bio: [
+      'Neha joined Vidora Foundation when Sujan brought her onto the team to help the organisation grow. Meeting students who were short of the materials their lessons assumed they already had showed her how much difference the right supplies make to a school day.',
+      'Seeing that first hand made her want to start helping. She now works with the team to plan upcoming projects, and to make sure students have the practical supplies they need to walk into class ready to learn.',
+    ],
     photo: null,
     email: 'neha@vidorafoundation.org',
     linkedin: null,
+    needsReview: true,
   },
 ];
 
