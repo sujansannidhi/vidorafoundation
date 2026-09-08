@@ -4,6 +4,11 @@ import PageHeader from '../components/PageHeader.astro';
 import PendingStatus from '../components/PendingStatus.astro';
 import TodoNote from '../components/TodoNote.astro';
 import { org, todos } from '../content/site.ts';
+import { people } from '../content/people.ts';
+
+/* Read off the team rather than restated here, so an address cannot say one
+   thing on this page and another on /people. */
+const addresses = people.filter((person) => person.email);
 ---
 <Layout
   title="Contact"
@@ -15,8 +20,19 @@ import { org, todos } from '../content/site.ts';
     <div class="details">
       <div class="detail">
         <h2 class="detail__heading">Email</h2>
-        {todos.contactEmail
-          ? <p><a href={`mailto:${todos.contactEmail}`}>{todos.contactEmail}</a></p>
+        {addresses.length > 0
+          ? (
+            <ul class="detail__people">
+              {addresses.map((person) => (
+                <li>
+                  <a href={`mailto:${person.email}`}>{person.email}</a>
+                  <span class="detail__who">
+                    {person.name}{person.role ? `, ${person.role}` : ''}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          )
           : <p class="detail__pending">Not published yet</p>}
       </div>
       <div class="detail">
@@ -109,6 +125,15 @@ import { org, todos } from '../content/site.ts';
   .detail__pending { color: var(--text-softer); font-style: italic; }
   .detail__quiet { color: var(--text-soft); }
   .detail__social { list-style: none; margin: var(--space-sm) 0 0; padding: 0; display: grid; gap: var(--space-2xs); }
+  .detail__people { list-style: none; margin: var(--space-sm) 0 0; padding: 0; display: grid; gap: var(--space-sm); }
+  .detail__people li { max-width: none; font-size: var(--step-body-sm); }
+  .detail__people a { overflow-wrap: anywhere; }
+  .detail__who {
+    display: block;
+    font-size: var(--step-body-xs);
+    color: var(--text-softer);
+    margin-top: 2px;
+  }
 
   .split {
     margin-top: clamp(3rem, 8vh, 5.625rem);
