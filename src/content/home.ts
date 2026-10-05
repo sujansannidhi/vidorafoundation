@@ -141,9 +141,32 @@ export const impactSection = {
   headline: 'What the first campaign cost, and what it reached.',
 } as const;
 
+/**
+ * Section 06. The film sits straight after the figures: the numbers first,
+ * then the day they were counted from.
+ *
+ * The clip is the promotional video cut short of its original end card. That
+ * card carried an earlier name for the organisation, its mark, and a domain
+ * this site does not use. The registered name is Vidora Foundation, so the
+ * card is simply out of date.
+ */
+export const film = {
+  id: 'the-day-itself',
+  index: '06',
+  eyebrow: 'The day itself',
+  headline: 'Nineteen seconds from the June 2026 distribution.',
+  standfirst:
+    'Filmed across the government schools that received the first Learning Kits, in Palnadu and Prakasam districts, Andhra Pradesh.',
+  playLabel: 'Play the June 2026 distribution film, nineteen seconds',
+  posterAlt:
+    'Primary school students standing at their desks, holding up new notebooks and waving towards the camera.',
+  caption: 'June 2026. Palnadu and Prakasam districts, Andhra Pradesh.',
+  src: '/media/june-2026-distribution.mp4',
+} as const;
+
 export const chapterModel = {
   id: 'the-chapter-model',
-  index: '06',
+  index: '07',
   eyebrow: 'The chapter model',
   headline: 'One chapter can supply a school. More chapters supply more schools.',
   standfirst:
@@ -152,7 +175,7 @@ export const chapterModel = {
 
 export const getInvolved = {
   id: 'get-involved',
-  index: '07',
+  index: '08',
   eyebrow: 'Get involved',
   feature: {
     label: 'Start here',

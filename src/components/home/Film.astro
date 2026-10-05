@@ -1,0 +1,228 @@
+---
+/**
+ * Section 06. The June 2026 film, behind an aperture that opens on scroll.
+ *
+ * Three things about the construction, in order of how badly they would hurt
+ * if they were done the other way:
+ *
+ * 1. The control is a real `<a href>` to the file. Without JavaScript, a
+ *    click still gets you the video. The script upgrades that link into an
+ *    inline player; it does not create the only way in.
+ * 2. Nothing is downloaded until that click. The video is 7.8 MB and most
+ *    readers will not play it, so the section costs a poster image until
+ *    somebody asks for more.
+ * The poster is the frame at 17.6s of the clip, exported with AVFoundation
+ * and encoded by sharp. The clip itself is the original promotional video cut
+ * at 19.0s: everything after that is an end card carrying an earlier name for
+ * the organisation, its mark, and a domain this site does not use. The
+ * registered name is Vidora Foundation, so that card is simply out of date.
+ *
+ * 3. The reveal is a scroll-driven CSS animation behind the same
+ *    `@supports` and reduced-motion gate as the rest of base.css, and the
+ *    un-animated state is the OPEN state. A browser with no scroll timeline,
+ *    or a reader who asked for less movement, gets the picture rather than a
+ *    frame that never opens.
+ */
+import SectionIndex from '../SectionIndex.astro';
+import { film } from '../../content/home.ts';
+---
+<section class="band on-dark film" id={film.id} aria-labelledby="film-heading">
+  <div class="shell">
+    <SectionIndex eyebrow={film.eyebrow} index={film.index} />
+    <h2 id="film-heading" class="film__headline">{film.headline}</h2>
+    <p class="film__standfirst">{film.standfirst}</p>
+
+    <figure class="film__figure">
+      <div class="film__aperture" data-film-frame>
+        <a class="film__player" href={film.src} data-film-play>
+          <img
+            class="film__poster"
+            src="/media/distribution-film-poster.jpg"
+            srcset="/media/distribution-film-poster-480.webp 480w, /media/distribution-film-poster-800.webp 800w, /media/distribution-film-poster-1200.webp 1200w"
+            sizes="(max-width: 56.25rem) calc(100vw - 2.25rem), 900px"
+            width="1280"
+            height="720"
+            alt={film.posterAlt}
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="film__play">
+            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+              <circle class="film__play-ring" cx="32" cy="32" r="30" />
+              <path class="film__play-tri" d="M26 20 L46 32 L26 44 Z" />
+            </svg>
+            <span class="visually-hidden">{film.playLabel}</span>
+          </span>
+        </a>
+        <span class="film__seam" aria-hidden="true"></span>
+      </div>
+      <figcaption class="film__caption">{film.caption}</figcaption>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .film__headline {
+    margin-top: var(--space-lg);
+    max-width: 24ch;
+  }
+  .film__standfirst {
+    margin: var(--space-md) 0 0;
+    max-width: 42rem;
+    font-size: var(--step-body-lg);
+    color: var(--text-soft);
+  }
+  .film__figure {
+    margin: clamp(2rem, 5vh, 3.25rem) 0 0;
+    max-width: 900px;
+  }
+
+  /* The frame the picture opens inside. The seam is drawn over it, so this
+     is the positioning context for both. */
+  .film__aperture {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--plum-deep);
+  }
+
+  .film__player {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    text-decoration: none;
+    border: 0;
+  }
+  .film__poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* The hairline the frame opens from. It grows out of the centre, then
+     fades as the picture takes over. */
+  .film__seam {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: var(--hairline);
+    background: var(--accent-fill);
+    transform: scaleX(0);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .film__play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: clamp(56px, 8vw, 78px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+  }
+  .film__play svg { width: 100%; height: 100%; display: block; }
+  .film__play-ring {
+    fill: rgb(11 30 50 / 0.42);
+    stroke: var(--blush);
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+    transition: fill 0.25s var(--ease-out);
+  }
+  .film__play-tri { fill: var(--blush); }
+
+  .film__player:hover .film__play-ring,
+  .film__player:focus-visible .film__play-ring { fill: var(--accent-fill); }
+
+  .film__caption {
+    margin: var(--space-sm) 0 0;
+    font-size: var(--step-utility);
+    letter-spacing: var(--tracking-utility);
+    text-transform: uppercase;
+    color: var(--text-softer);
+  }
+
+  /* The inline player, once the link has been upgraded. */
+  .film__aperture video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    background: var(--plum-deep);
+  }
+
+  /* ---------------------------------------------------------------- *
+   * The reveal. Same gate as base.css: no scroll timeline or reduced
+   * motion means the aperture is simply open, which is the state above.
+   * ---------------------------------------------------------------- */
+  @keyframes aperture-open {
+    from { clip-path: inset(50% 0 50% 0); }
+    to   { clip-path: inset(0 0 0 0); }
+  }
+  @keyframes seam-draw {
+    0%   { transform: scaleX(0); opacity: 0; }
+    35%  { transform: scaleX(1); opacity: 1; }
+    100% { transform: scaleX(1); opacity: 0; }
+  }
+  @keyframes play-settle {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .film__player {
+        animation: aperture-open linear both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 40%;
+      }
+      .film__seam {
+        animation: seam-draw linear both;
+        animation-timeline: view();
+        animation-range: entry 2% cover 42%;
+      }
+      .film__play {
+        animation: play-settle linear both;
+        animation-timeline: view();
+        animation-range: cover 24% cover 50%;
+      }
+    }
+  }
+</style>
+
+<script>
+  /**
+   * Upgrade the link into an inline player on first click. The file is only
+   * fetched here, which is why the markup carries a poster and no <video>.
+   */
+  const link = document.querySelector<HTMLAnchorElement>('[data-film-play]');
+  const frame = document.querySelector<HTMLElement>('[data-film-frame]');
+
+  link?.addEventListener('click', (event) => {
+    // Let modified clicks and middle clicks keep their normal meaning.
+    if (event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (!frame) return;
+
+    event.preventDefault();
+
+    const video = document.createElement('video');
+    video.src = link.href;
+    video.controls = true;
+    video.playsInline = true;
+    video.preload = 'auto';
+    video.setAttribute('poster', '/media/distribution-film-poster.jpg');
+
+    link.remove();
+    frame.querySelector('.film__seam')?.remove();
+    frame.appendChild(video);
+
+    // play() has to be called inside the click to inherit the gesture. The
+    // `autoplay` attribute alone does not, and the clip has sound, so Chrome
+    // would refuse it. If a browser still declines, the controls are there.
+    video.play().catch(() => {});
+  });
+</script>
