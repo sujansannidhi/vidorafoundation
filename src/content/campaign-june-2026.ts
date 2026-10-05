@@ -16,7 +16,7 @@ export interface FieldReportStop {
   marker: string;
   heading: string;
   body: string[];
-  /** Swap in when consent is confirmed. Open register item 5. */
+  /** A per stop photograph, for stops that have one. See content/photos.ts. */
   photo?: { src: string; alt: string; caption: string };
   /** Swap in when a real, consented quote exists. Never invent one. */
   quote?: { text: string; attribution: string };

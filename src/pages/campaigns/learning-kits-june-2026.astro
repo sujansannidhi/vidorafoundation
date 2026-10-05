@@ -11,6 +11,7 @@ import {
   campaignCost,
 } from '../../content/impact.ts';
 import { todos } from '../../content/site.ts';
+import { distributionDay } from '../../content/photos.ts';
 ---
 <Layout title={campaign.title} description="A field report on the first Learning Kits campaign.">
   <PageHeader
@@ -49,12 +50,15 @@ import { todos } from '../../content/site.ts';
       </ol>
 
       <div class="photos">
-        <PhotoSlot subject="Distribution day" ratio="3 / 4" />
-        <PhotoSlot subject="Wholesale market, Narasaraopeta" ratio="1 / 1" />
-        {!todos.junePhotos && (
+        <PhotoSlot
+          photo={distributionDay}
+          sizes="(max-width: 56.25rem) calc(100vw - 2.25rem), 460px"
+          ratio="3 / 4"
+        />
+        {!todos.wholesaleMarketPhoto && (
           <TodoNote
             item={5}
-            what="Which photographs from the June 2026 distribution exist, and which of them have consent to publish. Until that is settled this report is written rather than shown."
+            what="A photograph of the wholesale market in Narasaraopeta, where the supplies were bought. Nobody photographed that stop on the day, so the slot stays empty rather than borrowing a picture of somewhere else."
           />
         )}
       </div>

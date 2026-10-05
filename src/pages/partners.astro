@@ -17,7 +17,6 @@
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PendingStatus from '../components/PendingStatus.astro';
-import PhotoSlot from '../components/PhotoSlot.astro';
 import TodoNote from '../components/TodoNote.astro';
 import { todos } from '../content/site.ts';
 import { schoolsReached } from '../content/impact.ts';
@@ -88,7 +87,6 @@ const noteFor = (slug: string, note: string) =>
       {partnerKinds.map((partner) => (
         <li class="rail__item" data-card>
           <article class="card" id={`partner-${partner.slug}`}>
-            <PhotoSlot subject={partner.slot} ratio="3 / 2" class="card__logo" />
             <p class="card__kind">{partner.kind}</p>
             <h3 class="card__heading">{partner.heading}</h3>
             <p class="card__body">{partner.body}</p>

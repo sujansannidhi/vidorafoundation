@@ -13,9 +13,11 @@ import StatusChip from '../StatusChip.astro';
 import PhotoSlot from '../PhotoSlot.astro';
 import { whatWeDo } from '../../content/home.ts';
 import { pillars } from '../../content/pillars.ts';
+import { learningKitHandover, type Photo } from '../../content/photos.ts';
 
-const PHOTO_SUBJECT: Record<string, string> = {
-  'learning-kits': 'Learning Kits being handed out',
+/* Only the running pillar has a photograph, because only it has happened. */
+const PHOTO: Record<string, Photo> = {
+  'learning-kits': learningKitHandover,
 };
 ---
 <section class="band pillars" id={whatWeDo.id} aria-labelledby="pillars-heading">
@@ -34,15 +36,15 @@ const PHOTO_SUBJECT: Record<string, string> = {
     <ol class="pillars__list">
       {pillars.map((pillar, i) => (
         <li class:list={['pillar', { 'is-flipped': i % 2 === 1, 'is-planned': pillar.status === 'planned' }]}>
-          <div class="pillar__row">
-            <div class="pillar__media reveal--wipe-left">
-              <PhotoSlot
-                subject={PHOTO_SUBJECT[pillar.slug] ?? pillar.name}
-                variant={pillar.status === 'active' ? 'pending' : 'none'}
-                noneLabel={whatWeDo.noImageryNote}
-                ratio="4 / 3"
-              />
-            </div>
+          <div class:list={['pillar__row', { 'pillar__row--text': !PHOTO[pillar.slug] }]}>
+            {PHOTO[pillar.slug] && (
+              <div class="pillar__media reveal--wipe-left">
+                <PhotoSlot
+                  photo={PHOTO[pillar.slug]}
+                  ratio="4 / 3"
+                />
+              </div>
+            )}
             <div class="pillar__text reveal">
               <StatusChip status={pillar.status} />
               <h3>{pillar.name}</h3>
@@ -96,6 +98,10 @@ const PHOTO_SUBJECT: Record<string, string> = {
   .pillar.is-flipped .pillar__media { order: 2; }
   .pillar.is-flipped .pillar__text { order: 1; }
   .pillar.is-planned { opacity: 0.92; }
+  /* Nothing has been delivered under a Planned pillar, so there is no
+     photograph to sit beside it. The row collapses to the text alone. */
+  .pillar__row--text,
+  .pillar.is-flipped .pillar__row--text { grid-template-columns: minmax(0, 1fr); }
 
   .pillar__text h3 { margin-top: var(--space-md); }
   .pillar__summary { margin: var(--space-sm) 0 0; font-size: var(--step-body-lg); max-width: 32rem; }

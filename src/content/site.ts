@@ -2,6 +2,7 @@
  * Site-wide constants. Every string a visitor reads lives in src/content.
  * Nothing in src/components or src/pages hardcodes copy.
  */
+import type { Photo } from './photos.ts';
 
 export const org = {
   /** Operating name. Use this everywhere public. */
@@ -127,7 +128,13 @@ export const todos = {
     'https://docs.google.com/forms/d/e/1FAIpQLSdQ-hP2prU0-PJnpOM6ScwEyDNg0jcathuX7rJ5AbVELSfGtA/viewform' as string | null,
   kitContentsByGrade: null as string | null,
   partners: null as { name: string; href?: string }[] | null,
-  junePhotos: null as { src: string; alt: string; caption: string }[] | null,
+  /**
+   * Consent to publish the June 2026 distribution photographs is confirmed,
+   * and the cleared frames are in content/photos.ts. What is still missing is
+   * the one stop nobody photographed: the wholesale market the supplies were
+   * bought at. The field report says so rather than showing another market.
+   */
+  wholesaleMarketPhoto: null as Photo | null,
   schoolNamesPublishable: null as boolean | null,
   enrolmentFigurePublishable: null as boolean | null,
 } as const;

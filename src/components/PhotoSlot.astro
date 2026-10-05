@@ -1,112 +1,59 @@
 ---
 /**
- * A photograph, or an honest statement of which photograph belongs here.
+ * A photograph in a fixed frame.
  *
- * The design canvas leaves these as empty image slots. In the built site an
- * empty slot cannot silently render as a grey rectangle: open register item
- * 5 is that nobody has yet established which June 2026 photographs exist and
- * which of them have consent to publish. So the slot names its subject and
- * says why it is empty, and it fills in as a CONTENT change once
- * `todos.junePhotos` is answered.
- *
- * `variant="none"` is different, and is used for the Planned pillars: there
- * is no photograph to wait for, because nothing has been delivered.
+ * The frame owns the aspect ratio and the crop; the photograph fills it with
+ * object-fit: cover. Every frame on the site now carries a real photograph,
+ * so this renders no placeholder: a section with nothing to show leaves the
+ * frame out and reflows around the gap rather than printing an empty box.
+ * Gaps that still need stating are stated in words, by TodoNote.
  */
+import type { Photo } from '../content/photos.ts';
+
 interface Props {
-  /** What the photograph shows. Becomes the alt text when one is supplied. */
-  subject: string;
-  /** Supplied only when a consented image exists. */
-  photo?: { src: string; alt: string } | null;
+  photo: Photo;
   /** CSS aspect-ratio for the frame. */
   ratio?: string;
-  /** 'none' states that nothing has been delivered, rather than pending consent. */
-  variant?: 'pending' | 'none';
-  /** Copy for the 'none' variant. */
-  noneLabel?: string;
   /**
-   * Set false on frames too small to hold the label, such as the 120px
-   * team portraits. The subject still reaches assistive technology; it
-   * just is not printed inside a box it does not fit in.
+   * How wide the frame actually renders, for picking a candidate from
+   * `srcset`. Must match the breakpoint at which the frame's own grid goes
+   * to one column, or phones are served a candidate too small for them.
    */
-  label?: boolean;
+  sizes?: string;
+  /**
+   * `object-position`, for the few frames whose subject is not centred once
+   * the slot ratio crops the photograph further.
+   */
+  position?: string;
   class?: string;
 }
+
 const {
-  subject,
-  photo = null,
+  photo,
   ratio = '4 / 3',
-  variant = 'pending',
-  noneLabel = 'No imagery, because nothing has been delivered yet',
-  label = true,
+  sizes = '(max-width: 40rem) calc(100vw - 2.25rem), 580px',
+  position,
   class: className,
 } = Astro.props;
 ---
-{photo ? (
-  <div class:list={['slot', className]} style={`aspect-ratio: ${ratio};`}>
-    <img src={photo.src} alt={photo.alt} loading="lazy" decoding="async" />
-  </div>
-) : (
-  <div
-    class:list={['slot', `slot--${variant}`, className]}
-    style={`aspect-ratio: ${ratio};`}
-    role="note"
-  >
-    <p class:list={['slot__label', { 'visually-hidden': !label }]}>
-      {variant === 'none' ? noneLabel : subject}
-    </p>
-    {variant === 'pending' && (
-      <p class:list={['slot__why', { 'visually-hidden': !label }]}>
-        Not published until consent is confirmed
-      </p>
-    )}
-  </div>
-)}
+<div class:list={['slot', className]} style={`aspect-ratio: ${ratio};`}>
+  <img
+    src={photo.src}
+    srcset={photo.srcset}
+    sizes={photo.srcset ? sizes : undefined}
+    width={photo.width}
+    height={photo.height}
+    style={position ? `object-position: ${position};` : undefined}
+    alt={photo.alt}
+    loading="lazy"
+    decoding="async"
+  />
+</div>
 
 <style>
   .slot {
     position: relative;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-xs);
-    padding: var(--space-md);
-    text-align: center;
   }
   .slot img { width: 100%; height: 100%; object-fit: cover; }
-
-  .slot--pending {
-    background: var(--paper-cool);
-    border: var(--hairline) solid var(--rule-accent);
-  }
-  .slot--none {
-    background: var(--paper-cool);
-    border: var(--hairline) dashed var(--rule-quiet);
-  }
-  .slot__label {
-    margin: 0;
-    font-size: var(--step-utility);
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    font-weight: 600;
-    color: var(--text-soft);
-    max-width: 22rem;
-  }
-  .slot__why {
-    margin: 0;
-    font-size: var(--step-utility-sm);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-softer);
-    max-width: 22rem;
-  }
-
-  /* On a navy band the cool card would disappear, so the empty slot is
-     drawn as an outline instead of a filled card. */
-  :global(.on-dark) .slot--pending,
-  :global(.on-dark) .slot--none {
-    background: transparent;
-    border-color: var(--rule-accent);
-  }
 </style>

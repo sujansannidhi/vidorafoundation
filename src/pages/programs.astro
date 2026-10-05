@@ -7,6 +7,7 @@ import PhotoSlot from '../components/PhotoSlot.astro';
 import { pillars, activePillar } from '../content/pillars.ts';
 import { todos } from '../content/site.ts';
 import { campaign } from '../content/campaign-june-2026.ts';
+import { studentsWithKits } from '../content/photos.ts';
 
 const planned = pillars.filter((p) => p.status === 'planned');
 ---
@@ -23,7 +24,11 @@ const planned = pillars.filter((p) => p.status === 'planned');
   <div class="shell">
     <article class="active" id={activePillar.slug}>
       <div class="active__row">
-        <PhotoSlot subject="Learning Kits, June 2026" ratio="4 / 3" />
+        <PhotoSlot
+          photo={studentsWithKits}
+          sizes="(max-width: 48rem) calc(100vw - 2.25rem), 520px"
+          ratio="4 / 3"
+        />
         <div>
           <StatusChip status={activePillar.status} />
           <h2 class="active__name">{activePillar.name}</h2>

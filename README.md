@@ -60,7 +60,7 @@ answered. Nothing is guessed at and nothing is silently blank.
 | 2 | Bios, roles, photos, LinkedIn for Praneel, Neha, Mani | `/people` |
 | 3 | GoFundMe URL | `/donate`, `/join`, stage 07 |
 | 4 | Contact email, social handles, newsletter provider | footer, `/updates` |
-| 5 | Which June 2026 photos exist and which have consent | stage 05, OG |
+| 5 | A photograph of the wholesale market the supplies were bought at | campaign page |
 | 6 | Kit contents per grade | `/programs`, stages 03 and 05 |
 | 7 | Chapter requirements and application process | `/join`, stage 07 |
 | 8 | Confirmed partner list plus written permission | `/partners` |

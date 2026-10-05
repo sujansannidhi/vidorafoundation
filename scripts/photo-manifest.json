@@ -1,0 +1,202 @@
+[
+  {
+    "name": "classroom-distribution",
+    "source": "School 6 - Narasaraopet/d59eb0a9-b4b8-4740-ae4d-cd4065d9f377.jpg",
+    "intrinsic": {
+      "width": 1536,
+      "height": 1152
+    },
+    "widths": [
+      480,
+      800,
+      1200,
+      1536
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 162768
+    },
+    "webp": [
+      {
+        "file": "classroom-distribution-480.webp",
+        "width": 480,
+        "bytes": 35278
+      },
+      {
+        "file": "classroom-distribution-800.webp",
+        "width": 800,
+        "bytes": 70636
+      },
+      {
+        "file": "classroom-distribution-1200.webp",
+        "width": 1200,
+        "bytes": 118468
+      },
+      {
+        "file": "classroom-distribution-1536.webp",
+        "width": 1536,
+        "bytes": 161048
+      }
+    ]
+  },
+  {
+    "name": "learning-kit-handover",
+    "source": "School 2 - Narasaraopet/IMG_0461.JPG",
+    "intrinsic": {
+      "width": 2640,
+      "height": 1980
+    },
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 155782
+    },
+    "webp": [
+      {
+        "file": "learning-kit-handover-480.webp",
+        "width": 480,
+        "bytes": 28040
+      },
+      {
+        "file": "learning-kit-handover-800.webp",
+        "width": 800,
+        "bytes": 62584
+      },
+      {
+        "file": "learning-kit-handover-1200.webp",
+        "width": 1200,
+        "bytes": 110136
+      },
+      {
+        "file": "learning-kit-handover-1600.webp",
+        "width": 1600,
+        "bytes": 160908
+      }
+    ]
+  },
+  {
+    "name": "team-at-the-supply-table",
+    "source": "School 4 - Narasaraopet/6973417a-1f73-4a3a-a6db-765f2dc401bf.jpg",
+    "intrinsic": {
+      "width": 2755,
+      "height": 2066
+    },
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 188149
+    },
+    "webp": [
+      {
+        "file": "team-at-the-supply-table-480.webp",
+        "width": 480,
+        "bytes": 35918
+      },
+      {
+        "file": "team-at-the-supply-table-800.webp",
+        "width": 800,
+        "bytes": 82858
+      },
+      {
+        "file": "team-at-the-supply-table-1200.webp",
+        "width": 1200,
+        "bytes": 149804
+      },
+      {
+        "file": "team-at-the-supply-table-1600.webp",
+        "width": 1600,
+        "bytes": 221174
+      }
+    ]
+  },
+  {
+    "name": "students-with-kits",
+    "source": "School 2 - Narasaraopet/IMG_0465.JPG",
+    "intrinsic": {
+      "width": 2640,
+      "height": 1980
+    },
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 151240
+    },
+    "webp": [
+      {
+        "file": "students-with-kits-480.webp",
+        "width": 480,
+        "bytes": 31176
+      },
+      {
+        "file": "students-with-kits-800.webp",
+        "width": 800,
+        "bytes": 62874
+      },
+      {
+        "file": "students-with-kits-1200.webp",
+        "width": 1200,
+        "bytes": 104504
+      },
+      {
+        "file": "students-with-kits-1600.webp",
+        "width": 1600,
+        "bytes": 153808
+      }
+    ]
+  },
+  {
+    "name": "distribution-day",
+    "source": "School 2 - Narasaraopet/IMG_0456.JPG",
+    "intrinsic": {
+      "width": 1980,
+      "height": 2640
+    },
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 245363
+    },
+    "webp": [
+      {
+        "file": "distribution-day-480.webp",
+        "width": 480,
+        "bytes": 42176
+      },
+      {
+        "file": "distribution-day-800.webp",
+        "width": 800,
+        "bytes": 92808
+      },
+      {
+        "file": "distribution-day-1200.webp",
+        "width": 1200,
+        "bytes": 171270
+      },
+      {
+        "file": "distribution-day-1600.webp",
+        "width": 1600,
+        "bytes": 258740
+      }
+    ]
+  }
+]

@@ -10,6 +10,7 @@ import SectionIndex from '../SectionIndex.astro';
 import PhotoSlot from '../PhotoSlot.astro';
 import { barriers } from '../../content/home.ts';
 import { pillars } from '../../content/pillars.ts';
+import { classroomDistribution } from '../../content/photos.ts';
 
 const statusLine = (slug: string) => {
   const pillar = pillars.find((p) => p.slug === slug);
@@ -35,7 +36,7 @@ const statusLine = (slug: string) => {
           const isActive = pillars.find((p) => p.slug === item.pillar)?.status === 'active';
           return (
             <li class="barrier reveal">
-              <div class="barrier__row">
+              <div class:list={['barrier__row', { 'barrier__row--text': !isActive }]}>
                 <div class="barrier__text">
                   <p class="barrier__number" aria-hidden="true">{item.number}</p>
                   <h3>{item.heading}</h3>
@@ -44,14 +45,15 @@ const statusLine = (slug: string) => {
                     <p class:list={['barrier__status', { 'is-active': isActive }]}>{status}</p>
                   )}
                 </div>
-                <div class="barrier__photo reveal--wipe">
-                  <PhotoSlot
-                    subject={item.photo}
-                    ratio="4 / 3"
-                    variant={isActive ? 'pending' : 'none'}
-                    noneLabel="No imagery, because nothing has been delivered yet"
-                  />
-                </div>
+                {isActive && (
+                  <div class="barrier__photo reveal--wipe">
+                    <PhotoSlot
+                      photo={classroomDistribution}
+                      sizes="(max-width: 40rem) calc(100vw - 2.25rem), 320px"
+                      ratio="4 / 3"
+                    />
+                  </div>
+                )}
               </div>
             </li>
           );
@@ -136,6 +138,10 @@ const statusLine = (slug: string) => {
   /* No border here: PhotoSlot draws the frame. Two nested boxes with
      different sizing rules produced a border offset from its own label. */
   .barrier__photo { min-width: 0; }
+  /* A barrier with nothing delivered under it has no photograph to show, so
+     the row is one column and the prose keeps its own measure rather than
+     stretching to fill the space the frame used to hold. */
+  .barrier__row--text { grid-template-columns: minmax(0, 1fr); }
 
   @media (max-width: 56.25rem) {
     .barriers__grid { grid-template-columns: minmax(0, 1fr); }

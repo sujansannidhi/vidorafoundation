@@ -7,6 +7,7 @@
  * their school. That is a deliberate omission here, not an oversight.
  * Plan section 7a, "Naming schools of minors". Add it back only on purpose.
  */
+import type { Photo } from './photos.ts';
 
 export interface Person {
   name: string;
@@ -15,7 +16,7 @@ export interface Person {
   /** Paragraph one is where the person comes from. Paragraph two is what they
    *  do at Vidora. Not aspirations, not "passionate about". What they do. */
   bio: string[] | null;
-  photo: { src: string; alt: string } | null;
+  photo: Photo | null;
   /** Organisation address. Null until the person has one to publish. */
   email: string | null;
   linkedin: string | null;
@@ -39,6 +40,8 @@ export const people: Person[] = [
     photo: {
       src: '/people/sujan-sannidhi.jpg',
       alt: 'Sujan Sannidhi',
+      width: 720,
+      height: 960,
     },
     email: 'sujan@vidorafoundation.org',
     linkedin: null,
@@ -57,6 +60,8 @@ export const people: Person[] = [
     photo: {
       src: '/people/praneel-rondla.jpg',
       alt: 'Praneel Rondla',
+      width: 520,
+      height: 520,
     },
     email: 'praneel@vidorafoundation.org',
     linkedin: null,

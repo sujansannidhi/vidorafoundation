@@ -19,13 +19,11 @@ const [lead, ...rest] = people;
 
   <div class="shell">
     <article class="lead">
-      <div class="lead__photo">
-        <PhotoSlot
-          subject={`Portrait, ${lead.name}`}
-          photo={lead.photo}
-          ratio="3 / 4"
-        />
-      </div>
+      {lead.photo && (
+        <div class="lead__photo">
+          <PhotoSlot photo={lead.photo} ratio="3 / 4" sizes="(max-width: 48rem) 50vw, 360px" />
+        </div>
+      )}
       <div>
         <p class="eyebrow">{lead.role ?? 'Role not published yet'}</p>
         <h2 class="lead__name">{lead.name}</h2>
@@ -45,14 +43,14 @@ const [lead, ...rest] = people;
     <ul class="team">
       {rest.map((person) => (
         <li class="member">
-          <div class="member__photo">
-            <PhotoSlot
-              subject={`Portrait, ${person.name}`}
-              photo={person.photo}
-              ratio="1 / 1"
-              label={false}
-            />
-          </div>
+          {person.photo && (
+            <div class="member__photo">
+              <PhotoSlot
+                photo={person.photo}
+                ratio="1 / 1"
+              />
+            </div>
+          )}
           <h2 class="member__name">{person.name}</h2>
           {person.role && <p class="eyebrow member__role">{person.role}</p>}
           {person.email && (

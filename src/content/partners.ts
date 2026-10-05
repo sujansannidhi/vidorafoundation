@@ -27,8 +27,6 @@ export interface PartnerKind {
   body: string;
   /** Where the partnership stands. Rendered under a hairline. */
   note: string;
-  /** Describes the logo that would sit here, for the pending image slot. */
-  slot: string;
 }
 
 export const partnerKinds: PartnerKind[] = [
@@ -39,7 +37,6 @@ export const partnerKinds: PartnerKind[] = [
     body:
       'Schools across Palnadu and Prakasam that host distributions and tell us which grades to bring kits for.',
     note: 'Ongoing',
-    slot: 'School logo, on confirmation',
   },
   {
     slug: 'supply',
@@ -48,7 +45,6 @@ export const partnerKinds: PartnerKind[] = [
     body:
       'Wholesalers in Narasaraopeta who sell at local prices, so the buying happens in the district and nothing is shipped from the United States.',
     note: 'Ongoing, every campaign',
-    slot: 'Supplier logo, on confirmation',
   },
   {
     slug: 'corporate',
@@ -57,7 +53,6 @@ export const partnerKinds: PartnerKind[] = [
     body:
       "Companies that fund a school's kits outright, or match what a chapter raises. Receipts go back to the funder.",
     note: 'Open, enquiries welcome',
-    slot: 'Company logo, on confirmation',
   },
   {
     slug: 'chapter',
@@ -66,7 +61,6 @@ export const partnerKinds: PartnerKind[] = [
     body:
       'High schools that host a chapter: a group of students who raise for and run a distribution.',
     note: 'Frisco, Texas, first chapter',
-    slot: 'School logo, on confirmation',
   },
   {
     slug: 'community',
@@ -75,7 +69,6 @@ export const partnerKinds: PartnerKind[] = [
     body:
       'Groups already working in the districts who introduce us to schools. An introduction is worth as much as a cheque.',
     note: 'Open, Palnadu and Prakasam',
-    slot: 'Organisation logo, on confirmation',
   },
   {
     slug: 'inkind',
@@ -84,7 +77,6 @@ export const partnerKinds: PartnerKind[] = [
     body:
       'Printing, transport, storage and design given at cost or free, so more of every dollar reaches materials.',
     note: 'Open, enquiries welcome',
-    slot: 'Logo, on confirmation',
   },
 ];
 

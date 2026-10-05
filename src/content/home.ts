@@ -51,21 +51,18 @@ export const barriers = {
       pillar: 'learning-kits',
       heading: 'Resources',
       body: 'A year of the syllabus assumes a student has certain materials in front of them. When those materials are not there the lesson still runs, and the student falls behind on something that could have been bought.',
-      photo: 'Classroom, June 2026 distribution',
     },
     {
       number: '02',
       pillar: 'teaching',
       heading: 'Teaching',
       body: 'One teacher can only be in one place. More hands in the room would mean the students who need a second explanation get one.',
-      photo: 'Teacher and students at work',
     },
     {
       number: '03',
       pillar: 'access',
       heading: 'Access',
       body: 'A working computer changes what a school can teach. Some schools do not have one.',
-      photo: 'School building or grounds',
     },
   ],
 } as const;
@@ -88,8 +85,6 @@ export const whatWeDo = {
     "Vidora Foundation is run by high school students and organised into chapters. The first is in Frisco, Texas. The first campaign ran in government schools in Palnadu and Prakasam districts, Andhra Pradesh, where the founder's family has ties and the door opened easiest.",
     'Learning Kits has delivered. Teaching and Access are labelled Planned everywhere they appear, so a plan is never read as a promise.',
   ],
-  /** Rendered where a Planned pillar would otherwise show a photograph. */
-  noImageryNote: 'No imagery, because nothing has been delivered yet',
 } as const;
 
 export interface HowStage {

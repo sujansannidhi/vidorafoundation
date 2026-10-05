@@ -4,6 +4,7 @@ import PageHeader from '../components/PageHeader.astro';
 import PhotoSlot from '../components/PhotoSlot.astro';
 import { org, values } from '../content/site.ts';
 import { foundingNote } from '../content/people.ts';
+import { teamAtTheSupplyTable } from '../content/photos.ts';
 ---
 <Layout
   title="Mission"
@@ -69,7 +70,11 @@ import { foundingNote } from '../content/people.ts';
     </ol>
 
     <div class="who">
-      <PhotoSlot subject="The team, or a distribution" ratio="4 / 3" />
+      <PhotoSlot
+        photo={teamAtTheSupplyTable}
+        sizes="(max-width: 48rem) calc(100vw - 2.25rem), 520px"
+        ratio="4 / 3"
+      />
       <div>
         <h2 class="who__heading">Who runs it</h2>
         <p>{foundingNote}</p>
