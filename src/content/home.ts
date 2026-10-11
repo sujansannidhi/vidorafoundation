@@ -1,68 +1,68 @@
 /**
- * Copy for the eleven section homepage narrative.
+ * Copy for the homepage.
  * Every string a visitor reads lives in src/content; nothing in
  * src/components or src/pages hardcodes copy.
  *
- * The order is the argument: potential, what gets in the way, the turn,
- * what the organisation does, how it works, where, what it cost, how it
- * actually ran, how it grows, how to join, and the close.
- *
- * Section indices are the numerals printed at the top right of each band.
- * They are decorative. Screen readers get the heading, not the number.
+ * The order: the name, what the organisation works on, the turn, the film,
+ * how it works, what it cost, how it grows, how to join, and the close.
  */
 
 export const hero = {
   id: 'hero',
-  index: '01',
-  eyebrow: 'A student run chapter network · First campaign, June 2026',
   /**
-   * The claim is deliberately the opposite of the sector default. Most
-   * education copy opens on scarcity. This opens on what a student already
-   * brings, because that is both truer and the only version that leaves the
-   * student the subject of the sentence.
+   * The name is the headline. It is split across the opening screen, the
+   * first half top left and the second bottom right, and the screen reader
+   * gets it as one heading.
    */
-  headline: 'Every student arrives with potential.',
-  headlineEmphasis: 'What they need is the material to use it.',
+  wordLeft: 'Vidora',
+  wordRight: 'Foundation',
+  /** Short enough to sit under the name without competing with it. */
+  intro:
+    'High school students raise the money. The supplies are bought near the school, matched to each grade, and handed over in person.',
+  where: 'Frisco, Texas · Andhra Pradesh, India',
+  pill: { label: 'Start a chapter', href: '/join' },
+  scrollCue: 'Scroll',
+  /** Read once the photograph has opened to the full screen. */
+  statement:
+    'Vidora Foundation is run by high school students. Teachers tell us what a grade is missing. We buy it near the school and hand it to the students in person.',
+  /** Used for the page description as well as on screen. */
   standfirst:
     'Vidora Foundation puts educational materials into the hands of students who need them, through chapters that raise for and run their own distributions.',
-  /** The proof, stated once at the top and expanded at sections 07 and 08. */
   proof:
     'In June 2026 the first Learning Kits campaign reached approximately 1,200 students across 12 government schools in Andhra Pradesh, for a total of about $3,500 in supplies.',
+  photoCaption: 'June 2026. A government school in Narasaraopeta, Andhra Pradesh.',
   ctaPrimary: { label: 'See our impact', href: '/impact' },
   ctaSecondary: { label: 'Our work', href: '/programs' },
-  scrollCue: 'Scroll',
 } as const;
 
-export const barriers = {
-  id: 'what-gets-in-the-way',
-  index: '02',
-  eyebrow: 'What gets in the way',
-  headline: 'A classroom can be full and still be short of what learning takes.',
-  standfirst:
-    'Students show up ready. Three things stand between them and the next step, and Vidora Foundation works on all three.',
+export const work = {
+  id: 'what-we-work-on',
+  eyebrow: 'What we work on',
+  headline: 'Three things a classroom needs. One of them is running today.',
   /**
-   * One barrier per pillar, in pillar order. `pillar` is the slug in
+   * One column per pillar, in pillar order. `pillar` is the slug in
    * pillars.ts, which is where the Active or Planned status comes from, so a
    * status cannot drift between this section and the programmes page.
    */
   items: [
     {
-      number: '01',
       pillar: 'learning-kits',
       heading: 'Resources',
-      body: 'A year of the syllabus assumes a student has certain materials in front of them. When those materials are not there the lesson still runs, and the student falls behind on something that could have been bought.',
+      body: 'The state already provides uniforms, textbooks, bags and generic notebooks. It does not provide compass boxes, atlases, slates, or notebooks matched to a grade.',
+      detail: 'Learning Kits fill that gap. Each kit is put together for one grade and bought at local prices near the school receiving it.',
+      link: { label: 'How a kit is built', href: '/programs#learning-kits' },
     },
     {
-      number: '02',
       pillar: 'teaching',
       heading: 'Teaching',
       body: 'One teacher can only be in one place. More hands in the room would mean the students who need a second explanation get one.',
+      detail: 'A teaching programme would place volunteers alongside classroom teachers. It is not running yet.',
     },
     {
-      number: '03',
       pillar: 'access',
       heading: 'Access',
       body: 'A working computer changes what a school can teach. Some schools do not have one.',
+      detail: 'An access programme would put working computers in those schools. No school has received hardware yet.',
     },
   ],
 } as const;
@@ -74,17 +74,6 @@ export const turn = {
     'Hand a student the material their year asks for, and the potential takes it from there.',
   standfirst:
     'This is the whole idea. A specific thing a student is missing, bought at local prices and handed over.',
-} as const;
-
-export const whatWeDo = {
-  id: 'what-we-do',
-  index: '03',
-  eyebrow: 'What Vidora Foundation does',
-  headline: 'Three pillars. One of them is running.',
-  body: [
-    "Vidora Foundation is run by high school students and organised into chapters. The first is in Frisco, Texas. The first campaign ran in government schools in Palnadu and Prakasam districts, Andhra Pradesh, where the founder's family has ties and the door opened easiest.",
-    'Learning Kits has delivered. Teaching and Access are labelled Planned everywhere they appear, so a plan is never read as a promise.',
-  ],
 } as const;
 
 export interface HowStage {
@@ -100,13 +89,11 @@ export interface HowStage {
 
 export const howItWorks: {
   id: string;
-  index: string;
   eyebrow: string;
   headline: string;
   stages: HowStage[];
 } = {
   id: 'how-it-works',
-  index: '04',
   eyebrow: 'How it works',
   headline: 'A chapter raises it. A student opens it.',
   stages: [
@@ -136,14 +123,13 @@ export const howItWorks: {
 
 export const impactSection = {
   id: 'impact',
-  index: '05',
   eyebrow: 'Impact · June 2026',
   headline: 'What the first campaign cost, and what it reached.',
 } as const;
 
 /**
- * Section 06. The film sits straight after the figures: the numbers first,
- * then the day they were counted from.
+ * The film replaced the three pillars section, straight after the turning
+ * point, and is the most prominent thing on the page after the hero.
  *
  * The clip is the promotional video cut short of its original end card. That
  * card carried an earlier name for the organisation, its mark, and a domain
@@ -152,12 +138,13 @@ export const impactSection = {
  */
 export const film = {
   id: 'the-day-itself',
-  index: '06',
   eyebrow: 'The day itself',
   headline: 'Nineteen seconds from the June 2026 distribution.',
   standfirst:
     'Filmed across the government schools that received the first Learning Kits, in Palnadu and Prakasam districts, Andhra Pradesh.',
   playLabel: 'Play the June 2026 distribution film, nineteen seconds',
+  soundOn: 'Play with sound',
+  soundOff: 'Mute',
   posterAlt:
     'Primary school students standing at their desks, holding up new notebooks and waving towards the camera.',
   caption: 'June 2026. Palnadu and Prakasam districts, Andhra Pradesh.',
@@ -166,7 +153,6 @@ export const film = {
 
 export const chapterModel = {
   id: 'the-chapter-model',
-  index: '07',
   eyebrow: 'The chapter model',
   headline: 'One chapter can supply a school. More chapters supply more schools.',
   standfirst:
@@ -175,7 +161,6 @@ export const chapterModel = {
 
 export const getInvolved = {
   id: 'get-involved',
-  index: '08',
   eyebrow: 'Get involved',
   feature: {
     label: 'Start here',

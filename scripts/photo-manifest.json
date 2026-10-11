@@ -198,5 +198,337 @@
         "bytes": 258740
       }
     ]
+  },
+  {
+    "name": "kit-supplies",
+    "source": "School 4 - Narasaraopet/IMG_0499.jpeg",
+    "intrinsic": {
+      "width": 5712,
+      "height": 4284
+    },
+    "widths": [
+      480,
+      800,
+      1200,
+      1600
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 142444
+    },
+    "webp": [
+      {
+        "file": "kit-supplies-480.webp",
+        "width": 480,
+        "bytes": 24938
+      },
+      {
+        "file": "kit-supplies-800.webp",
+        "width": 800,
+        "bytes": 56778
+      },
+      {
+        "file": "kit-supplies-1200.webp",
+        "width": 1200,
+        "bytes": 105816
+      },
+      {
+        "file": "kit-supplies-1600.webp",
+        "width": 1600,
+        "bytes": 161680
+      }
+    ]
+  },
+  {
+    "name": "hero-students-with-kits",
+    "source": "School 2 - Narasaraopet/IMG_0465.JPG",
+    "intrinsic": {
+      "width": 3168,
+      "height": 1980
+    },
+    "widths": [
+      800,
+      1200,
+      1600,
+      2400
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 141023
+    },
+    "webp": [
+      {
+        "file": "hero-students-with-kits-800.webp",
+        "width": 800,
+        "bytes": 61460
+      },
+      {
+        "file": "hero-students-with-kits-1200.webp",
+        "width": 1200,
+        "bytes": 103700
+      },
+      {
+        "file": "hero-students-with-kits-1600.webp",
+        "width": 1600,
+        "bytes": 149552
+      },
+      {
+        "file": "hero-students-with-kits-2400.webp",
+        "width": 2400,
+        "bytes": 262014
+      }
+    ]
+  },
+  {
+    "name": "shuffle-1",
+    "source": "School 2 - Narasaraopet/IMG_0460.JPG",
+    "intrinsic": {
+      "width": 3168,
+      "height": 1980
+    },
+    "widths": [
+      800,
+      1600
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 132031
+    },
+    "webp": [
+      {
+        "file": "shuffle-1-800.webp",
+        "width": 800,
+        "bytes": 52950
+      },
+      {
+        "file": "shuffle-1-1600.webp",
+        "width": 1600,
+        "bytes": 141020
+      }
+    ]
+  },
+  {
+    "name": "shuffle-2",
+    "source": "School 2 - Narasaraopet/IMG_0452.JPG",
+    "intrinsic": {
+      "width": 1980,
+      "height": 1238
+    },
+    "widths": [
+      800,
+      1600
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 114943
+    },
+    "webp": [
+      {
+        "file": "shuffle-2-800.webp",
+        "width": 800,
+        "bytes": 44796
+      },
+      {
+        "file": "shuffle-2-1600.webp",
+        "width": 1600,
+        "bytes": 114118
+      }
+    ]
+  },
+  {
+    "name": "shuffle-3",
+    "source": "School 2 - Narasaraopet/IMG_0459.JPG",
+    "intrinsic": {
+      "width": 3168,
+      "height": 1980
+    },
+    "widths": [
+      800,
+      1600
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 135435
+    },
+    "webp": [
+      {
+        "file": "shuffle-3-800.webp",
+        "width": 800,
+        "bytes": 56064
+      },
+      {
+        "file": "shuffle-3-1600.webp",
+        "width": 1600,
+        "bytes": 149380
+      }
+    ]
+  },
+  {
+    "name": "shuffle-4",
+    "source": "School 6 - Narasaraopet/72117f88-88bd-4a4a-b63a-5ba5e2e9de80.jpg",
+    "intrinsic": {
+      "width": 1536,
+      "height": 960
+    },
+    "widths": [
+      800,
+      1536
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 145336
+    },
+    "webp": [
+      {
+        "file": "shuffle-4-800.webp",
+        "width": 800,
+        "bytes": 65186
+      },
+      {
+        "file": "shuffle-4-1536.webp",
+        "width": 1536,
+        "bytes": 148470
+      }
+    ]
+  },
+  {
+    "name": "shuffle-5",
+    "source": "School 4 - Narasaraopet/IMG_0517.JPG",
+    "intrinsic": {
+      "width": 3168,
+      "height": 1980
+    },
+    "widths": [
+      800,
+      1600
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 113216
+    },
+    "webp": [
+      {
+        "file": "shuffle-5-800.webp",
+        "width": 800,
+        "bytes": 44034
+      },
+      {
+        "file": "shuffle-5-1600.webp",
+        "width": 1600,
+        "bytes": 118090
+      }
+    ]
+  },
+  {
+    "name": "shuffle-6",
+    "source": "School 4 - Narasaraopet/2fe41cc5-e1f2-4695-9f45-3b090f1523f8.jpg",
+    "intrinsic": {
+      "width": 3306,
+      "height": 2066
+    },
+    "widths": [
+      800,
+      1600
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 173045
+    },
+    "webp": [
+      {
+        "file": "shuffle-6-800.webp",
+        "width": 800,
+        "bytes": 78384
+      },
+      {
+        "file": "shuffle-6-1600.webp",
+        "width": 1600,
+        "bytes": 214476
+      }
+    ]
+  },
+  {
+    "name": "shuffle-7",
+    "source": "School 6 - Narasaraopet/3607f6bd-9ff0-4b09-9b87-5fcfa9518aa6.jpg",
+    "intrinsic": {
+      "width": 1536,
+      "height": 960
+    },
+    "widths": [
+      800,
+      1536
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 107666
+    },
+    "webp": [
+      {
+        "file": "shuffle-7-800.webp",
+        "width": 800,
+        "bytes": 46068
+      },
+      {
+        "file": "shuffle-7-1536.webp",
+        "width": 1536,
+        "bytes": 104800
+      }
+    ]
+  },
+  {
+    "name": "shuffle-8",
+    "source": "School 4 - Narasaraopet/e8a38b1d-7927-406f-abad-0537d3397e61.jpg",
+    "intrinsic": {
+      "width": 3306,
+      "height": 2066
+    },
+    "widths": [
+      800,
+      1600
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 169781
+    },
+    "webp": [
+      {
+        "file": "shuffle-8-800.webp",
+        "width": 800,
+        "bytes": 73672
+      },
+      {
+        "file": "shuffle-8-1600.webp",
+        "width": 1600,
+        "bytes": 218888
+      }
+    ]
+  },
+  {
+    "name": "shuffle-9",
+    "source": "School 6 - Narasaraopet/0944cf8f-e6d5-48bc-a8f6-59f99dd9fcf6.jpg",
+    "intrinsic": {
+      "width": 1536,
+      "height": 960
+    },
+    "widths": [
+      800,
+      1536
+    ],
+    "fallback": {
+      "width": 1200,
+      "bytes": 107295
+    },
+    "webp": [
+      {
+        "file": "shuffle-9-800.webp",
+        "width": 800,
+        "bytes": 45832
+      },
+      {
+        "file": "shuffle-9-1536.webp",
+        "width": 1536,
+        "bytes": 101556
+      }
+    ]
   }
 ]

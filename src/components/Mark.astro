@@ -24,9 +24,9 @@ interface Props {
 
 /* Intrinsic size of both files, including the transparent margin they carry.
    Kept here so width and height are always emitted together and the mark
-   never causes layout shift. The margin is deliberate: cropped tight to the
-   ink, the book arc reads as sliced off against a dark surface. */
-const RATIO = 392 / 312;
+   never causes layout shift. Both files are cut from the full artwork, so the
+   point of the V and both ends of the terracotta arc are inside the frame. */
+const RATIO = 480 / 359;
 
 const {
   width = 34,

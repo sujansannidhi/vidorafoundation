@@ -93,7 +93,9 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
     position: sticky;
     top: 0;
     z-index: 60;
-    background: rgb(250 247 242 / 0.86);
+    /* Close to solid: any lighter and the cream turns a muddy grey over the
+       navy sections and the film. */
+    background: rgb(250 247 242 / 0.95);
     backdrop-filter: saturate(140%) blur(14px);
     border-bottom: var(--hairline) solid var(--rule-quiet);
   }

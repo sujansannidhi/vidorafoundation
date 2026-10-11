@@ -24,7 +24,6 @@ import { stage5 } from '../../content/journey.ts';
     <ol class="report__stops">
       {stops.map((stop) => (
         <li class="report__stop" data-provided={stop.id}>
-          <span class="report__marker" aria-hidden="true">{stop.marker}</span>
           <div class="report__body">
             <h3>{stop.heading}</h3>
             {stop.body.map((para) => <p>{para}</p>)}

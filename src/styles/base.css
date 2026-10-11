@@ -13,6 +13,9 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+/* Lenis drives the scroll itself on the homepage. Native smooth scrolling
+   on top of it would ease every frame twice. */
+html.lenis { scroll-behavior: auto; }
 
 body {
   margin: 0;
@@ -74,10 +77,7 @@ img { height: auto; display: block; }
 }
 
 /*
- * The numbered rule that opens every section of the homepage narrative:
- * an eyebrow on the left, the section's index on the right, a hairline
- * across the top. The index is decorative and is hidden from the
- * accessibility tree by the component that renders it.
+ * The rule that opens a section: an eyebrow with a hairline across the top.
  */
 .section-index {
   display: flex;
@@ -87,13 +87,6 @@ img { height: auto; display: block; }
   flex-wrap: wrap;
   border-top: var(--hairline) solid var(--rule-accent);
   padding-top: var(--space-sm);
-}
-.section-index__number {
-  font-family: var(--font-display);
-  font-size: var(--step-body-sm);
-  color: var(--text-softer);
-  margin: 0;
-  max-width: none;
 }
 
 /* ---- Layout ---- */

@@ -1,6 +1,6 @@
 ---
 /**
- * Section 05. Four stages across one row, each with a node and a connector
+ * Four stages across one row, each with a node and a connector
  * that grows as it scrolls into view.
  *
  * The last connector fades out instead of stopping at a node, because the
@@ -11,7 +11,7 @@ import { howItWorks } from '../../content/home.ts';
 ---
 <section class="band on-warm how" id={howItWorks.id} aria-labelledby="how-heading">
   <div class="shell">
-    <SectionIndex eyebrow={howItWorks.eyebrow} index={howItWorks.index} />
+    <SectionIndex eyebrow={howItWorks.eyebrow} />
     <h2 id="how-heading" class="how__headline">{howItWorks.headline}</h2>
 
     <ol class="how__list">

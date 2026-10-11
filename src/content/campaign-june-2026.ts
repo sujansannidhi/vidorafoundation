@@ -12,8 +12,6 @@
 
 export interface FieldReportStop {
   id: string;
-  /** Short label rendered beside the road. */
-  marker: string;
   heading: string;
   body: string[];
   /** A per stop photograph, for stops that have one. See content/photos.ts. */
@@ -36,7 +34,6 @@ export const campaign = {
 export const stops: FieldReportStop[] = [
   {
     id: 'what-the-state-provided',
-    marker: '01',
     heading: 'What the state provided',
     body: [
       'Andhra Pradesh runs the Sarvepalli Radhakrishnan Vidyarthi Mitra scheme. It supplies government school students with uniforms, shoes, socks, a belt, a school bag, textbooks, and generic notebooks.',
@@ -45,7 +42,6 @@ export const stops: FieldReportStop[] = [
   },
   {
     id: 'what-was-missing',
-    marker: '02',
     heading: 'What was missing',
     body: [
       'The scheme does not cover compass boxes, atlases, slates, or notebooks matched to a student’s grade. A general issue notebook is not the same as the one a specific year of the syllabus needs.',
@@ -54,7 +50,6 @@ export const stops: FieldReportStop[] = [
   },
   {
     id: 'specifying-by-grade',
-    marker: '03',
     heading: 'How kits were specified by grade',
     body: [
       'Kits were assembled per grade rather than as one identical bundle, so that what a student received matched what their year actually required.',
@@ -62,7 +57,6 @@ export const stops: FieldReportStop[] = [
   },
   {
     id: 'where-supplies-were-bought',
-    marker: '04',
     heading: 'Where supplies were bought',
     body: [
       'In person, in Narasaraopeta, at local wholesale prices. Nothing was shipped from the United States.',
@@ -71,7 +65,6 @@ export const stops: FieldReportStop[] = [
   },
   {
     id: 'what-it-cost',
-    marker: '05',
     heading: 'What it cost',
     body: [
       'The campaign cost approximately $3,500 in total. That figure is the supplies at wholesale. It does not include travel.',
@@ -79,7 +72,6 @@ export const stops: FieldReportStop[] = [
   },
   {
     id: 'what-was-delivered',
-    marker: '06',
     heading: 'What was delivered',
     body: [
       'Approximately 1,200 students received kits, across 12 schools.',
@@ -88,7 +80,6 @@ export const stops: FieldReportStop[] = [
   },
   {
     id: 'what-we-would-do-differently',
-    marker: '07',
     heading: 'What we would do differently',
     // TODO(mani): open register. This stop is the one that makes the rest of
     // the report credible, and it is the one thing not in the content

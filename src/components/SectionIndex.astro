@@ -1,20 +1,15 @@
 ---
 /**
- * The rule that opens a section: eyebrow on the left, index numeral on the
- * right, hairline across the top.
+ * The rule that opens a section: the eyebrow, with a hairline across the top.
  *
- * The numeral is decorative. It is a position marker in a scroll narrative,
- * not information, so it is hidden from the accessibility tree rather than
- * read out as a bare number before every heading.
+ * It used to carry an index numeral on the right as well. Those were removed
+ * across the site: they numbered a sequence the reader had no use for.
  */
 interface Props {
   eyebrow: string;
-  /** Omit on inner pages, which are not part of the numbered narrative. */
-  index?: string;
 }
-const { eyebrow, index } = Astro.props;
+const { eyebrow } = Astro.props;
 ---
 <div class="section-index">
   <p class="eyebrow">{eyebrow}</p>
-  {index && <p class="section-index__number" aria-hidden="true">{index}</p>}
 </div>

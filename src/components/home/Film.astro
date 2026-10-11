@@ -1,228 +1,340 @@
 ---
 /**
- * Section 06. The June 2026 film, behind an aperture that opens on scroll.
+ * The June 2026 film, given the page's second big moment.
  *
- * Three things about the construction, in order of how badly they would hurt
- * if they were done the other way:
+ * On a wide screen the section pins and the framed film widens until it
+ * fills the screen, the same move the hero makes with its photograph, so
+ * the page opens and peaks on the same gesture. It plays muted and looped
+ * while it is on screen; one button restarts it with sound and controls.
  *
- * 1. The control is a real `<a href>` to the file. Without JavaScript, a
- *    click still gets you the video. The script upgrades that link into an
- *    inline player; it does not create the only way in.
- * 2. Nothing is downloaded until that click. The video is 7.8 MB and most
- *    readers will not play it, so the section costs a poster image until
- *    somebody asks for more.
- * The poster is the frame at 17.6s of the clip, exported with AVFoundation
- * and encoded by sharp. The clip itself is the original promotional video cut
- * at 19.0s: everything after that is an end card carrying an earlier name for
- * the organisation, its mark, and a domain this site does not use. The
- * registered name is Vidora Foundation, so that card is simply out of date.
+ * Fallbacks, in the order they matter:
  *
- * 3. The reveal is a scroll-driven CSS animation behind the same
- *    `@supports` and reduced-motion gate as the rest of base.css, and the
- *    un-animated state is the OPEN state. A browser with no scroll timeline,
- *    or a reader who asked for less movement, gets the picture rather than a
- *    frame that never opens.
+ * 1. Without JavaScript the <video> carries `controls` and `preload="none"`:
+ *    a poster until somebody presses play, then the browser's own player.
+ * 2. With reduced motion, or the browser asking to save data, nothing plays
+ *    by itself and nothing pins. The film waits for the button.
+ * 3. Nothing is downloaded until the film is about to come on screen. The
+ *    file is 7.8 MB, and most readers on a phone will not watch it.
+ *
+ * The clip is the original promotional video cut at 19.0s: everything after
+ * that is an end card carrying an earlier name for the organisation, its
+ * mark, and a domain this site does not use. The poster is the frame at
+ * 17.6s.
  */
 import SectionIndex from '../SectionIndex.astro';
 import { film } from '../../content/home.ts';
----
-<section class="band on-dark film" id={film.id} aria-labelledby="film-heading">
-  <div class="shell">
-    <SectionIndex eyebrow={film.eyebrow} index={film.index} />
-    <h2 id="film-heading" class="film__headline">{film.headline}</h2>
-    <p class="film__standfirst">{film.standfirst}</p>
 
+const POSTER = '/media/distribution-film-poster.jpg';
+---
+<section class="band film" id={film.id} aria-labelledby="film-heading" data-film>
+  <div class="shell film__head">
+    <SectionIndex eyebrow={film.eyebrow} />
+    <div class="film__intro">
+      <h2 id="film-heading" class="film__headline" data-film-reveal>{film.headline}</h2>
+      <p class="film__standfirst" data-film-reveal>{film.standfirst}</p>
+    </div>
+  </div>
+
+  <div class="film__pin" data-film-pin>
     <figure class="film__figure">
-      <div class="film__aperture" data-film-frame>
-        <a class="film__player" href={film.src} data-film-play>
-          <img
-            class="film__poster"
-            src="/media/distribution-film-poster.jpg"
-            srcset="/media/distribution-film-poster-480.webp 480w, /media/distribution-film-poster-800.webp 800w, /media/distribution-film-poster-1200.webp 1200w"
-            sizes="(max-width: 56.25rem) calc(100vw - 2.25rem), 900px"
-            width="1280"
-            height="720"
-            alt={film.posterAlt}
-            loading="lazy"
-            decoding="async"
-          />
-          <span class="film__play">
-            <svg viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-              <circle class="film__play-ring" cx="32" cy="32" r="30" />
-              <path class="film__play-tri" d="M26 20 L46 32 L26 44 Z" />
+      <div class="film__frame" data-film-frame>
+        <video
+          class="film__video"
+          src={film.src}
+          poster={POSTER}
+          preload="none"
+          playsinline
+          controls
+          width="1280"
+          height="720"
+          aria-label={film.playLabel}
+          data-film-video
+        ></video>
+        <div class="film__shade" aria-hidden="true"></div>
+        <button class="film__sound" type="button" hidden data-film-sound>
+          <span class="film__sound-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M4 9h4l5-4v14l-5-4H4z" />
+              <path class="film__wave" d="M16.5 8.5a5 5 0 0 1 0 7" />
+              <path class="film__wave" d="M19 6a8.5 8.5 0 0 1 0 12" />
             </svg>
-            <span class="visually-hidden">{film.playLabel}</span>
           </span>
-        </a>
-        <span class="film__seam" aria-hidden="true"></span>
+          <span data-film-sound-label>{film.soundOn}</span>
+        </button>
       </div>
-      <figcaption class="film__caption">{film.caption}</figcaption>
+      <figcaption class="film__caption shell">{film.caption}</figcaption>
     </figure>
   </div>
 </section>
 
 <style>
-  .film__headline {
+  .film { position: relative; z-index: 1; padding-bottom: var(--section-y); }
+
+  .film__intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(var(--space-md), 4vw, 4rem);
+    align-items: end;
     margin-top: var(--space-lg);
-    max-width: 24ch;
   }
+  .film__headline { max-width: 18ch; font-size: var(--step-display-1); }
   .film__standfirst {
-    margin: var(--space-md) 0 0;
-    max-width: 42rem;
+    margin: 0;
+    max-width: 30rem;
     font-size: var(--step-body-lg);
     color: var(--text-soft);
   }
-  .film__figure {
-    margin: clamp(2rem, 5vh, 3.25rem) 0 0;
-    max-width: 900px;
-  }
 
-  /* The frame the picture opens inside. The seam is drawn over it, so this
-     is the positioning context for both. */
-  .film__aperture {
+  .film__pin { margin-top: clamp(2.5rem, 7vh, 4.5rem); }
+  .film__figure { margin: 0; }
+
+  .film__frame {
     position: relative;
+    width: min(calc(100% - 2 * var(--gutter)), var(--shell));
+    margin-inline: auto;
     aspect-ratio: 16 / 9;
     overflow: hidden;
     background: var(--plum-deep);
   }
-
-  .film__player {
+  .film__video {
     display: block;
     width: 100%;
     height: 100%;
-    position: relative;
-    text-decoration: none;
-    border: 0;
-  }
-  .film__poster {
-    width: 100%;
-    height: 100%;
     object-fit: cover;
+    background: var(--plum-deep);
   }
-
-  /* The hairline the frame opens from. It grows out of the centre, then
-     fades as the picture takes over. */
-  .film__seam {
+  /* Only there to keep the button legible over a bright frame. */
+  .film__shade {
     position: absolute;
-    left: 0;
-    right: 0;
-    top: 50%;
-    height: var(--hairline);
-    background: var(--accent-fill);
-    transform: scaleX(0);
-    opacity: 0;
+    inset: auto 0 0 0;
+    height: 40%;
+    background: linear-gradient(to top, rgb(11 30 50 / 0.55), var(--plum-deep-fade));
     pointer-events: none;
+    opacity: 0;
   }
 
-  .film__play {
+  .film__sound {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: clamp(56px, 8vw, 78px);
-    aspect-ratio: 1;
-    transform: translate(-50%, -50%);
-    display: grid;
-    place-items: center;
+    left: clamp(0.75rem, 2.5vw, 1.75rem);
+    bottom: clamp(0.75rem, 2.5vw, 1.75rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    min-height: 44px;
+    padding: 0.7em 1.2em 0.7em 0.9em;
+    font: inherit;
+    font-size: var(--step-utility);
+    font-weight: 700;
+    letter-spacing: var(--tracking-nav);
+    text-transform: uppercase;
+    color: var(--paper);
+    background: rgb(11 30 50 / 0.62);
+    border: var(--hairline) solid rgb(250 247 242 / 0.5);
+    backdrop-filter: blur(6px);
+    cursor: pointer;
+    transition: background-color var(--dur) var(--ease-out), border-color var(--dur) var(--ease-out);
   }
-  .film__play svg { width: 100%; height: 100%; display: block; }
-  .film__play-ring {
-    fill: rgb(11 30 50 / 0.42);
-    stroke: var(--blush);
-    stroke-width: 2;
-    vector-effect: non-scaling-stroke;
-    transition: fill 0.25s var(--ease-out);
+  .film__sound:hover,
+  .film__sound:focus-visible { background: var(--accent-fill); border-color: var(--accent-fill); }
+  .film__sound-icon svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  .film__play-tri { fill: var(--blush); }
-
-  .film__player:hover .film__play-ring,
-  .film__player:focus-visible .film__play-ring { fill: var(--accent-fill); }
+  .film__sound-icon path:first-child { fill: currentColor; }
+  .film__sound[data-on='true'] .film__wave { opacity: 0.35; }
+  .film__sound[data-on='false'] .film__wave { opacity: 1; }
+  .film__sound[hidden] { display: none; }
 
   .film__caption {
-    margin: var(--space-sm) 0 0;
+    margin-top: var(--space-sm);
     font-size: var(--step-utility);
     letter-spacing: var(--tracking-utility);
     text-transform: uppercase;
     color: var(--text-softer);
   }
 
-  /* The inline player, once the link has been upgraded. */
-  .film__aperture video {
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    background: var(--plum-deep);
+  @media (max-width: 48rem) {
+    .film__intro { grid-template-columns: minmax(0, 1fr); }
   }
 
-  /* ---------------------------------------------------------------- *
-   * The reveal. Same gate as base.css: no scroll timeline or reduced
-   * motion means the aperture is simply open, which is the state above.
-   * ---------------------------------------------------------------- */
-  @keyframes aperture-open {
-    from { clip-path: inset(50% 0 50% 0); }
-    to   { clip-path: inset(0 0 0 0); }
-  }
-  @keyframes seam-draw {
-    0%   { transform: scaleX(0); opacity: 0; }
-    35%  { transform: scaleX(1); opacity: 1; }
-    100% { transform: scaleX(1); opacity: 0; }
-  }
-  @keyframes play-settle {
-    from { opacity: 0; transform: translate(-50%, -50%) scale(0.72); }
-    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  }
-
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .film__player {
-        animation: aperture-open linear both;
-        animation-timeline: view();
-        animation-range: entry 10% cover 40%;
-      }
-      .film__seam {
-        animation: seam-draw linear both;
-        animation-timeline: view();
-        animation-range: entry 2% cover 42%;
-      }
-      .film__play {
-        animation: play-settle linear both;
-        animation-timeline: view();
-        animation-range: cover 24% cover 50%;
-      }
+  /* Wide screens, with motion: the frame is the full screen, clipped back to
+     the framed size, and the script opens the clip as the page scrolls. */
+  @media (min-width: 48.01rem) {
+    :global(html.motion) .film__pin {
+      height: 100svh;
+      display: grid;
+      align-items: center;
     }
+    :global(html.motion) .film__frame {
+      width: 100%;
+      height: 100svh;
+      aspect-ratio: auto;
+      will-change: clip-path;
+    }
+    :global(html.motion) .film__caption { display: none; }
   }
+  :global(html.motion) .film__shade { opacity: 1; }
 </style>
 
 <script>
-  /**
-   * Upgrade the link into an inline player on first click. The file is only
-   * fetched here, which is why the markup carries a poster and no <video>.
-   */
-  const link = document.querySelector<HTMLAnchorElement>('[data-film-play]');
-  const frame = document.querySelector<HTMLElement>('[data-film-frame]');
+  import { gsap, startSmoothScroll, motionAllowed } from '../../scripts/home-motion.ts';
+  import { film } from '../../content/home.ts';
 
-  link?.addEventListener('click', (event) => {
-    // Let modified clicks and middle clicks keep their normal meaning.
-    if (event.defaultPrevented || event.button !== 0) return;
-    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-    if (!frame) return;
+  const root = document.querySelector<HTMLElement>('[data-film]');
+  const video = root?.querySelector<HTMLVideoElement>('[data-film-video]');
+  const sound = root?.querySelector<HTMLButtonElement>('[data-film-sound]');
+  const soundLabel = root?.querySelector<HTMLElement>('[data-film-sound-label]');
 
-    event.preventDefault();
+  type SaveDataConnection = { saveData?: boolean };
+  const saveData = (navigator as Navigator & { connection?: SaveDataConnection }).connection?.saveData === true;
+  const ambient = motionAllowed() && !saveData;
 
-    const video = document.createElement('video');
-    video.src = link.href;
-    video.controls = true;
-    video.playsInline = true;
-    video.preload = 'auto';
-    video.setAttribute('poster', '/media/distribution-film-poster.jpg');
+  if (root && video && sound && soundLabel) {
+    /* ---- Playback ---- */
+    let withSound = false;
+    const setSound = (on: boolean) => {
+      withSound = on;
+      video.muted = !on;
+      video.controls = on;
+      // The label says what pressing will do. No aria-pressed as well: a
+      // changing label that is also "pressed" reads as "Mute, pressed".
+      sound.dataset.on = String(on);
+      soundLabel.textContent = on ? film.soundOff : film.soundOn;
+    };
 
-    link.remove();
-    frame.querySelector('.film__seam')?.remove();
-    frame.appendChild(video);
+    if (ambient) {
+      // Muted, looping and silent until asked: the browser's controls would
+      // only sit over the picture, so the one button replaces them.
+      video.controls = false;
+      video.muted = true;
+      // Looped by hand rather than with `loop`: the clip cuts to black from
+      // about 2.0s to 2.9s, and played silently on repeat that blank second
+      // is what the full-screen reveal would land on. The silent loop runs
+      // from 3.0s; with sound on, the film plays whole from the start.
+      video.loop = false;
+      video.removeAttribute('aria-label');
+      video.setAttribute('aria-hidden', 'true');
+      sound.hidden = false;
+      setSound(false);
 
-    // play() has to be called inside the click to inherit the gesture. The
-    // `autoplay` attribute alone does not, and the clip has sound, so Chrome
-    // would refuse it. If a browser still declines, the controls are there.
-    video.play().catch(() => {});
-  });
+      // Fetch just before the film arrives, play only while it is on screen.
+      const near = new IntersectionObserver((entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        video.preload = 'auto';
+        near.disconnect();
+      }, { rootMargin: '600px 0px' });
+      near.observe(video);
+
+      const AMBIENT_FROM = 3;
+      video.addEventListener('loadedmetadata', () => {
+        if (!withSound) video.currentTime = AMBIENT_FROM;
+      }, { once: true });
+      video.addEventListener('ended', () => {
+        if (withSound) return;
+        video.currentTime = AMBIENT_FROM;
+        video.play().catch(() => {});
+      });
+
+      const onScreen = new IntersectionObserver((entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) video.play().catch(() => {});
+          else if (!withSound) video.pause();
+        }
+      }, { threshold: 0.25 });
+      onScreen.observe(video);
+
+      sound.addEventListener('click', () => {
+        if (withSound) {
+          setSound(false);
+          video.removeAttribute('aria-label');
+          video.setAttribute('aria-hidden', 'true');
+        } else {
+          // Start from the top when sound comes on, so it is heard whole.
+          setSound(true);
+          video.currentTime = 0;
+          video.play().catch(() => {});
+          video.removeAttribute('aria-hidden');
+          video.setAttribute('aria-label', film.playLabel);
+        }
+      });
+    }
+
+    /* ---- Motion ---- */
+    if (motionAllowed()) {
+      const lenis = startSmoothScroll();
+      const pin = root.querySelector<HTMLElement>('[data-film-pin]')!;
+      const frame = root.querySelector<HTMLElement>('[data-film-frame]')!;
+
+      gsap.from(root.querySelectorAll('[data-film-reveal]'), {
+        y: 36, opacity: 0, filter: 'blur(8px)', duration: 1.2, ease: 'expo.out', stagger: 0.12,
+        clearProps: 'filter',
+        scrollTrigger: { trigger: root, start: 'top 75%', once: true },
+      });
+
+      const mm = gsap.matchMedia();
+      mm.add('(min-width: 48.01rem)', () => {
+        /** The framed size, as an inset on the full-screen frame. */
+        const framed = () => {
+          const vw = window.innerWidth;
+          const vh = window.innerHeight;
+          const gutter = Math.max(18, Math.min(44, vw * 0.04));
+          const w = Math.min(vw - 2 * gutter, 1240) * 0.86;
+          const h = Math.min(w * 9 / 16, vh * 0.72);
+          const ww = h * 16 / 9;
+          const x = (vw - ww) / 2;
+          const y = (vh - h) / 2;
+          return `inset(${y}px ${x}px ${y}px ${x}px round 6px)`;
+        };
+
+        const tl = gsap.timeline({
+          defaults: { ease: 'none' },
+          scrollTrigger: {
+            trigger: pin,
+            start: 'top top',
+            end: () => `+=${window.innerHeight * 1.5}`,
+            pin: true,
+            scrub: 1,
+            anticipatePin: 1,
+            invalidateOnRefresh: true,
+          },
+        });
+        tl.fromTo(frame, { clipPath: framed }, { clipPath: 'inset(0px 0px 0px 0px round 0px)', duration: 3, ease: 'power2.inOut' })
+          .fromTo(video, { scale: 1.18 }, { scale: 1, duration: 3, ease: 'power1.out' }, 0)
+          // The button is placed for the open frame; while the frame is
+          // still clipped it would show as a sliver along the bottom edge.
+          // Opacity only, not visibility, so the button stays in the tab order.
+          .fromTo(sound, { opacity: 0 }, { opacity: 1, duration: 0.4 }, 2.6)
+          .to({}, { duration: 1 });
+
+        /* Tabbing to the button before the film has opened carries the page
+           to the point where it has, so focus never lands on something
+           transparent. */
+        const onFocus = () => {
+          const st = tl.scrollTrigger;
+          if (st && window.scrollY < st.end - 2) lenis?.scrollTo(st.end - window.innerHeight * 0.1, { immediate: true });
+        };
+        sound.addEventListener('focus', onFocus);
+
+        return () => {
+          sound.removeEventListener('focus', onFocus);
+          tl.kill();
+        };
+      });
+
+      // Phones do not pin: the frame rises and opens as it arrives instead.
+      mm.add('(max-width: 48rem)', () => {
+        const t = gsap.fromTo(root.querySelector('[data-film-frame]'),
+          { clipPath: 'inset(8% 6% 8% 6%)', y: 30 },
+          { clipPath: 'inset(0% 0% 0% 0%)', y: 0, ease: 'none',
+            scrollTrigger: { trigger: frame, start: 'top 95%', end: 'top 45%', scrub: 0.8 } });
+        return () => t.kill();
+      });
+    }
+  }
 </script>

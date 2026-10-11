@@ -39,7 +39,6 @@ import { distributionDay } from '../../content/photos.ts';
       <ol class="stops">
         {stops.map((stop) => (
           <li class="stop">
-            <p class="stop__marker" aria-hidden="true">{stop.marker}</p>
             <div>
               <h2 class="stop__heading">{stop.heading}</h2>
               {stop.body.map((para) => <p class="stop__para">{para}</p>)}
@@ -85,14 +84,10 @@ import { distributionDay } from '../../content/photos.ts';
   .stops { list-style: none; margin: 0; padding: 0; }
   .stop {
     max-width: none;
-    display: grid;
-    grid-template-columns: 56px minmax(0, 1fr);
-    gap: var(--space-md);
     padding-block: var(--space-lg);
     border-top: var(--hairline) solid var(--rule-quiet);
   }
   .stop:last-child { border-bottom: var(--hairline) solid var(--rule-quiet); }
-  .stop__marker { margin: 0; font-family: var(--font-display); font-size: var(--step-body-sm); color: var(--link); }
   .stop__heading { font-size: 1.28rem; letter-spacing: -0.01em; }
   .stop__para { margin: var(--space-xs) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); max-width: 34rem; }
 

@@ -1,0 +1,153 @@
+---
+/**
+ * What the organisation works on: resources, teaching and access, side by
+ * side, one column per pillar.
+ *
+ * The status on each column comes from pillars.ts, so "planned, not yet
+ * running" cannot say one thing here and another on /programs. Only the
+ * running pillar has a photograph, because only it has happened; the other
+ * two hold a frame that says a photograph is still to come.
+ */
+import SectionIndex from '../SectionIndex.astro';
+import StatusChip from '../StatusChip.astro';
+import PhotoSlot from '../PhotoSlot.astro';
+import PhotoPlaceholder from '../PhotoPlaceholder.astro';
+import { work } from '../../content/home.ts';
+import { pillars } from '../../content/pillars.ts';
+import { kitSupplies } from '../../content/photos.ts';
+
+const statusOf = (slug: string) => pillars.find((p) => p.slug === slug)?.status ?? 'planned';
+---
+<section class="band band--tall on-dark work" id={work.id} aria-labelledby="work-heading" data-work>
+  <div class="shell">
+    <SectionIndex eyebrow={work.eyebrow} />
+    <h2 id="work-heading" class="work__headline" data-work-head>{work.headline}</h2>
+
+    <ul class="work__list">
+      {work.items.map((item) => {
+        const status = statusOf(item.pillar);
+        return (
+          <li class:list={['work__item', { 'is-planned': status === 'planned' }]} data-work-item>
+            <div class="work__media" data-work-media>
+              {status === 'active' ? (
+                <PhotoSlot
+                  photo={kitSupplies}
+                  ratio="4 / 3"
+                  sizes="(max-width: 56.25rem) calc(100vw - 2.25rem), 400px"
+                />
+              ) : (
+                <PhotoPlaceholder label={`${item.heading}, Vidora Foundation`} />
+              )}
+            </div>
+            <div class="work__text">
+              <StatusChip status={status} />
+              <h3 class="work__heading">{item.heading}</h3>
+              <p class="work__body">{item.body}</p>
+              <p class="work__detail">{item.detail}</p>
+              {'link' in item && item.link && (
+                <a class="link-action work__link" href={item.link.href}>{item.link.label}</a>
+              )}
+            </div>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .work { position: relative; z-index: 1; margin-top: -1px; }
+
+  .work__headline {
+    margin-top: var(--space-lg);
+    max-width: 20ch;
+  }
+
+  .work__list {
+    --col-gap: clamp(2rem, 4.4vw, 4rem);
+    list-style: none;
+    margin: clamp(2.5rem, 7vh, 4.5rem) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    column-gap: var(--col-gap);
+  }
+  /* Equal columns, so the three frames are the same size; the rule between
+     them is drawn in the gap rather than as a border on the column. */
+  .work__item {
+    position: relative;
+    max-width: none;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: var(--space-md);
+  }
+  .work__item + .work__item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(var(--col-gap) / -2);
+    border-left: var(--hairline) solid var(--rule-quiet);
+  }
+
+  .work__media { overflow: hidden; }
+  .work__media :global(.slot img) { transition: transform 0.9s var(--ease-out); }
+  .work__item:hover .work__media :global(.slot img) { transform: scale(1.04); }
+
+  .work__text { display: flex; flex-direction: column; align-items: flex-start; }
+  .work__heading { margin-top: var(--space-md); font-size: var(--step-display-3); }
+  .work__body {
+    margin: var(--space-sm) 0 0;
+    font-size: var(--step-body);
+    color: var(--text);
+    max-width: 30rem;
+  }
+  .work__detail {
+    margin: var(--space-sm) 0 0;
+    font-size: var(--step-body-sm);
+    color: var(--text-soft);
+    max-width: 30rem;
+  }
+  .work__link { position: relative; margin-top: var(--space-md); }
+  /* A 44px tap target without moving the underline off the text. */
+  .work__link::after { content: ''; position: absolute; inset: -9px -6px; }
+
+  @media (max-width: 56.25rem) {
+    .work__list { grid-template-columns: minmax(0, 1fr); row-gap: clamp(2.5rem, 6vh, 3.5rem); }
+    .work__item + .work__item { padding-top: clamp(2.5rem, 6vh, 3.5rem); border-top: var(--hairline) solid var(--rule-quiet); }
+    .work__item + .work__item::before { content: none; }
+  }
+</style>
+
+<script>
+  import { gsap, startSmoothScroll, motionAllowed } from '../../scripts/home-motion.ts';
+
+  const root = document.querySelector<HTMLElement>('[data-work]');
+  if (root && motionAllowed()) {
+    startSmoothScroll();
+
+    const head = root.querySelector('[data-work-head]');
+    const items = Array.from(root.querySelectorAll<HTMLElement>('[data-work-item]'));
+
+    gsap.from(head, {
+      y: 40, opacity: 0, filter: 'blur(8px)', duration: 1.2, ease: 'expo.out',
+      clearProps: 'filter',
+      scrollTrigger: { trigger: head, start: 'top 85%', once: true },
+    });
+
+    /* The three columns arrive one after another, each photograph wiping up
+       out of its frame while it settles from a slight zoom. */
+    const tl = gsap.timeline({
+      scrollTrigger: { trigger: items[0], start: 'top 82%', once: true },
+    });
+    items.forEach((item, i) => {
+      const media = item.querySelector('[data-work-media]');
+      const img = item.querySelector('img');
+      const text = item.querySelector('.work__text');
+      const at = i * 0.16;
+      tl.fromTo(media, { clipPath: 'inset(100% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'expo.inOut' }, at);
+      if (img) tl.fromTo(img, { scale: 1.22 }, { scale: 1, duration: 1.8, ease: 'expo.out', clearProps: 'transform' }, at + 0.1);
+      tl.fromTo(text, { y: 36, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, ease: 'expo.out' }, at + 0.35);
+    });
+  }
+</script>

@@ -1,6 +1,6 @@
 ---
 /**
- * Section 10. One primary action, then the three secondary ones.
+ * One primary action, then the three secondary ones.
  *
  * The pending 501(c)(3) line sits inside this section rather than only in
  * the footer, because this is where the page asks for money. Plan section 8,
@@ -12,7 +12,7 @@ import { getInvolved } from '../../content/home.ts';
 ---
 <section class="band on-warm join" id={getInvolved.id} aria-labelledby="join-heading">
   <div class="shell">
-    <SectionIndex eyebrow={getInvolved.eyebrow} index={getInvolved.index} />
+    <SectionIndex eyebrow={getInvolved.eyebrow} />
 
     <a class="feature" href={getInvolved.feature.href}>
       <div class="feature__grid">

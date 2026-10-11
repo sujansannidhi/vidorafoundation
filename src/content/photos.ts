@@ -64,3 +64,38 @@ export const distributionDay: Photo = {
   height: 2640,
   alt: 'A girl in school uniform taking a Learning Kit from a volunteer with both hands. A multiplication table book, a geometry box and pens are visible on top of the pile.',
 };
+
+export const kitSupplies: Photo = {
+  src: '/photos/kit-supplies.jpg',
+  srcset: webp('kit-supplies', [480, 800, 1200, 1600]),
+  width: 5712,
+  height: 4284,
+  alt: 'Learning Kits wrapped in plastic on a table: notebooks with illustrated covers, each bundled with a boxed geometry set.',
+};
+
+/** Cut wide for the homepage hero, which opens it to the full viewport. */
+export const heroStudentsWithKits: Photo = {
+  src: '/photos/hero-students-with-kits.jpg',
+  srcset: webp('hero-students-with-kits', [800, 1200, 1600, 2400]),
+  width: 3168,
+  height: 1980,
+  alt: studentsWithKits.alt,
+};
+
+/**
+ * The frames the homepage hero flicks through as its window opens, in order.
+ * Each is on screen for a fraction of a second and is decorative there (the
+ * hero's last photograph, which stays, carries the description), so these
+ * carry no alt text of their own.
+ */
+export const heroFrames: Pick<Photo, 'src' | 'srcset'>[] = [
+  { src: '/photos/shuffle-1.jpg', srcset: webp('shuffle-1', [800, 1600]) },
+  { src: '/photos/shuffle-2.jpg', srcset: webp('shuffle-2', [800, 1600]) },
+  { src: '/photos/shuffle-3.jpg', srcset: webp('shuffle-3', [800, 1600]) },
+  { src: '/photos/shuffle-4.jpg', srcset: webp('shuffle-4', [800, 1536]) },
+  { src: '/photos/shuffle-5.jpg', srcset: webp('shuffle-5', [800, 1600]) },
+  { src: '/photos/shuffle-6.jpg', srcset: webp('shuffle-6', [800, 1600]) },
+  { src: '/photos/shuffle-7.jpg', srcset: webp('shuffle-7', [800, 1536]) },
+  { src: '/photos/shuffle-8.jpg', srcset: webp('shuffle-8', [800, 1600]) },
+  { src: '/photos/shuffle-9.jpg', srcset: webp('shuffle-9', [800, 1536]) },
+];

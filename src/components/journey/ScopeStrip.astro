@@ -23,7 +23,6 @@ import { stage1 } from '../../content/journey.ts';
     <ol class="scope__list">
       {pillars.map((pillar, i) => (
         <li class:list={['scope__item', `is-${pillar.status}`]}>
-          <span class="scope__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
           <div class="scope__title">
             <h3>{pillar.name}</h3>
             <StatusChip status={pillar.status} />

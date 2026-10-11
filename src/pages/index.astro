@@ -1,20 +1,21 @@
 ---
 /**
- * The homepage is one continuous argument in twelve sections. The scroll
- * path is drawn over the whole container; the sections are ordinary flowing
- * elements with real text in them, which is what lets reduced motion, a
- * browser with no scroll timeline support, and a reader with no JavaScript
- * all get a complete document rather than a broken animation.
+ * The homepage. Two moments carry the motion: the hero, where the name parts
+ * and an open book becomes a window onto a distribution, and the film, which
+ * opens to the full screen on the same gesture. Everything between them
+ * reveals as it arrives and otherwise stays out of the way.
+ *
+ * Every section is an ordinary flowing element with real text in it. Reduced
+ * motion, a browser without JavaScript, and a screen reader all get the
+ * complete page, finished, rather than a broken animation.
  */
 import Layout from '../layouts/Layout.astro';
-import ScrollPath from '../components/home/ScrollPath.astro';
 import Hero from '../components/home/Hero.astro';
-import Barriers from '../components/home/Barriers.astro';
+import Work from '../components/home/Work.astro';
 import Turn from '../components/home/Turn.astro';
-import Pillars from '../components/home/Pillars.astro';
+import Film from '../components/home/Film.astro';
 import HowItWorks from '../components/home/HowItWorks.astro';
 import ImpactBand from '../components/home/ImpactBand.astro';
-import Film from '../components/home/Film.astro';
 import ChapterModel from '../components/home/ChapterModel.astro';
 import GetInvolved from '../components/home/GetInvolved.astro';
 import Closing from '../components/home/Closing.astro';
@@ -23,14 +24,12 @@ import { hero } from '../content/home.ts';
 ---
 <Layout title={org.name} description={hero.standfirst} bare>
   <div class="home">
-    <ScrollPath />
     <Hero />
-    <Barriers />
+    <Work />
     <Turn />
-    <Pillars />
+    <Film />
     <HowItWorks />
     <ImpactBand />
-    <Film />
     <ChapterModel />
     <GetInvolved />
     <Closing />
@@ -41,20 +40,9 @@ import { hero } from '../content/home.ts';
   .home {
     position: relative;
     isolation: isolate;
+    /* `clip` rather than `hidden`: hidden would make this a scroll container
+       and break the pinned sections. */
     overflow-x: clip;
     background: var(--paper);
-  }
-
-  /* Reserve the right hand lane the scroll path runs down, so no line of
-     copy on the homepage ever runs underneath it. ScrollPath.astro hides
-     the path at the same breakpoint that releases this padding. */
-  .home :global(.shell) { padding-right: max(var(--gutter), 13vw); }
-  /* The two centred sections opt back out. Their copy is short and set to a
-     narrow measure, so it never reaches the lane, and an asymmetric padding
-     would centre them off the page's own axis. */
-  .home :global(.turn .shell),
-  .home :global(.closing .shell) { padding-right: var(--gutter); }
-  @media (max-width: 48rem) {
-    .home :global(.shell) { padding-right: var(--gutter); }
   }
 </style>

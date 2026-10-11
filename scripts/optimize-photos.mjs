@@ -66,6 +66,87 @@ const PHOTOS = [
     // Both faces and the kit between them sit below the middle of the frame.
     focus: { x: 0.5, y: 0.54 },
   },
+  {
+    name: 'kit-supplies',
+    from: 'School 4 - Narasaraopet/IMG_0499.jpeg',
+    ratio: [4, 3],
+    // The wrapped kits: notebooks, geometry boxes and a drawing set.
+    focus: { x: 0.5, y: 0.55 },
+  },
+  {
+    // The homepage hero opens this photograph to the full viewport, so it is
+    // cut wide and carried to 2400px for large and dense screens.
+    name: 'hero-students-with-kits',
+    from: 'School 2 - Narasaraopet/IMG_0465.JPG',
+    ratio: [16, 10],
+    focus: { x: 0.5, y: 0.52 },
+    widths: [800, 1200, 1600, 2400],
+  },
+  // The frames the homepage hero flicks through as its window opens. Each
+  // is on screen for a fraction of a second, so they are cut at two sizes.
+  {
+    name: 'shuffle-1',
+    from: 'School 2 - Narasaraopet/IMG_0460.JPG',
+    ratio: [16, 10],
+    focus: { x: 0.5, y: 0.5 },
+    widths: [800, 1600],
+  },
+  {
+    name: 'shuffle-2',
+    from: 'School 2 - Narasaraopet/IMG_0452.JPG',
+    ratio: [16, 10],
+    focus: { x: 0.5, y: 0.5 },
+    widths: [800, 1600],
+  },
+  {
+    name: 'shuffle-3',
+    from: 'School 2 - Narasaraopet/IMG_0459.JPG',
+    ratio: [16, 10],
+    focus: { x: 0.5, y: 0.5 },
+    widths: [800, 1600],
+  },
+  {
+    name: 'shuffle-4',
+    from: 'School 6 - Narasaraopet/72117f88-88bd-4a4a-b63a-5ba5e2e9de80.jpg',
+    ratio: [16, 10],
+    focus: { x: 0.5, y: 0.55 },
+    widths: [800, 1600],
+  },
+  {
+    name: 'shuffle-5',
+    from: 'School 4 - Narasaraopet/IMG_0517.JPG',
+    ratio: [16, 10],
+    focus: { x: 0.5, y: 0.5 },
+    widths: [800, 1600],
+  },
+  {
+    name: 'shuffle-6',
+    from: 'School 4 - Narasaraopet/2fe41cc5-e1f2-4695-9f45-3b090f1523f8.jpg',
+    ratio: [16, 10],
+    focus: { x: 0.5, y: 0.5 },
+    widths: [800, 1600],
+  },
+  {
+    name: 'shuffle-7',
+    from: 'School 6 - Narasaraopet/3607f6bd-9ff0-4b09-9b87-5fcfa9518aa6.jpg',
+    ratio: [16, 10],
+    focus: { x: 0.5, y: 0.5 },
+    widths: [800, 1600],
+  },
+  {
+    name: 'shuffle-8',
+    from: 'School 4 - Narasaraopet/e8a38b1d-7927-406f-abad-0537d3397e61.jpg',
+    ratio: [16, 10],
+    focus: { x: 0.55, y: 0.55 },
+    widths: [800, 1600],
+  },
+  {
+    name: 'shuffle-9',
+    from: 'School 6 - Narasaraopet/0944cf8f-e6d5-48bc-a8f6-59f99dd9fcf6.jpg',
+    ratio: [16, 10],
+    focus: { x: 0.5, y: 0.5 },
+    widths: [800, 1600],
+  },
 ];
 
 /**
@@ -103,8 +184,9 @@ async function build(photo) {
   // already covers a 2x display. Anything beyond that is weight nobody sees.
   // A crop that cannot reach 1600 still contributes its own full width, so a
   // dense phone screen is not left on the next size down.
-  const ceiling = Math.min(box.width, Math.max(...WIDTHS));
-  const widths = WIDTHS.filter((w) => w <= box.width);
+  const wanted = photo.widths ?? WIDTHS;
+  const ceiling = Math.min(box.width, Math.max(...wanted));
+  const widths = wanted.filter((w) => w <= box.width);
   if (!widths.includes(ceiling)) widths.push(ceiling);
   widths.sort((a, b) => a - b);
 
