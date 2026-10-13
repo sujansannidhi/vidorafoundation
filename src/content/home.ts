@@ -3,7 +3,7 @@
  * Every string a visitor reads lives in src/content; nothing in
  * src/components or src/pages hardcodes copy.
  *
- * The order: the name, what the organisation works on, the turn, the film,
+ * The order: the name, what the organisation works on, the film,
  * how it works, what it cost, how it grows, how to join, and the close.
  */
 
@@ -16,21 +16,19 @@ export const hero = {
    */
   wordLeft: 'Vidora',
   wordRight: 'Foundation',
-  /** Short enough to sit under the name without competing with it. */
-  intro:
-    'High school students raise the money. The supplies are bought near the school, matched to each grade, and handed over in person.',
-  where: 'Frisco, Texas · Andhra Pradesh, India',
   pill: { label: 'Start a chapter', href: '/join' },
   scrollCue: 'Scroll',
-  /** Read once the photograph has opened to the full screen. */
+  /** Read once the photographs have passed and lifted away. */
   statement:
-    'Vidora Foundation is run by high school students. Teachers tell us what a grade is missing. We buy it near the school and hand it to the students in person.',
+    'Vidora Foundation is all about education, and about opening up opportunities for the students who need them most.',
+  /** The elaboration under the statement. */
+  statementMore: [
+    'We start with what a classroom is missing. Teachers tell us what each grade needs, student chapters raise the money, and we buy the supplies near the school and hand them to students in person.',
+    'Small things, like a notebook ruled for the right grade, a compass box or an atlas, can decide whether a lesson lands. We supply the things a student needs to take part in their own education.',
+  ],
   /** Used for the page description as well as on screen. */
   standfirst:
     'Vidora Foundation puts educational materials into the hands of students who need them, through chapters that raise for and run their own distributions.',
-  proof:
-    'In June 2026 the first Learning Kits campaign reached approximately 1,200 students across 12 government schools in Andhra Pradesh, for a total of about $3,500 in supplies.',
-  photoCaption: 'June 2026. A government school in Narasaraopeta, Andhra Pradesh.',
   ctaPrimary: { label: 'See our impact', href: '/impact' },
   ctaSecondary: { label: 'Our work', href: '/programs' },
 } as const;
@@ -65,15 +63,6 @@ export const work = {
       detail: 'An access programme would put working computers in those schools. No school has received hardware yet.',
     },
   ],
-} as const;
-
-export const turn = {
-  id: 'the-turning-point',
-  eyebrow: 'The turning point',
-  headline:
-    'Hand a student the material their year asks for, and the potential takes it from there.',
-  standfirst:
-    'This is the whole idea. A specific thing a student is missing, bought at local prices and handed over.',
 } as const;
 
 export interface HowStage {
@@ -128,8 +117,9 @@ export const impactSection = {
 } as const;
 
 /**
- * The film replaced the three pillars section, straight after the turning
- * point, and is the most prominent thing on the page after the hero.
+ * The film replaced the three pillars section. It sits straight after the
+ * navy to cream gradient and is the most prominent thing on the page after
+ * the hero.
  *
  * The clip is the promotional video cut short of its original end card. That
  * card carried an earlier name for the organisation, its mark, and a domain
