@@ -1,0 +1,19 @@
+---
+/**
+ * Where FormSubmit returns a visitor who sent a partnership enquiry with
+ * JavaScript off. With it on, the form confirms in place and nobody lands
+ * here. Not listed in the sitemap: it is a receipt, not a page to find.
+ */
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+---
+<Layout title="Enquiry sent" description="Your partnership enquiry has been sent to Vidora Foundation.">
+  <PageHeader
+    eyebrow="Partners"
+    title="Thank you. Your enquiry is on its way."
+    standfirst="It has gone to our inbox, and we reply to every enquiry by email."
+  />
+  <div class="shell">
+    <a class="link-action" href="/partners">Back to Partners</a>
+  </div>
+</Layout>

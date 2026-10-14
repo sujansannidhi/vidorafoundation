@@ -1,43 +1,19 @@
 ---
 /**
- * Partners. Imported from the Partners canvas in the design project.
+ * Partners: the organisations that have agreed to be listed, and an enquiry
+ * form for the ones that would like to be.
  *
- * Three things the canvas does that the built page deliberately does not:
- *
- *   - The canvas paints its own header, footer and palette in hex. Here the
- *     chrome comes from Layout and every colour from tokens.css, so this page
- *     cannot drift from the rest of the site (plan section 8, rule 1).
- *   - The canvas ships a prototype enquiry form whose own caption admits
- *     nothing is sent. A form that collects an enquiry and drops it is the
- *     failure mode /contact already states this site avoids, so the panel
- *     keeps the canvas layout and makes the action a real address instead.
- *   - The canvas hardcodes "12 schools reached". That number is sourced in
- *     impact.ts, so it is read from there rather than retyped.
+ * Only partners who have agreed appear. The enquiry form posts to
+ * FormSubmit, which emails it to the team; nothing is stored on this site.
+ * With JavaScript the form sends in place and says so; without it, it posts
+ * normally and FormSubmit returns the visitor to /partners/thanks.
  */
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PendingStatus from '../components/PendingStatus.astro';
-import TodoNote from '../components/TodoNote.astro';
-import { todos } from '../content/site.ts';
-import { schoolsReached } from '../content/impact.ts';
-import { partnerKinds, enquiryPromises, enquiryAsks } from '../content/partners.ts';
-import { people } from '../content/people.ts';
+import { partners, enquiryPromises, partnershipKinds, enquiryForm } from '../content/partners.ts';
 
-/* One address, read off the team so it cannot say something /people and
-   /contact contradict. */
-const enquiryEmail = todos.contactEmail
-  ?? people.find((person) => person.email)?.email
-  ?? null;
-const mailto = enquiryEmail
-  ? `mailto:${enquiryEmail}?subject=${encodeURIComponent('Partnership enquiry')}`
-  : null;
-
-/* The one card that carries a sourced count gets it here rather than in the
-   content file, which is not allowed to hold unsourced numbers. */
-const noteFor = (slug: string, note: string) =>
-  slug === 'schools'
-    ? `${note}, ${schoolsReached.value} ${schoolsReached.label} ${schoolsReached.sublabel} to date`
-    : note;
+const action = `https://formsubmit.co/${enquiryForm.to}`;
 ---
 <Layout
   title="Partners"
@@ -47,71 +23,40 @@ const noteFor = (slug: string, note: string) =>
     eyebrow="Partners"
     title="Partners"
     standfirst="Vidora Foundation works with organisations that stay with us across campaigns, not one distribution at a time."
-  >
-    <p class="page-note">
-      Six kinds of partnership hold the organisation up. Each one below
-      describes what that partner does year round.
-    </p>
-  </PageHeader>
+  />
 
-  <section class="rail-section" aria-labelledby="kinds-heading">
-    <div class="shell rail-head">
-      <h2 id="kinds-heading" class="rail-head__title">
+  <section class="partners-section" aria-labelledby="partners-heading">
+    <div class="shell">
+      <h2 id="partners-heading" class="partners__title">
         Who we work with, across the whole organisation
       </h2>
-      <div class="rail-head__controls" data-rail-controls hidden>
-        <button type="button" class="rail-btn" data-rail-prev aria-label="Previous partners">
-          <svg viewBox="0 0 18 14" width="18" height="14" aria-hidden="true" focusable="false"
-               fill="none" stroke="currentColor" stroke-width="1.7"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M7 1 L1 7 L7 13" /><path d="M1 7 H17" />
-          </svg>
-        </button>
-        <button type="button" class="rail-btn" data-rail-next aria-label="Next partners">
-          <svg viewBox="0 0 18 14" width="18" height="14" aria-hidden="true" focusable="false"
-               fill="none" stroke="currentColor" stroke-width="1.7"
-               stroke-linecap="round" stroke-linejoin="round">
-            <path d="M11 1 L17 7 L11 13" /><path d="M17 7 H1" />
-          </svg>
-        </button>
-      </div>
+
+      <ul class="partners">
+        {partners.map((partner) => (
+          <li class="partner" id={`partner-${partner.slug}`}>
+            <div class="partner__logo">
+              <picture>
+                <source srcset={partner.logo.src} type="image/webp" />
+                <img
+                  src={partner.logo.fallback}
+                  width={partner.logo.width}
+                  height={partner.logo.height}
+                  alt={`${partner.name} logo`}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            <div class="partner__text">
+              <p class="partner__kind">{partner.kind} · {partner.where}</p>
+              <h3 class="partner__name">{partner.name}</h3>
+              <p class="partner__body">{partner.body}</p>
+              <a class="link-action partner__link" href={partner.link.href} rel="noopener">{partner.link.label}</a>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
-
-    <!--
-      A scroll-snapping rail, not a slideshow. Every card is in the DOM and
-      reachable by scrolling, keyboard and find-in-page whether or not the
-      script below runs; the arrows and dots are enhancements and stay hidden
-      until the script reveals them.
-    -->
-    <ul class="rail" data-rail>
-      {partnerKinds.map((partner) => (
-        <li class="rail__item" data-card>
-          <article class="card" id={`partner-${partner.slug}`}>
-            <p class="card__kind">{partner.kind}</p>
-            <h3 class="card__heading">{partner.heading}</h3>
-            <p class="card__body">{partner.body}</p>
-            <p class="card__note">{noteFor(partner.slug, partner.note)}</p>
-          </article>
-        </li>
-      ))}
-    </ul>
-
-    <div class="shell rail-foot">
-      <div class="rail-dots" data-rail-dots></div>
-      <p class="rail-foot__note">
-        No organisation is named until it has agreed in writing. Every card
-        fills in on confirmation.
-      </p>
-    </div>
-
-    {!todos.partners && (
-      <div class="shell">
-        <TodoNote
-          item={2}
-          what="The confirmed partner list, plus written permission from each organisation to display their name. Several organisations have been contacted, but a prospect is not a partner and none of them appear here."
-        />
-      </div>
-    )}
   </section>
 
   <section class="band on-dark enquiry" id="enquiry" aria-labelledby="enquiry-heading">
@@ -126,8 +71,8 @@ const noteFor = (slug: string, note: string) =>
             Tell us which school you want to reach.
           </h2>
           <p class="lede">
-            Every conversation so far has started the same way: one school, one
-            grade, and what that grade actually needs.
+            Tell us a school, a grade, or the kind of help you can give, and we
+            will take it from there.
           </p>
           <ul class="promises">
             {enquiryPromises.map((promise) => (
@@ -138,34 +83,50 @@ const noteFor = (slug: string, note: string) =>
         </div>
 
         <div class="panel">
-          <h3 class="panel__heading">Company enquiry</h3>
+          <h3 class="panel__heading">Partnership enquiry</h3>
           <p class="panel__intro">
-            Write to us directly. No form on this site collects anything, so an
-            enquiry goes to a person rather than into a database.
+            This goes straight to our inbox. A sentence or two for each is plenty.
           </p>
 
-          <p class="panel__label">What to put in it</p>
-          <ul class="panel__list">
-            {enquiryAsks.map((ask) => <li>{ask}</li>)}
-          </ul>
-          <p class="panel__aside">
-            A sentence for each is plenty. Tell us if you would rather not be
-            listed on this page and that is the end of it.
-          </p>
+          <form class="form" action={action} method="POST" data-enquiry>
+            <input type="hidden" name="_subject" value={enquiryForm.subject} />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_next" value={enquiryForm.next} />
+            {/* Left empty by people; filled by bots, which FormSubmit then drops. */}
+            <input type="text" name="_honey" class="form__honey" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
-          {mailto
-            ? (
-              <>
-                <a class="btn btn--accent panel__action" href={mailto}>Send an enquiry</a>
-                <p class="panel__address"><a href={mailto}>{enquiryEmail}</a></p>
-              </>
-            )
-            : (
-              <TodoNote
-                item={4}
-                what="A contact address for partnership enquiries. Nothing is guessed at, so this panel states the gap rather than publishing an address that does not work."
-              />
-            )}
+            <div class="field">
+              <label for="enq-name">Your name</label>
+              <input id="enq-name" name="name" type="text" autocomplete="name" required />
+            </div>
+            <div class="field">
+              <label for="enq-email">Email</label>
+              <input id="enq-email" name="email" type="email" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="enq-org">Company or organisation</label>
+              <input id="enq-org" name="organisation" type="text" autocomplete="organization" required />
+            </div>
+            <div class="field">
+              <label for="enq-kind">Kind of partnership</label>
+              <select id="enq-kind" name="partnership" required>
+                <option value="" disabled selected>Choose one</option>
+                {partnershipKinds.map((k) => <option value={k}>{k}</option>)}
+              </select>
+            </div>
+            <div class="field">
+              <label for="enq-message">What you have in mind</label>
+              <textarea id="enq-message" name="message" rows="5" required
+                placeholder="A school, a district or a grade, if you already have one."></textarea>
+            </div>
+
+            <button class="btn btn--accent form__submit" type="submit" data-enquiry-submit>Send enquiry</button>
+            <p class="form__status" role="status" aria-live="polite" data-enquiry-status></p>
+            <p class="form__note">
+              Your message goes straight to our team at {enquiryForm.to}.
+            </p>
+          </form>
         </div>
       </div>
     </div>
@@ -173,156 +134,69 @@ const noteFor = (slug: string, note: string) =>
 </Layout>
 
 <script>
-  /*
-   * Enhancements only. Without this file the rail is still a horizontally
-   * scrollable list with every card present, which is why the arrows ship
-   * hidden and are revealed here rather than hidden here.
-   */
-  const rail = document.querySelector<HTMLElement>('[data-rail]');
-  const controls = document.querySelector<HTMLElement>('[data-rail-controls]');
-  const dots = document.querySelector<HTMLElement>('[data-rail-dots]');
+  import { enquiryForm } from '../content/partners.ts';
 
-  if (rail && controls && dots) {
-    controls.hidden = false;
+  /* Send in place, so the visitor stays on the page and sees the result.
+     Without this script the form still posts, and FormSubmit sends the
+     visitor back to /partners/thanks. */
+  const form = document.querySelector<HTMLFormElement>('[data-enquiry]');
+  const status = document.querySelector<HTMLElement>('[data-enquiry-status]');
+  const submit = document.querySelector<HTMLButtonElement>('[data-enquiry-submit]');
 
-    /* Card width plus the gap, measured rather than assumed: both are clamped
-       against the viewport, so neither is a number this file can know. */
-    const step = () => {
-      const card = rail.querySelector<HTMLElement>('[data-card]');
-      if (!card) return 0;
-      const gap = parseFloat(getComputedStyle(rail).columnGap) || 0;
-      return card.getBoundingClientRect().width + gap;
-    };
-
-    const move = (dir: number) => {
-      const by = step();
-      if (by) rail.scrollBy({ left: dir * by, behavior: 'smooth' });
-    };
-    document.querySelector('[data-rail-prev]')?.addEventListener('click', () => move(-1));
-    document.querySelector('[data-rail-next]')?.addEventListener('click', () => move(1));
-
-    const syncDots = () => {
-      const by = step() || 1;
-      const total = rail.querySelectorAll('[data-card]').length;
-      const perView = Math.max(1, Math.round(rail.clientWidth / by));
-      const pages = Math.max(1, total - perView + 1);
-      const page = Math.min(pages - 1, Math.round(rail.scrollLeft / by));
-
-      /* One page means the whole rail is already visible and the dots would
-         be a control that controls nothing. */
-      dots.hidden = pages <= 1;
-      controls.hidden = pages <= 1;
-      if (pages <= 1) { dots.replaceChildren(); return; }
-
-      const buttons = dots.children;
-      if (buttons.length !== pages) {
-        dots.replaceChildren();
-        for (let i = 0; i < pages; i += 1) {
-          const b = document.createElement('button');
-          b.type = 'button';
-          b.className = 'rail-dot';
-          b.setAttribute('aria-label', `Go to partner ${i + 1}`);
-          b.addEventListener('click', () => rail.scrollTo({ left: i * step(), behavior: 'smooth' }));
-          dots.append(b);
-        }
-      }
-      for (let i = 0; i < pages; i += 1) {
-        const b = buttons[i] as HTMLElement;
-        b.classList.toggle('is-current', i === page);
-        b.setAttribute('aria-current', i === page ? 'true' : 'false');
-      }
-    };
-
-    let timer = 0;
-    rail.addEventListener('scroll', () => {
-      window.clearTimeout(timer);
-      timer = window.setTimeout(syncDots, 90);
-    }, { passive: true });
-    new ResizeObserver(syncDots).observe(rail);
-    syncDots();
-  }
+  form?.addEventListener('submit', async (event) => {
+    if (!status || !submit) return;
+    event.preventDefault();
+    submit.disabled = true;
+    status.dataset.state = 'sending';
+    status.textContent = 'Sending…';
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${enquiryForm.to}`, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      });
+      const result: { success?: string | boolean; message?: string } = await response.json().catch(() => ({}));
+      if (!response.ok || String(result.success) !== 'true') throw new Error(result.message ?? 'Not sent');
+      form.reset();
+      status.dataset.state = 'sent';
+      status.textContent = 'Thank you. Your enquiry is on its way, and we will reply by email.';
+    } catch {
+      status.dataset.state = 'error';
+      status.textContent = `That did not send. Please try again, or email ${enquiryForm.to}.`;
+    } finally {
+      submit.disabled = false;
+    }
+  });
 </script>
 
 <style>
-  .page-note {
-    margin: var(--space-md) 0 0;
-    max-width: 36rem;
-    font-size: var(--step-body-sm);
-    color: var(--text-softer);
-  }
-
-  /* ---- The rail ---- */
-  .rail-section { margin-top: clamp(2.5rem, 7vh, 4.5rem); }
-  .rail-head {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: var(--space-md);
-    flex-wrap: wrap;
-  }
-  .rail-head__title {
+  /* ---- Partners ---- */
+  .partners-section { margin-top: clamp(2.5rem, 7vh, 4.5rem); }
+  .partners__title {
     max-width: 24ch;
     font-size: clamp(1.5rem, 1rem + 1.8vw, 2.1rem);
   }
-  .rail-head__controls { display: flex; align-items: center; gap: var(--space-xs); }
-  .rail-btn {
-    width: 46px;
-    height: 46px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: var(--hairline) solid var(--rule-quiet);
-    color: var(--text);
-    cursor: pointer;
-    transition: background-color var(--dur) var(--ease-out),
-                color var(--dur) var(--ease-out),
-                border-color var(--dur) var(--ease-out);
-  }
-  .rail-btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-
-  .rail {
+  .partners {
     list-style: none;
     margin: clamp(1.5rem, 4vh, 2.5rem) 0 0;
-    /* The rail runs to the viewport edge so a card can be half in view, but
-       the FIRST card has to start on the same line as the heading above it.
-       That line is the shell's inner edge, which on a viewport wider than
-       --shell is further in than the gutter alone. */
-    --rail-inset: max(var(--gutter), (100% - var(--shell)) / 2 + var(--gutter));
-    padding-block: 4px 8px;
-    padding-inline: var(--rail-inset);
-    /* Without this the snap alignment measures from the scrollport edge
-       rather than the padding edge, so the browser snaps the first card
-       flush to the viewport on load and scrolls the inset straight out of
-       view. Matching the padding keeps the rail resting at scrollLeft 0. */
-    scroll-padding-inline: var(--rail-inset);
-    display: flex;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 34rem), 1fr));
     gap: clamp(0.875rem, 2vw, 1.375rem);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
   }
-  .rail::-webkit-scrollbar { display: none; }
-  .rail__item {
-    flex: 0 0 auto;
-    width: clamp(15.75rem, 78vw, 20.625rem);
-    scroll-snap-align: start;
+  .partner {
     max-width: none;
-  }
-
-  .card {
-    height: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    align-items: center;
+    gap: clamp(var(--space-md), 3vw, 2rem);
     background: var(--paper-lift);
     border: var(--hairline) solid var(--rule-quiet);
     padding: clamp(1.25rem, 2.4vw, 1.75rem);
-    /* Flex rather than grid so the status line can be pushed to the bottom.
-       The bodies are different lengths, and a hairline that sits at a
-       different height on every card reads as five misprinted cards. */
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
   }
-  .card__kind {
+  .partner__logo img { width: 100%; height: auto; }
+  .partner__text { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-xs); }
+  .partner__kind {
     margin: 0;
     font-size: var(--step-utility-sm);
     letter-spacing: var(--tracking-utility);
@@ -331,44 +205,19 @@ const noteFor = (slug: string, note: string) =>
     color: var(--link);
     max-width: none;
   }
-  .card__heading {
-    font-size: 1.24rem;
-    letter-spacing: -0.01em;
-    margin-top: calc(-1 * var(--space-xs));
-  }
-  .card__body { margin: 0; font-size: var(--step-body-sm); color: var(--text-soft); }
-  .card__note {
-    margin: 0;
-    margin-top: auto;
-    font-size: var(--step-body-xs);
-    color: var(--text-softer);
-    border-top: var(--hairline) solid var(--rule-quiet);
-    padding-top: var(--space-sm);
-  }
+  .partner__name { font-size: 1.5rem; letter-spacing: -0.01em; }
+  .partner__body { margin: 0; font-size: var(--step-body-sm); color: var(--text-soft); }
+  .partner__link { margin-top: var(--space-sm); }
 
-  .rail-foot {
-    margin-top: clamp(1.125rem, 3vh, 1.75rem);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-md);
-    flex-wrap: wrap;
+  @media (max-width: 30rem) {
+    .partner { grid-template-columns: minmax(0, 1fr); }
+    .partner__logo { max-width: 16rem; }
   }
-  .rail-foot__note { margin: 0; font-size: var(--step-body-xs); color: var(--text-softer); }
-  .rail-dots { display: flex; align-items: center; gap: var(--space-xs); }
-  .rail-dots :global(.rail-dot) {
-    width: 9px;
-    height: 9px;
-    padding: 0;
-    border: 0;
-    cursor: pointer;
-    background: var(--rule-quiet);
-    transition: width var(--dur) var(--ease-out), background-color var(--dur) var(--ease-out);
-  }
-  .rail-dots :global(.rail-dot.is-current) { width: 26px; background: var(--accent-fill); }
 
   /* ---- The enquiry band ---- */
   .enquiry { margin-top: clamp(3.5rem, 9vh, 6.875rem); }
+  /* The band runs into the footer, with no cream strip between them. */
+  :global(main.page-main:has(> .enquiry:last-child)) { padding-bottom: 0; }
   .enquiry__grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
@@ -415,40 +264,39 @@ const noteFor = (slug: string, note: string) =>
   }
   .panel__heading { font-size: 1.4rem; letter-spacing: -0.014em; }
   .panel__intro { margin: var(--space-sm) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); }
-  .panel__label {
-    margin: var(--space-lg) 0 var(--space-sm);
+  /* ---- The form ---- */
+  .form { margin-top: var(--space-lg); display: grid; gap: var(--space-md); }
+  .field { display: grid; gap: 6px; }
+  .field label {
     font-size: var(--step-utility-sm);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     font-weight: 700;
     color: var(--text);
-    max-width: none;
   }
-  .panel__list {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: var(--space-sm);
-    border-top: var(--hairline) solid var(--rule-quiet);
-  }
-  .panel__list li {
-    padding-top: var(--space-sm);
-    border-bottom: var(--hairline) solid var(--rule-quiet);
-    padding-bottom: var(--space-sm);
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    font: inherit;
     font-size: var(--step-body-sm);
-    color: var(--text-soft);
-    max-width: none;
+    color: var(--text);
+    background: var(--paper-lift);
+    border: var(--hairline) solid var(--rule-quiet);
+    padding: 0.7rem 0.8rem;
+    border-radius: 0;
   }
-  .panel__aside { margin: var(--space-md) 0 0; font-size: var(--step-body-xs); color: var(--text-softer); }
-  .panel__action { margin-top: var(--space-lg); width: 100%; text-align: center; }
-  .panel__address {
-    margin: var(--space-sm) 0 0;
-    font-size: var(--step-body-xs);
-    color: var(--text-softer);
-    text-align: center;
-    overflow-wrap: anywhere;
-  }
+  .field textarea { resize: vertical; min-height: 7rem; }
+  .field input:focus-visible,
+  .field select:focus-visible,
+  .field textarea:focus-visible { outline: 2px solid var(--accent-fill); outline-offset: 1px; }
+  .form__honey { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+  .form__submit { width: 100%; text-align: center; margin-top: var(--space-xs); }
+  .form__submit:disabled { opacity: 0.6; cursor: progress; }
+  .form__status { margin: 0; font-size: var(--step-body-sm); color: var(--text); min-height: 1.4em; }
+  .form__status:empty { display: none; }
+  .form__status[data-state='error'] { color: var(--link); }
+  .form__note { margin: 0; font-size: var(--step-body-xs); color: var(--text-softer); }
 
   @media (max-width: 56.25rem) {
     .enquiry__grid { grid-template-columns: minmax(0, 1fr); }

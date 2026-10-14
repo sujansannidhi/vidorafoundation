@@ -31,14 +31,16 @@ import { stage6 } from '../../content/journey.ts';
       </svg>
 
       <ol class="branch__list">
-        {stage6.branches.map((b, i) => (
-          <li class:list={['chapter', { 'is-extra': i > 1 }]}>
+        {stage6.branches.filter((b) => b.status === 'active').map((b) => (
+          <li class="chapter">
             <span class="chapter__name">{b.label}</span>
-            <span class:list={['chapter__status', `is-${b.status}`]}>
-              {b.status === 'active' ? 'Active' : 'Planned'}
-            </span>
+            <span class="chapter__status is-active">Active</span>
           </li>
         ))}
+        <li class="chapter">
+          <a class="chapter__name chapter__join" href="/join">Your high school</a>
+          <span class="chapter__status is-planned">Start one</span>
+        </li>
       </ol>
     </div>
   </div>
@@ -56,6 +58,7 @@ import { stage6 } from '../../content/journey.ts';
     margin-top: clamp(2.5rem, 6vh, 4.5rem);
   }
   .branch__diagram { width: 100%; height: auto; }
+  .chapter__join { color: inherit; text-decoration: underline; text-decoration-color: var(--rule); text-underline-offset: 4px; }
   .trunk { stroke: var(--accent-fill); stroke-width: 3; }
   .limb--active { stroke: var(--accent-fill); stroke-width: 3; }
   .limb--planned {

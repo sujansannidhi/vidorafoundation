@@ -161,6 +161,17 @@ const POSTER = '/media/distribution-film-poster.jpg';
 
   @media (max-width: 48rem) {
     .film__intro { grid-template-columns: minmax(0, 1fr); }
+    /* On a small video the button is just the speaker; the label stays for
+       screen readers. */
+    .film__sound { width: 44px; padding: 0; justify-content: center; }
+    .film__sound [data-film-sound-label] {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
   }
 
   /* Wide screens, with motion: the frame is the full screen, clipped back to

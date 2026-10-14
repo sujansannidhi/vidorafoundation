@@ -15,12 +15,12 @@ export const org = {
    * school it raises for, wherever that school is.
    */
   firstCampaignIn: 'Palnadu and Prakasam districts, Andhra Pradesh, India',
-  tagline: 'Grade specific school supplies, put into the hands of students who need them.',
+  tagline: 'Grade-specific school supplies, put into the hands of students who need them.',
   /** The line under the mark. Shorter than the tagline and never a claim. */
   motto: 'Opening paths to potential.',
   /** One sentence, for the footer and share cards. */
   summary:
-    'Educational materials for students who need them, delivered by student run chapters.',
+    'Educational materials for students who need them, delivered by student-run chapters.',
 } as const;
 
 /**
@@ -84,23 +84,23 @@ export const footerNav = [
 export const values = [
   {
     name: 'Dignity',
-    body: 'Students are the subject of their own sentences, in the copy and in the photographs.',
+    body: 'Every student is treated with respect, in person and in how we tell their story.',
   },
   {
     name: 'Proximity',
-    body: 'Work where there is a real connection, and say what that connection is.',
+    body: 'We work where we have real ties, close to the schools we serve.',
   },
   {
     name: 'Deference',
-    body: 'Local partners and teachers make the local decisions about what a grade needs.',
+    body: 'Teachers and local partners decide what each grade needs.',
   },
   {
     name: 'Stewardship',
-    body: 'Receipts get shared. Every published number says what it counts and what it leaves out.',
+    body: 'We buy supplies at local prices and keep every receipt.',
   },
   {
     name: 'Honesty',
-    body: 'A planned programme is labelled Planned. An unanswered question stays visibly open.',
+    body: 'We say plainly what we have done and what is still to come.',
   },
 ] as const;
 
@@ -127,7 +127,8 @@ export const todos = {
   chapterFormUrl:
     'https://docs.google.com/forms/d/e/1FAIpQLSdQ-hP2prU0-PJnpOM6ScwEyDNg0jcathuX7rJ5AbVELSfGtA/viewform' as string | null,
   kitContentsByGrade: null as string | null,
-  partners: null as { name: string; href?: string }[] | null,
+  /** Organisations that have agreed to be listed. Details in content/partners.ts. */
+  partners: [{ name: 'Sannidhi\u2019s Bakery', href: 'https://www.instagram.com/sannidhis_bakerytx/' }] as { name: string; href?: string }[] | null,
   /**
    * Consent to publish the June 2026 distribution photographs is confirmed,
    * and the cleared frames are in content/photos.ts. What is still missing is

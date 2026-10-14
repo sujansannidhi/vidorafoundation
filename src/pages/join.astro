@@ -8,7 +8,6 @@
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PendingStatus from '../components/PendingStatus.astro';
-import TodoNote from '../components/TodoNote.astro';
 import { todos } from '../content/site.ts';
 
 /* The volunteer roles, as they actually exist. These replaced a placeholder
@@ -17,17 +16,17 @@ const roles = [
   {
     id: 'social-media',
     name: 'Social media',
-    body: 'Run the accounts. Post what a campaign is doing while it is doing it, rather than writing it up months later.',
+    body: 'Run our accounts and share each campaign as it happens.',
   },
   {
     id: 'article-writing',
     name: 'Article writing',
-    body: 'Write the field reports and updates. Every campaign gets written up in the order the work happened, including the parts that ran tight.',
+    body: 'Write our field reports and updates, so supporters see where their help went.',
   },
   {
     id: 'outreach-ambassador',
     name: 'Outreach ambassador',
-    body: 'Talk to schools, businesses and other students. Ambassadors are how a second chapter starts.',
+    body: 'Talk to schools, businesses and other students, and help new chapters start.',
   },
 ];
 ---
@@ -36,7 +35,7 @@ const roles = [
     variant="dark"
     eyebrow="Get involved"
     title="Start where you can."
-    standfirst="Ordered by what the organisation actually needs."
+    standfirst="Start a chapter, volunteer, fundraise or give. Every bit helps a student start the year ready."
   />
 
   <div class="shell">
@@ -48,29 +47,19 @@ const roles = [
         distribution. One chapter can supply a school.
       </p>
       {todos.chapterProcess && <p>{todos.chapterProcess}</p>}
-      {todos.chapterFormUrl
-        ? (
-          <a
-            class="btn btn--accent feature__cta"
-            href={todos.chapterFormUrl}
-            rel="noopener"
-          >Apply to start a chapter</a>
-        )
-        : (
-          <TodoNote
-            item={7}
-            what="Chapter requirements and the application process: who can start one, what a chapter commits to, and how someone applies. Without it this page can describe the model but cannot tell anyone how to join."
-          />
-        )}
+      {todos.chapterFormUrl && (
+        <a
+          class="btn btn--accent feature__cta"
+          href={todos.chapterFormUrl}
+          rel="noopener"
+        >Apply to start a chapter</a>
+      )}
     </article>
 
     <section class="volunteer" id="volunteer" aria-labelledby="volunteer-heading">
       <div class="volunteer__intro">
         <h2 id="volunteer-heading" class="volunteer__heading">Volunteer</h2>
-        <p class="volunteer__body">
-          Three roles, and you can hold more than one. All of them are done by
-          students.
-        </p>
+        <p class="volunteer__body">Three roles, and you can hold more than one.</p>
       </div>
       <ol class="roles">
         {roles.map((role) => (
@@ -80,6 +69,7 @@ const roles = [
           </li>
         ))}
       </ol>
+      <a class="link-action volunteer__cta" href="/contact">Get in touch to volunteer</a>
     </section>
 
     <div class="also">
@@ -136,22 +126,13 @@ const roles = [
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(var(--space-md), 3vw, 2.5rem);
-    counter-reset: role;
   }
   .role {
     max-width: none;
-    counter-increment: role;
     padding-top: var(--space-md);
     border-top: 2px solid var(--rule);
   }
-  .role::before {
-    content: counter(role, decimal-leading-zero);
-    display: block;
-    font-family: var(--font-display);
-    font-size: var(--step-body-sm);
-    color: var(--link);
-    margin-bottom: var(--space-xs);
-  }
+  .volunteer__cta { margin-top: var(--space-lg); }
   .role__name { font-size: var(--step-display-4); }
   .role__body { margin: var(--space-xs) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); }
 

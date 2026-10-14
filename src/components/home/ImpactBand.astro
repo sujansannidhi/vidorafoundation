@@ -14,7 +14,6 @@ import {
   studentsWhoReceivedKits,
   schoolsReached,
   campaignCost,
-  methodologyNote,
 } from '../../content/impact.ts';
 ---
 <section class="band band--tall on-dark impact-band" id={impactSection.id} aria-labelledby="impact-heading">
@@ -28,10 +27,7 @@ import {
       <ImpactFigure figure={campaignCost} />
     </div>
 
-    <p class="impact-band__method">{methodologyNote}</p>
 
-    {/* The homepage's only route to the evidence, since the field report
-        section was removed. A figure the reader cannot check is a claim. */}
     <a class="link-action impact-band__evidence" href={`/campaigns/${campaign.slug}`}>
       Read the June 2026 field report
     </a>
@@ -46,13 +42,5 @@ import {
     gap: clamp(1.875rem, 4vw, 3.5rem);
     margin-top: clamp(2.75rem, 7vh, 5.375rem);
   }
-  .impact-band__evidence { margin-top: var(--space-md); }
-  .impact-band__method {
-    margin: clamp(2.375rem, 6vh, 4.375rem) 0 0;
-    padding-top: var(--space-md);
-    border-top: var(--hairline) solid var(--rule-quiet);
-    font-size: var(--step-body-sm);
-    color: var(--text-soft);
-    max-width: 56rem;
-  }
+  .impact-band__evidence { margin-top: clamp(var(--space-lg), 5vh, var(--space-xl)); }
 </style>

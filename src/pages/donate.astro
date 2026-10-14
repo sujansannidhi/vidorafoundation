@@ -1,15 +1,12 @@
 ---
 /**
  * The page shows what a donation becomes rather than explaining it, which is
- * why the copy is short. The two blocks that remain in words are the ones
- * that have to be: the 501(c)(3) status, and the deliberate non-claim about
- * cross border movement of funds. Both are legal positions, not marketing,
- * and neither is safe to cut for the sake of a cleaner page.
+ * why the copy is short. The 501(c)(3) status line stays beside the button:
+ * it is a legal position, not marketing.
  */
 import Layout from '../layouts/Layout.astro';
 import GivingAnimation from '../components/GivingAnimation.astro';
 import PendingStatus from '../components/PendingStatus.astro';
-import TodoNote from '../components/TodoNote.astro';
 import { todos } from '../content/site.ts';
 ---
 <Layout
@@ -30,25 +27,14 @@ import { todos } from '../content/site.ts';
           <p class="channel__for">For the second Learning Kits campaign</p>
           <h2 class="channel__heading">GoFundMe</h2>
           <p class="channel__body">
-            GoFundMe is the only donation channel. There are no card fields on
-            this site.
+            Your gift buys school supplies at local prices, near the school
+            that receives them.
           </p>
-          {todos.gofundmeUrl
-            ? (
-              <a class="btn btn--primary channel__cta" href={todos.gofundmeUrl} rel="noopener">
-                Give on GoFundMe
-              </a>
-            )
-            : (
-              <TodoNote
-                item={3}
-                what="The GoFundMe URL. It is the only donation channel, so there is nothing to link to yet. No payment form, no embedded widget, and no card fields are built on this site."
-              />
-            )}
-          <p class="channel__note">
-            No claim is published about how funds move between the United
-            States and India.
-          </p>
+          {todos.gofundmeUrl && (
+            <a class="btn btn--primary channel__cta" href={todos.gofundmeUrl} rel="noopener">
+              Give on GoFundMe
+            </a>
+          )}
         </aside>
 
         <PendingStatus />

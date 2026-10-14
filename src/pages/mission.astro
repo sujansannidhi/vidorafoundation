@@ -5,9 +5,7 @@ import PhotoSlot from '../components/PhotoSlot.astro';
 import { org, values } from '../content/site.ts';
 import { foundingNote } from '../content/people.ts';
 import { teamAtTheSupplyTable } from '../content/photos.ts';
-import { gapFigures, findings, voices, sources } from '../content/mission.ts';
-
-const sourceUrl = (id: number) => sources.find((s) => s.id === id)?.url ?? '#sources';
+import { gapFigures, findings, voices } from '../content/mission.ts';
 ---
 <Layout
   title="Mission"
@@ -28,7 +26,7 @@ const sourceUrl = (id: number) => sources.find((s) => s.id === id)?.url ?? '#sou
           A student is usually not missing everything. They are missing one
           specific thing their year of the syllabus assumes they have. That
           gap is narrow enough to name and cheap enough to buy, which is why a
-          student run organisation can close it.
+          student-run organisation can close it.
         </p>
         {/* The state scheme is context for the first campaign, not the
             organisation's universal thesis. What a kit contains is decided
@@ -52,7 +50,7 @@ const sourceUrl = (id: number) => sources.find((s) => s.id === id)?.url ?? '#sou
           <li class="figure">
             <p class="figure__value">{f.value}</p>
             <p class="figure__label">
-              {f.label}<a class="ref" href={`#source-${f.source}`} aria-label={`Source ${f.source}`}><sup>{f.source}</sup></a>
+              {f.label}
             </p>
           </li>
         ))}
@@ -63,18 +61,7 @@ const sourceUrl = (id: number) => sources.find((s) => s.id === id)?.url ?? '#sou
           <article class="finding">
             <h3 class="finding__heading">{f.heading}</h3>
             <div class="finding__body">
-              {f.paragraphs.map((para, i) => (
-                <p>
-                  {para}
-                  {i === f.paragraphs.length - 1 && (
-                    <sup class="refs">
-                      {f.sources.map((id, j) => (
-                        <>{j > 0 && ', '}<a class="ref" href={`#source-${id}`} aria-label={`Source ${id}`}>{id}</a></>
-                      ))}
-                    </sup>
-                  )}
-                </p>
-              ))}
+              {f.paragraphs.map((para) => <p>{para}</p>)}
             </div>
           </article>
         ))}
@@ -83,24 +70,17 @@ const sourceUrl = (id: number) => sources.find((s) => s.id === id)?.url ?? '#sou
       <div class="voices">
         {voices.map((v) => (
           <figure class="voice">
-            <blockquote class="voice__quote" cite={sourceUrl(v.source)}>
+            <blockquote class="voice__quote">
               <p>{v.quote}</p>
             </blockquote>
             <figcaption class="voice__who">
               <span class="voice__name">{v.who}</span>
-              <span class="voice__where">{v.where}<a class="ref" href={`#source-${v.source}`} aria-label={`Source ${v.source}`}><sup>{v.source}</sup></a></span>
+              <span class="voice__where">{v.where}</span>
             </figcaption>
           </figure>
         ))}
       </div>
 
-      <ol class="sources" id="sources" aria-label="Sources">
-        {sources.map((src) => (
-          <li id={`source-${src.id}`}>
-            {src.citation} <a href={src.url} rel="noopener">Source</a>
-          </li>
-        ))}
-      </ol>
     </section>
 
     <h2 class="values__heading">What the organisation values</h2>
@@ -182,11 +162,6 @@ const sourceUrl = (id: number) => sources.find((s) => s.id === id)?.url ?? '#sou
   .finding__body p { margin: 0; max-width: 38rem; }
   .finding__body p + p { color: var(--text-soft); font-size: var(--step-body-sm); }
 
-  .ref { text-decoration: none; color: var(--link); margin-left: 1px; }
-  .ref sup { font-size: 0.7em; font-weight: 600; }
-  .refs { margin-left: 2px; font-size: 0.7em; font-weight: 600; color: var(--link); }
-  .ref:hover { text-decoration: underline; }
-
   .voices {
     margin-top: clamp(3rem, 8vh, 5rem);
     display: grid;
@@ -206,17 +181,6 @@ const sourceUrl = (id: number) => sources.find((s) => s.id === id)?.url ?? '#sou
   .voice__name { font-weight: 600; }
   .voice__where { color: var(--text-soft); }
 
-  .sources {
-    margin: clamp(3rem, 8vh, 4.5rem) 0 0;
-    padding: var(--space-md) 0 0 1.25rem;
-    border-top: var(--hairline) solid var(--rule-quiet);
-    display: grid;
-    gap: var(--space-xs);
-    font-size: var(--step-body-xs);
-    color: var(--text-soft);
-  }
-  .sources li { max-width: 60rem; scroll-margin-top: 6rem; }
-  .sources a { color: var(--link); }
 
   .values__heading {
     margin-top: clamp(3.5rem, 9vh, 6.25rem);

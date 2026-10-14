@@ -27,7 +27,7 @@ export const pillars: Pillar[] = [
     name: 'Learning Kits',
     status: 'active',
     summary:
-      'Grade specific supplies for government school students, matched to what their year of the syllabus requires.',
+      'Grade-specific supplies for government school students, matched to what their year of the syllabus requires.',
     body: [
       'A kit fills what a student is missing rather than what is easy to donate, so the contents are decided against the grade being taught. In the June 2026 campaign in Andhra Pradesh, where the state scheme already supplies uniforms, shoes, a school bag, textbooks and generic notebooks, that meant compass boxes, atlases, slates, and notebooks matched to a student’s grade.',
       'Supplies are bought in person, at local prices, near the school receiving them. They are not shipped in from somewhere more expensive.',
@@ -38,7 +38,7 @@ export const pillars: Pillar[] = [
     name: 'Teaching',
     status: 'planned',
     summary:
-      'A teaching programme would place volunteers alongside classroom teachers. It is not running.',
+      'Volunteers would work alongside classroom teachers, so students who need a second explanation get one. Not running yet.',
     body: [
       'Nothing has been delivered under this pillar. It is listed because it is where the organisation intends to go next, not because it is available.',
     ],
@@ -48,7 +48,7 @@ export const pillars: Pillar[] = [
     name: 'Access',
     status: 'planned',
     summary:
-      'An access programme would put working computers in schools that do not have them. It is not running.',
+      'Working computers for schools that do not have them. Not running yet.',
     body: [
       'Nothing has been delivered under this pillar. No school has received hardware from Vidora Foundation.',
     ],

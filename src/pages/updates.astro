@@ -1,9 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import TodoNote from '../components/TodoNote.astro';
 import { updates } from '../content/updates.ts';
-import { todos } from '../content/site.ts';
 ---
 <Layout title="Updates" description="What is running at Vidora Foundation, and what is next.">
   <PageHeader eyebrow="Updates" title="What is running, and what is next." />
@@ -35,12 +33,6 @@ import { todos } from '../content/site.ts';
       ))}
     </ol>
 
-    {!todos.newsletterProvider && (
-      <TodoNote
-        item={4}
-        what="A newsletter provider, before a signup form ships. There is nowhere for an address to go yet, so no form is built."
-      />
-    )}
   </div>
 </Layout>
 

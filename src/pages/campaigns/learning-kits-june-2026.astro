@@ -1,7 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import PageHeader from '../../components/PageHeader.astro';
-import TodoNote from '../../components/TodoNote.astro';
 import PhotoSlot from '../../components/PhotoSlot.astro';
 import ImpactFigure from '../../components/ImpactFigure.astro';
 import { campaign, stops } from '../../content/campaign-june-2026.ts';
@@ -10,8 +9,7 @@ import {
   schoolsReached,
   campaignCost,
 } from '../../content/impact.ts';
-import { todos } from '../../content/site.ts';
-import { distributionDay } from '../../content/photos.ts';
+import { distributionDay, teamAtTheSupplyTable } from '../../content/photos.ts';
 ---
 <Layout title={campaign.title} description="A field report on the first Learning Kits campaign.">
   <PageHeader
@@ -28,21 +26,14 @@ import { distributionDay } from '../../content/photos.ts';
       <ImpactFigure figure={campaignCost} detail={false} />
     </div>
 
-    {todos.schoolNamesPublishable === null && (
-      <TodoNote
-        item={9}
-        what="Whether any partner school has agreed to be named publicly. Until one has, the schools are counted but not named."
-      />
-    )}
 
     <div class="report">
       <ol class="stops">
-        {stops.map((stop) => (
+        {stops.filter((stop) => stop.body.length > 0).map((stop) => (
           <li class="stop">
             <div>
               <h2 class="stop__heading">{stop.heading}</h2>
               {stop.body.map((para) => <p class="stop__para">{para}</p>)}
-              {stop.todo && <TodoNote what={stop.todo} item={5} />}
             </div>
           </li>
         ))}
@@ -54,12 +45,11 @@ import { distributionDay } from '../../content/photos.ts';
           sizes="(max-width: 56.25rem) calc(100vw - 2.25rem), 460px"
           ratio="3 / 4"
         />
-        {!todos.wholesaleMarketPhoto && (
-          <TodoNote
-            item={5}
-            what="A photograph of the wholesale market in Narasaraopeta, where the supplies were bought. Nobody photographed that stop on the day, so the slot stays empty rather than borrowing a picture of somewhere else."
-          />
-        )}
+        <PhotoSlot
+          photo={teamAtTheSupplyTable}
+          sizes="(max-width: 56.25rem) calc(100vw - 2.25rem), 460px"
+          ratio="4 / 3"
+        />
       </div>
     </div>
   </div>

@@ -78,15 +78,24 @@ const siteSchema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {!bare && (
+      <script is:inline>
+        /* Inner pages animate in. Decided before first paint so nothing
+           renders and then jumps; if the motion script has not run within
+           three seconds the page is simply shown. */
+        (function () {
+          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+          var root = document.documentElement;
+          root.classList.add('rv');
+          setTimeout(function () {
+            if (!root.classList.contains('rv-ready')) root.classList.remove('rv');
+          }, 3000);
+        })();
+      </script>
+    )}
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <!--
-      The mark itself, square and on the brand cream, at the sizes Google's
-      favicon crawler accepts (a multiple of 48px, square, at a stable URL).
-      /favicon.ico is listed first and also sits at the site root, which is
-      where a crawler looks when it ignores the head.
-    -->
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/brand/favicon-48.png" type="image/png" sizes="48x48" />
     <link rel="icon" href="/brand/favicon-96.png" type="image/png" sizes="96x96" />
@@ -116,6 +125,12 @@ const siteSchema = {
       <slot />
     </main>
     <Footer />
+    {!bare && (
+      <script>
+        import '../scripts/page-motion.ts';
+        document.documentElement.classList.add('rv-ready');
+      </script>
+    )}
   </body>
 </html>
 
@@ -123,4 +138,34 @@ const siteSchema = {
   /* Inner pages sit in a padded column. The homepage opts out with `bare`
      and paints its own bands edge to edge. */
   .page-main { padding-block: var(--section-y) var(--section-y-lg); }
+
+  /* ---- Inner page motion (src/scripts/page-motion.ts) ---- */
+  html.rv:not(.rv-ready) main.page-main { opacity: 0; }
+
+  html.rv .rv-word {
+    display: inline-block;
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(0.3em);
+    transition: opacity 0.9s var(--ease-out), filter 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+    transition-delay: calc(var(--rv-i, 0) * 70ms + 80ms);
+  }
+  html.rv .rv-words-in .rv-word { opacity: 1; filter: blur(0); transform: none; }
+
+  html.rv .rv-block {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+    transition-delay: calc(var(--rv-i, 0) * 90ms);
+  }
+  html.rv .rv-block.is-in { opacity: 1; transform: none; }
+
+  /* The clip sits on the image, not the frame: a frame clipped to nothing
+     never registers as on screen, so it would never be revealed. */
+  html.rv .rv-photo img {
+    clip-path: inset(100% 0 0 0);
+    transform: scale(1.12);
+    transition: clip-path 1.2s cubic-bezier(0.77, 0, 0.18, 1), transform 1.6s var(--ease-out);
+  }
+  html.rv .rv-photo.is-in img { clip-path: inset(0 0 0 0); transform: none; }
 </style>

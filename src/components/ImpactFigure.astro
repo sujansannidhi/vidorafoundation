@@ -28,17 +28,15 @@
  * climbs. Motion still belongs to the rule beneath as well, which draws.
  * ---------------------------------------------------------------------------
  *
- * `detail` prints the source and the exclusion under the figure. On the
- * homepage that is the whole methodology the reader gets in place, so it is
- * on by default: a number whose caveat lives on another page is a number
- * without a caveat.
+ * `detail` prints the source and the exclusion under the figure. It is off
+ * by default: the public pages show each number with its label only.
  */
 import type { ImpactFigureData } from '../content/impact.ts';
 interface Props {
   figure: ImpactFigureData;
   detail?: boolean;
 }
-const { figure, detail = true } = Astro.props;
+const { figure, detail = false } = Astro.props;
 ---
 <figure class="impact">
   <p class="impact__value">

@@ -120,10 +120,9 @@ export const findings: Finding[] = [
   {
     heading: 'Writing by hand is part of how children learn',
     paragraphs: [
-      'In a study of five year olds who could not yet read, the brain network used for reading responded to letters only after the children had practised writing those letters by hand. Typing and tracing them did not produce the same response.',
-      'A 2024 study recording brain activity found that handwriting engaged far wider networks than typing, in regions tied to memory and to the senses. It studied university students and measured brain activity rather than marks, and other researchers have questioned its methods. Research on handwritten against typed notes is mixed: an influential 2014 study favoured handwriting, and a 2021 replication found no difference in test scores. The careful claim is the one the evidence supports: writing by hand engages a child differently, and early on it seems to help letters stick.',
+      'In a study of five-year-olds who could not yet read, the brain network used for reading responded to letters only after the children had practised writing those letters by hand. Typing and tracing them did not produce the same response.',
     ],
-    sources: [3, 4, 5],
+    sources: [3],
   },
   {
     heading: 'Materials only help when they fit the child and get used',

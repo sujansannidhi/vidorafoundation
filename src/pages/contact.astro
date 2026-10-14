@@ -2,7 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PendingStatus from '../components/PendingStatus.astro';
-import TodoNote from '../components/TodoNote.astro';
 import { org, todos } from '../content/site.ts';
 import { people } from '../content/people.ts';
 
@@ -12,9 +11,9 @@ const addresses = people.filter((person) => person.email);
 ---
 <Layout
   title="Contact"
-  description="How to reach Vidora Foundation, and where the organisation stands legally."
+  description="How to reach the Vidora Foundation team."
 >
-  <PageHeader eyebrow="Contact and legal" title="Get in touch." />
+  <PageHeader eyebrow="Contact" title="Get in touch." />
 
   <div class="shell">
     <div class="details">
@@ -33,7 +32,7 @@ const addresses = people.filter((person) => person.email);
               ))}
             </ul>
           )
-          : <p class="detail__pending">Not published yet</p>}
+          : null}
       </div>
       <div class="detail">
         <h2 class="detail__heading">Social</h2>
@@ -43,7 +42,7 @@ const addresses = people.filter((person) => person.email);
               {todos.socialHandles.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
             </ul>
           )
-          : <p class="detail__pending">Not published yet</p>}
+          : null}
       </div>
       <div class="detail">
         <h2 class="detail__heading">Based in</h2>
@@ -52,19 +51,9 @@ const addresses = people.filter((person) => person.email);
       </div>
     </div>
 
-    {(!todos.contactEmail || !todos.socialHandles) && (
-      <TodoNote
-        item={4}
-        what={[
-          !todos.contactEmail && 'a contact email',
-          !todos.socialHandles && 'social handles',
-        ].filter(Boolean).join(' and ')
-          + '. Nothing is guessed at, so this page states the gap rather than publishing an address that does not work.'}
-      />
-    )}
 
     <div class="split">
-      <h2 class="split__heading">Legal and transparency</h2>
+      <h2 class="split__heading">Transparency</h2>
       <div class="legal">
         <section class="legal__item">
           <h3 class="legal__heading">Charitable status</h3>
@@ -75,22 +64,11 @@ const addresses = people.filter((person) => person.email);
           <h3 class="legal__heading">Financial reporting</h3>
           <p>
             The June 2026 campaign cost approximately $3,500 in supplies at
-            local wholesale prices, not including travel. No claim is published
-            about how funds move between the United States and India.
+            local wholesale prices, not including travel. Receipts are kept for
+            every purchase.
           </p>
-          <TodoNote
-            item={8}
-            what="An annual report, once a reporting period has closed. Until then the only published financial figure is the June 2026 campaign cost, with what it excludes stated beside it."
-          />
         </section>
 
-        <section class="legal__item">
-          <h3 class="legal__heading">Privacy and terms</h3>
-          <TodoNote
-            item={8}
-            what="A privacy policy and terms, needed once a newsletter or a form collects data. No form on this site collects anything today, which is why neither document ships yet."
-          />
-        </section>
       </div>
     </div>
   </div>

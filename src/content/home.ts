@@ -182,7 +182,7 @@ export const closing = {
   id: 'closing',
   headline: 'Opening paths to potential.',
   body:
-    'Every student who received a kit in June 2026 was one specific material away from their next step. That is the work, and it is repeatable.',
+    'Every kit in June 2026 was matched to what a student\u2019s grade needed. That is the work, and it is repeatable.',
   ctaPrimary: { label: 'Start a chapter', href: '/join' },
   ctaSecondary: { label: 'Donate', href: '/donate' },
 } as const;

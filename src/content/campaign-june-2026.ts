@@ -28,7 +28,7 @@ export const campaign = {
   title: 'Learning Kits, June 2026',
   dateline: 'Palnadu and Prakasam districts, Andhra Pradesh',
   standfirst:
-    'The first Learning Kits campaign, written up in the order the work happened.',
+    'How the first Learning Kits campaign worked, from what was missing to what was delivered.',
 } as const;
 
 export const stops: FieldReportStop[] = [
@@ -37,15 +37,15 @@ export const stops: FieldReportStop[] = [
     heading: 'What the state provided',
     body: [
       'Andhra Pradesh runs the Sarvepalli Radhakrishnan Vidyarthi Mitra scheme. It supplies government school students with uniforms, shoes, socks, a belt, a school bag, textbooks, and generic notebooks.',
-      'Students arrive at school with most of what they need. Starting anywhere else would misdescribe the situation.',
+      'Students arrive at school with most of what they need.',
     ],
   },
   {
     id: 'what-was-missing',
     heading: 'What was missing',
     body: [
-      'The scheme does not cover compass boxes, atlases, slates, or notebooks matched to a student’s grade. A general issue notebook is not the same as the one a specific year of the syllabus needs.',
-      'That is a narrow, nameable gap, which is why it is fixable at this budget.',
+      'The scheme does not cover compass boxes, atlases, slates, or notebooks matched to a student’s grade. A general-issue notebook is not the same as the one a specific year of the syllabus needs.',
+      'That gap is small and specific, which is why it can be closed.',
     ],
   },
   {
@@ -67,7 +67,7 @@ export const stops: FieldReportStop[] = [
     id: 'what-it-cost',
     heading: 'What it cost',
     body: [
-      'The campaign cost approximately $3,500 in total. That figure is the supplies at wholesale. It does not include travel.',
+      'The campaign cost approximately $3,500 in supplies at wholesale prices, not including travel.',
     ],
   },
   {
@@ -75,7 +75,6 @@ export const stops: FieldReportStop[] = [
     heading: 'What was delivered',
     body: [
       'Approximately 1,200 students received kits, across 12 schools.',
-      'Those are two separate counts of two different things. Neither is a measure of the other and they are not added together.',
     ],
   },
   {

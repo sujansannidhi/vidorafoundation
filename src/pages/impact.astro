@@ -11,9 +11,9 @@ import { campaign } from '../content/campaign-june-2026.ts';
 ---
 <Layout
   title="Impact"
-  description="The three June 2026 figures, what each one counts, and what it does not."
+  description="What the first Learning Kits campaign reached in June 2026: students, schools and cost."
 >
-  <PageHeader variant="dark" eyebrow="Impact" title="Three numbers, each counting one thing.">
+  <PageHeader variant="dark" eyebrow="Impact" title="What the first campaign reached.">
     <div class="figures">
       <ImpactFigure figure={studentsWhoReceivedKits} />
       <ImpactFigure figure={schoolsReached} />
@@ -23,11 +23,10 @@ import { campaign } from '../content/campaign-june-2026.ts';
 
   <div class="shell">
     <a class="evidence" href={`/campaigns/${campaign.slug}`}>
-      <p class="eyebrow">The evidence</p>
+      <p class="eyebrow">Field report</p>
       <h2 class="evidence__heading">{campaign.title}, the full field report</h2>
       <p class="evidence__body">
-        Written up in the order the work happened, ending with what we would do
-        differently.
+        What the state provides, what was missing, and how the kits were bought and delivered.
       </p>
     </a>
   </div>

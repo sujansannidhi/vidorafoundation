@@ -2,10 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import StatusChip from '../components/StatusChip.astro';
-import TodoNote from '../components/TodoNote.astro';
 import PhotoSlot from '../components/PhotoSlot.astro';
 import { pillars, activePillar } from '../content/pillars.ts';
-import { todos } from '../content/site.ts';
 import { campaign } from '../content/campaign-june-2026.ts';
 import { studentsWithKits } from '../content/photos.ts';
 
@@ -13,12 +11,12 @@ const planned = pillars.filter((p) => p.status === 'planned');
 ---
 <Layout
   title="Programs"
-  description="Three pillars. Learning Kits is active. Teaching and Access are planned."
+  description="Learning Kits is running now. Teaching and Access come next."
 >
   <PageHeader
     eyebrow="Programs"
-    title="Three pillars. One of them is running."
-    standfirst="Learning Kits is active and has delivered. Teaching and Access are labelled Planned everywhere they appear, so that nobody reads a plan as a promise."
+    title="What we do."
+    standfirst="Learning Kits is running now. Teaching and Access are what comes next."
   />
 
   <div class="shell">
@@ -34,12 +32,6 @@ const planned = pillars.filter((p) => p.status === 'planned');
           <h2 class="active__name">{activePillar.name}</h2>
           <p class="active__summary">{activePillar.summary}</p>
           {activePillar.body.map((para) => <p class="active__para">{para}</p>)}
-          {!todos.kitContentsByGrade && (
-            <TodoNote
-              item={6}
-              what="Exact kit contents broken down by grade. The kits are grade specific, which is the point of them, so this page cannot show what a given student actually receives until the breakdown exists."
-            />
-          )}
           <a class="link-action" href={`/campaigns/${campaign.slug}`}>
             Read the June 2026 field report
           </a>
@@ -53,7 +45,6 @@ const planned = pillars.filter((p) => p.status === 'planned');
           <StatusChip status={pillar.status} />
           <h2 class="planned__name">{pillar.name}</h2>
           <p class="planned__summary">{pillar.summary}</p>
-          {pillar.body.map((para) => <p class="planned__para">{para}</p>)}
         </article>
       ))}
     </div>

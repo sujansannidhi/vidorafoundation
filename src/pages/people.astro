@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
-import TodoNote from '../components/TodoNote.astro';
 import PhotoSlot from '../components/PhotoSlot.astro';
 import { people, foundingNote } from '../content/people.ts';
 
@@ -25,14 +24,11 @@ const [lead, ...rest] = people;
         </div>
       )}
       <div>
-        <p class="eyebrow">{lead.role ?? 'Role not published yet'}</p>
+        <p class="eyebrow">{lead.role}</p>
         <h2 class="lead__name">{lead.name}</h2>
         {lead.bio
           ? lead.bio.map((para) => <p class="lead__para">{para}</p>)
-          : <TodoNote item={1} what={`A short bio for ${lead.name}: where they come from, and what they do at Vidora. Not written yet, and not invented here.`} />}
-        {lead.needsReview && (
-          <p class="lead__review">Awaiting sign off.</p>
-        )}
+          : null}
         <p class="lead__contact">
           {lead.email && <a href={`mailto:${lead.email}`}>{lead.email}</a>}
           {lead.linkedin && <a href={lead.linkedin} rel="noopener">LinkedIn</a>}
@@ -60,10 +56,7 @@ const [lead, ...rest] = people;
           )}
           {person.bio
             ? person.bio.map((para) => <p class="member__para">{para}</p>)
-            : <TodoNote item={1} what={`A bio and photo for ${person.name}. Not written yet, and not invented here.`} />}
-          {person.bio && person.needsReview && (
-            <p class="member__review">Awaiting sign off.</p>
-          )}
+            : null}
         </li>
       ))}
     </ul>

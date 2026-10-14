@@ -34,7 +34,7 @@ export const people: Person[] = [
      * name the rest of the site uses.
      */
     bio: [
-      "I'm a rising junior at Independence High School. Education has always been one of the most important parts of my life. Growing up in the United Kingdom and later moving to the United States, I experienced two very different education systems. That change was hard, but not impossible, because of the people around me and the resources I had to overcome any obstacles that came my way.",
+      "I'm a junior at Independence High School. Education has always been one of the most important parts of my life. Growing up in the United Kingdom and later moving to the United States, I experienced two very different education systems. That change was hard, but not impossible, because of the people around me and the resources I had to overcome any obstacles that came my way.",
       "This isn't the same for everyone, and I want to fight to change that. Not every student has that privilege. Vidora Foundation is my attempt to remove the small, fixable barriers that stop students from showing up ready to learn: a notebook, a pencil, a geometry set.",
     ],
     photo: {
@@ -54,8 +54,8 @@ export const people: Person[] = [
     role: 'Executive',
     /* Praneel's own words, verbatim. */
     bio: [
-      'My name is Praneel Rondla, and I am a junior at Independence High School. Primarily driven by a passion for academic empowerment and leadership, my work at Vidora centers on equipping global youth with the tools and knowledge they need to succeed.',
-      'Outside of Vidora, I am actively involved in business, research, and public policy. My experience ranges from developing financial literacy curricula for young learners to working as a research assistant analyzing up-and-coming technology in secondary education. At Vidora, I aim to combine my background in strategy, community outreach, and instruction to build meaningful, lasting educational opportunities for students everywhere.',
+      'My name is Praneel Rondla, and I am a junior at Independence High School. Primarily driven by a passion for academic empowerment and leadership, my work at Vidora centres on equipping global youth with the tools and knowledge they need to succeed.',
+      'Outside of Vidora, I am actively involved in business, research, and public policy. My experience ranges from developing financial literacy curricula for young learners to working as a research assistant analysing up-and-coming technology in secondary education. At Vidora, I aim to combine my background in strategy, community outreach, and instruction to build meaningful, lasting educational opportunities for students everywhere.',
     ],
     photo: {
       src: '/people/praneel-rondla.jpg',
@@ -80,7 +80,7 @@ export const people: Person[] = [
      */
     bio: [
       'Neha joined Vidora Foundation when Sujan brought her onto the team to help the organisation grow. Meeting students who were short of the materials their lessons assumed they already had showed her how much difference the right supplies make to a school day.',
-      'Seeing that first hand made her want to start helping. She now works with the team to plan upcoming projects, and to make sure students have the practical supplies they need to walk into class ready to learn.',
+      'Seeing that first-hand made her want to start helping. She now works with the team to plan upcoming projects, and to make sure students have the practical supplies they need to walk into class ready to learn.',
     ],
     photo: null,
     email: 'neha@vidorafoundation.org',
