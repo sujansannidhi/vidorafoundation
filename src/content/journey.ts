@@ -122,8 +122,8 @@ export const stage7 = {
     {
       id: 'volunteer',
       label: 'Volunteer',
-      body: 'Help with a campaign, outreach, or the ambassador programme.',
-      href: '/join#volunteer',
+      body: 'Education work in your own town or online through Open Paths, with hours Vidora verifies.',
+      href: '/volunteer',
       primary: false,
     },
     {

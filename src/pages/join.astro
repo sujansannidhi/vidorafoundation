@@ -9,26 +9,8 @@ import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PendingStatus from '../components/PendingStatus.astro';
 import { todos } from '../content/site.ts';
+import { joinOpenPaths } from '../content/volunteer.ts';
 
-/* The volunteer roles, as they actually exist. These replaced a placeholder
-   note that stood in for them while they were undecided. */
-const roles = [
-  {
-    id: 'social-media',
-    name: 'Social media',
-    body: 'Run our accounts and share each campaign as it happens.',
-  },
-  {
-    id: 'article-writing',
-    name: 'Article writing',
-    body: 'Write our field reports and updates, so supporters see where their help went.',
-  },
-  {
-    id: 'outreach-ambassador',
-    name: 'Outreach ambassador',
-    body: 'Talk to schools, businesses and other students, and help new chapters start.',
-  },
-];
 ---
 <Layout title="Get involved" description="Start a chapter, volunteer, fundraise, or donate.">
   <PageHeader
@@ -57,19 +39,13 @@ const roles = [
     </article>
 
     <section class="volunteer" id="volunteer" aria-labelledby="volunteer-heading">
-      <div class="volunteer__intro">
-        <h2 id="volunteer-heading" class="volunteer__heading">Volunteer</h2>
-        <p class="volunteer__body">Three roles, and you can hold more than one.</p>
-      </div>
-      <ol class="roles">
-        {roles.map((role) => (
-          <li class="role" id={role.id}>
-            <h3 class="role__name">{role.name}</h3>
-            <p class="role__body">{role.body}</p>
-          </li>
-        ))}
-      </ol>
-      <a class="link-action volunteer__cta" href="/contact">Get in touch to volunteer</a>
+      <p class="eyebrow">{joinOpenPaths.eyebrow}</p>
+      <h2 id="volunteer-heading" class="volunteer__heading">{joinOpenPaths.heading}</h2>
+      <p class="volunteer__body">{joinOpenPaths.body}</p>
+      <ul class="volunteer__labels">
+        {joinOpenPaths.labels.map((l) => <li>{l}</li>)}
+      </ul>
+      <a class="btn btn--accent volunteer__cta" href={joinOpenPaths.href}>{joinOpenPaths.cta}</a>
     </section>
 
     <div class="also">
@@ -108,33 +84,20 @@ const roles = [
     padding-top: var(--space-md);
     border-top: var(--hairline) solid var(--rule-accent);
   }
-  .volunteer__intro {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(var(--space-md), 4vw, 3rem);
-    align-items: baseline;
-  }
-  .volunteer__heading { font-size: clamp(1.7rem, 1rem + 2.4vw, 2.5rem); }
-  .volunteer__body { margin: 0; max-width: 30rem; color: var(--text-soft); }
+  .volunteer__heading { margin-top: var(--space-sm); font-size: clamp(1.7rem, 1rem + 2.4vw, 2.5rem); }
+  .volunteer__body { margin: var(--space-sm) 0 0; max-width: 36rem; color: var(--text-soft); }
 
-  /* Numbered rows under their own rule. The roles are a short list to read
-     down, not three products to compare across. */
-  .roles {
-    list-style: none;
-    margin: clamp(1.5rem, 4vh, 2.5rem) 0 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(var(--space-md), 3vw, 2.5rem);
-  }
-  .role {
-    max-width: none;
-    padding-top: var(--space-md);
-    border-top: 2px solid var(--rule);
-  }
   .volunteer__cta { margin-top: var(--space-lg); }
-  .role__name { font-size: var(--step-display-4); }
-  .role__body { margin: var(--space-xs) 0 0; font-size: var(--step-body-sm); color: var(--text-soft); }
+  .volunteer__labels { display: flex; flex-wrap: wrap; gap: var(--space-xs); list-style: none; margin: var(--space-md) 0 0; padding: 0; }
+  .volunteer__labels li {
+    max-width: none;
+    padding: 0.35em 0.9em;
+    border: var(--hairline) solid var(--rule-quiet);
+    font-size: var(--step-utility);
+    letter-spacing: var(--tracking-utility);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
 
   /* ---- The quieter two ---- */
   .also {
@@ -149,9 +112,7 @@ const roles = [
   .also__body { margin: var(--space-sm) 0 var(--space-sm); font-size: var(--step-body-sm); }
 
   @media (max-width: 52rem) {
-    .roles { grid-template-columns: minmax(0, 1fr); }
-  }
+    }
   @media (max-width: 40rem) {
-    .volunteer__intro { grid-template-columns: minmax(0, 1fr); gap: var(--space-sm); }
-  }
+    }
 </style>

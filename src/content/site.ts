@@ -39,6 +39,7 @@ export const nav = [
   { href: '/partners', label: 'Partners' },
   { href: '/updates', label: 'Updates' },
   { href: '/join', label: 'Get involved' },
+  { href: '/volunteer', label: 'Volunteer' },
 ] as const;
 
 /**
@@ -65,13 +66,15 @@ export const footerNav = [
       { href: '/partners', label: 'Partners' },
       { href: '/updates', label: 'Updates' },
       { href: '/contact', label: 'Contact' },
+      { href: '/privacy', label: 'Privacy' },
     ],
   },
   {
     heading: 'Get involved',
     links: [
       { href: '/join', label: 'Start a chapter' },
-      { href: '/join#volunteer', label: 'Volunteer' },
+      { href: '/volunteer', label: 'Volunteer' },
+      { href: '/verify', label: 'Verify an hours letter' },
       { href: '/donate', label: 'Donate' },
     ],
   },
