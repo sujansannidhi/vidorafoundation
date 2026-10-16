@@ -48,11 +48,21 @@ legal or credibility exposure.
    the present tense. Checked per field.
 10. Gradients may not fade to the bare `transparent` keyword, which blends
     through transparent black and bands.
+11. Never fabricate: a person's bio is `null` (rendered as an honest gap), never
+    an empty array.
+12. Open Paths (`src/content/volunteer.ts`): every event has an `EVT-*` id, a
+    unique slug, steps, proof, safety rules, a cap and a machine-readable
+    `capRule`; credits are well formed (bands ascend with no gaps or overlaps);
+    no single submission can earn more than 8 hours; the global caps are exactly
+    12 hours a month and 60 a school year; no copy anywhere promises hours
+    ("easy hours", "guaranteed hours" and similar); and PVSA wording appears
+    only in `volunteer.ts`.
 
 ## Open register
 
-Everything below renders as a visible `TodoNote` in the interface until it is
-answered. Nothing is guessed at and nothing is silently blank.
+Everything below renders in the interface as a short, public-facing
+"Coming soon" note (`TodoNote.astro`) until it is answered. Nothing is guessed
+at and nothing is silently blank.
 
 | # | Needed | Blocks |
 |---|---|---|
@@ -68,12 +78,40 @@ answered. Nothing is guessed at and nothing is silently blank.
 | 10 | Whether to publish an enrolment figure at all | `/impact` |
 | 11 | Sign off on Sujan's bio, which is assembled from published copy | `/people` |
 | 12 | The last field report stop, "what we would do differently" | stage 05 |
+| 13 | Open Paths F1 Volunteer Registration form URL (`forms.register`) | `/volunteer`, `/volunteer/register` |
+| 14 | F2 Event Sign-up form URL and its event field key (`forms.signup`, `forms.signupEventField`) | every event page |
+| 15 | F3 Partner Confirmation form URL (`forms.partnerConfirm`) | local event pages, `/volunteer/partners` |
+| 16 | F4 Hours Submission form URL (`forms.submit`) | `/volunteer/submit` |
+| 17 | F5 Partner Completion form URL (`forms.partnerComplete`) | local event pages, `/volunteer/partners` |
+| 18 | Verify endpoint, the Apps Script web app URL (`verifyEndpoint`) | `/verify` |
+| 19 | Adult signatory name and title, never a parent of a volunteer (`signatory`) | `/volunteer/hours`, letters |
+| 20 | First Drop name, dates and places (`openPaths.currentDrop`); plan proposes Nov 16 to 30, 2026, 75 places | `/volunteer` |
+| 21 | Study Library folder URL (`studyLibraryUrl`) | Study Guide Studio |
+| 22 | Full participation agreement and full site privacy policy, after legal review | `/volunteer/register`, `/privacy` |
+| 23 | Confirm hour credits by having the team time each event once | `volunteer.ts` credits |
+| 24 | Recheck the PVSA status before each Drop (`pvsa.checkedOn`) | `/volunteer/hours`, FAQ |
+| 25 | Flyer and receipt templates for book and supply drives | drive event pages |
 
 The logo is the one that matters most. There is no logo file in this repo and
 the mark has deliberately **not** been recreated from its description, because
 altering the mark is a brand hard rule. What ships is the wordmark set in
 Bodoni at the real lockup's tracking. Drop the real files into `public/brand/`
 and replace `Wordmark.astro` with an `<img>`.
+
+## Open Paths, Phase 2
+
+Phase 1 runs on Google Forms, Sheets and Apps Script. Move to Phase 2 when
+Phase 1 reaches about 300 sign-ups a month or reviewers say the Sheet is the
+bottleneck. Phase 2 keeps this site on Astro: add the `@astrojs/vercel`
+adapter, keep `output: 'static'`, and opt only the dynamic routes out of
+prerendering with `export const prerender = false` (a student dashboard at
+`/volunteer/me`, a reviewer console at `/admin/review`, and `/api/verify`).
+Data moves to hosted Postgres (Supabase or Neon) with tables that mirror the
+Sheet tabs one to one and keep every existing ID, so letters already issued
+still verify. Check whether Vercel's Hobby plan allows a site that takes
+donations before relying on it. Do not add public profiles, comments or
+messaging between volunteers: Texas's SCOPE Act covers services that let
+minors interact and share content.
 
 ## Notes
 
