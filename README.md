@@ -98,6 +98,13 @@ altering the mark is a brand hard rule. What ships is the wordmark set in
 Bodoni at the real lockup's tracking. Drop the real files into `public/brand/`
 and replace `Wordmark.astro` with an `<img>`.
 
+## Open Paths backend
+
+The Phase 1 backend (Google Forms, Sheets and Apps Script) lives in
+`ops/open-paths/`. Its README is a step-by-step setup for a non-developer.
+`npm run export:events` regenerates its event data from
+`src/content/volunteer.ts`, and `npm run test:open-paths` runs its tests.
+
 ## Open Paths, Phase 2
 
 Phase 1 runs on Google Forms, Sheets and Apps Script. Move to Phase 2 when
