@@ -1,0 +1,113 @@
+---
+/**
+ * /volunteer, the Open Paths hub that social bios link to.
+ * Every sentence comes from src/content/volunteer.ts.
+ */
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import TodoNote from '../../components/TodoNote.astro';
+import { todos } from '../../content/site.ts';
+import {
+  hub, openPaths, events, forms, tiers, comingSoon, modeLabels, creditShort, ui, capsSentence,
+} from '../../content/volunteer.ts';
+import '../../styles/volunteer.css';
+
+const instagram = todos.socialHandles?.find((s) => s.label === 'Instagram') ?? null;
+const drop = openPaths.currentDrop;
+---
+<Layout title="Volunteer" description={hub.description}>
+  <PageHeader variant="dark" eyebrow={hub.eyebrow} title={hub.title} standfirst={hub.standfirst} />
+
+  <div class="shell">
+    <section class="op-section" aria-labelledby="drop-heading">
+      <h2 id="drop-heading">{ui.dropHeading}</h2>
+      {drop
+        ? (
+          <div class="op-drop">
+            <p class="op-drop__name">{drop.name}</p>
+            <p class="op-drop__meta">{drop.opens} {ui.to} {drop.closes} · {drop.places} {ui.places}</p>
+          </div>
+        )
+        : <TodoNote item={20} what={comingSoon.drop} />}
+      <p class="op-quiet">{openPaths.drops}</p>
+      {instagram && <a class="link-action" href={instagram.href} rel="noopener">{hub.followLabel}</a>}
+    </section>
+
+    <section class="op-section" id="events" aria-labelledby="events-heading">
+      <h2 id="events-heading">{ui.eventsHeading}</h2>
+      <ul class="op-events">
+        {events.map((e) => (
+          <li class="op-event">
+            <a href={`/volunteer/events/${e.slug}/`}>
+              <span>
+                <span class="op-event__name">{e.name}</span>
+                <span class="op-event__mode">{modeLabels[e.mode]}</span>
+              </span>
+              <span class="op-event__summary">{e.summary}</span>
+              <span class="op-event__credit">
+                {creditShort(e.credit)}
+                <span class="op-event__cap">{e.cap}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="op-section" aria-labelledby="how-heading">
+      <h2 id="how-heading">{ui.howHeading}</h2>
+      <ol class="op-steps">
+        {openPaths.howItWorks.map((step) => <li>{step}</li>)}
+      </ol>
+    </section>
+
+    <section class="op-section" aria-labelledby="join-heading">
+      <h2 id="join-heading">{ui.whoHeading}</h2>
+      <p class="op-lede">{openPaths.who}</p>
+      <p>{openPaths.consent}</p>
+
+      <p class="op-callout">
+        <span class="op-callout__label">{ui.beforeYouStart}</span>
+        {openPaths.counselorNote}
+      </p>
+
+      <div class="op-cta">
+        {forms.register
+          ? <a class="btn btn--accent" href={forms.register} rel="noopener">{ui.register}</a>
+          : <TodoNote item={13} what={comingSoon.register} />}
+        <p class="op-row">
+          <a class="link-action" href="/volunteer/register/">{ui.registerInfo}</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="op-section" aria-labelledby="hours-heading">
+      <h2 id="hours-heading">{ui.hoursHeading}</h2>
+      <p>{capsSentence()}</p>
+      <ul class="op-tiers">
+        {tiers.map((t) => <li><strong>{t.name}</strong><span class="op-quiet">{t.line}</span></li>)}
+      </ul>
+      <p class="op-cta"><a class="link-action" href="/volunteer/hours/">{ui.howHoursWork}</a></p>
+    </section>
+
+    <section class="op-section" aria-labelledby="more-heading">
+      <h2 id="more-heading">{ui.furtherHeading}</h2>
+      <div class="op-split">
+        <div>
+          <p>{openPaths.chapterFunnel}</p>
+          <a class="link-action" href="/join">{ui.startChapter}</a>
+        </div>
+        <div>
+          <p><strong>{openPaths.coreTeam.name}.</strong> {openPaths.coreTeam.body}</p>
+          <a class="link-action" href={openPaths.coreTeam.href}>{openPaths.coreTeam.linkLabel}</a>
+        </div>
+      </div>
+    </section>
+
+    <nav class="op-links op-row" aria-label="Open Paths">
+      <a class="link-action" href="/volunteer/faq/">{ui.faq}</a>
+      <a class="link-action" href="/volunteer/partners/">{ui.forPartners}</a>
+      <a class="link-action" href="/verify/">{ui.verify}</a>
+    </nav>
+  </div>
+</Layout>

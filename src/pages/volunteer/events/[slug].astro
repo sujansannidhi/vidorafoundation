@@ -1,0 +1,133 @@
+---
+/**
+ * One page per Open Paths event, generated from the events array.
+ */
+import type { GetStaticPaths } from 'astro';
+import Layout from '../../../layouts/Layout.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import TodoNote from '../../../components/TodoNote.astro';
+import PendingStatus from '../../../components/PendingStatus.astro';
+import {
+  events, openPaths, forms, comingSoon, modeLabels, partnerRequestEmail, ui, studyLibraryUrl,
+  bandRange, capsSentence, type OpenPathsEvent,
+} from '../../../content/volunteer.ts';
+import { signupUrlFor } from '../../../lib/forms.ts';
+import '../../../styles/volunteer.css';
+
+export const getStaticPaths = (() =>
+  events.map((event) => ({ params: { slug: event.slug }, props: { event } }))) satisfies GetStaticPaths;
+
+interface Props { event: OpenPathsEvent }
+const { event } = Astro.props;
+const credit = event.credit;
+const signup = signupUrlFor(event.id);
+---
+<Layout title={event.name} description={event.summary}>
+  <PageHeader eyebrow={`Open Paths · ${modeLabels[event.mode]}`} title={event.name} standfirst={event.summary} />
+
+  <div class="shell">
+    <a class="link-action op-back" href="/volunteer/#events">{ui.allEvents}</a>
+
+    {event.eligibility && (
+      <section class="op-section" aria-labelledby="elig-heading">
+        <h2 id="elig-heading">{ui.eligibility}</h2>
+        <p>{event.eligibility}</p>
+      </section>
+    )}
+
+    <section class="op-section" aria-labelledby="do-heading">
+      <h2 id="do-heading">{ui.whatYouDo}</h2>
+      <ol class="op-steps">{event.steps.map((s) => <li>{s}</li>)}</ol>
+      {event.context && (
+        <p class="op-quiet">{event.context.text} <a href={event.context.href}>{event.context.linkLabel}</a></p>
+      )}
+    </section>
+
+    {event.partnerRequired && (
+      <section class="op-section" aria-labelledby="recipient-heading">
+        <h2 id="recipient-heading">{ui.recipientFirst}</h2>
+        <p>{ui.recipientIntro}</p>
+        <figure class="op-figure">
+          <span class="op-figure__label">{ui.emailTemplate}</span>
+          <p><strong>{ui.subject}:</strong> {partnerRequestEmail.subject}</p>
+          <p>{partnerRequestEmail.body}</p>
+        </figure>
+        <div class="op-cta op-row">
+          {forms.partnerConfirm
+            ? <a class="link-action" href={forms.partnerConfirm} rel="noopener">{ui.partnerConfirmLink}</a>
+            : <TodoNote item={15} what={comingSoon.partnerConfirm} />}
+          {forms.partnerComplete
+            ? <a class="link-action" href={forms.partnerComplete} rel="noopener">{ui.partnerCompleteLink}</a>
+            : <TodoNote item={17} what={comingSoon.partnerComplete} />}
+        </div>
+      </section>
+    )}
+
+    <section class="op-section" aria-labelledby="where-heading">
+      <h2 id="where-heading">{ui.whereItGoes}</h2>
+      <p>{event.whereItGoes}</p>
+      {event.linksToStudyLibrary && (studyLibraryUrl
+        ? <a class="link-action" href={studyLibraryUrl} rel="noopener">{ui.studyLibrary}</a>
+        : <TodoNote item={21} what={comingSoon.studyLibrary} />)}
+    </section>
+
+    <section class="op-section" aria-labelledby="proof-heading">
+      <h2 id="proof-heading">{ui.proof}</h2>
+      <ul class="op-list">{event.proof.map((p) => <li>{p}</li>)}</ul>
+    </section>
+
+    <section class="op-section" aria-labelledby="hours-heading">
+      <h2 id="hours-heading">{ui.hours}</h2>
+      {credit.kind === 'fixed' && (
+        <p class="op-lede">{credit.hours} {credit.hours === 1 ? 'hour' : 'hours'} per {credit.per}.</p>
+      )}
+      {credit.kind === 'bands' && (
+        <table class="op-table op-table--small">
+          <thead><tr><th scope="col">{ui.quantity} ({credit.unit})</th><th scope="col">{ui.hours}</th></tr></thead>
+          <tbody>
+            {credit.bands.map((b) => <tr><td>{bandRange(b)}</td><td>{b.hours}</td></tr>)}
+          </tbody>
+        </table>
+      )}
+      {credit.kind === 'tasks' && (
+        <ul class="op-list">
+          {credit.tasks.map((t) => <li>{t.label} <strong>{t.hours} {t.hours === 1 ? 'hour' : 'hours'}</strong></li>)}
+        </ul>
+      )}
+      {event.creditNote && <p class="op-quiet">{event.creditNote}</p>}
+    </section>
+
+    <section class="op-section" aria-labelledby="limits-heading">
+      <h2 id="limits-heading">{ui.limits}</h2>
+      <p>{event.cap}</p>
+      <p class="op-quiet">{capsSentence()}</p>
+    </section>
+
+    <section class="op-section" aria-labelledby="safety-heading">
+      <h2 id="safety-heading">{ui.safety}</h2>
+      <ul class="op-list">{event.safety.map((s) => <li>{s}</li>)}</ul>
+      {event.linksToDonate && (
+        <p class="op-cta"><a class="link-action" href="/donate">{ui.donate}</a></p>
+      )}
+      {event.linksToDonate && <PendingStatus />}
+    </section>
+
+    <section class="op-section" aria-labelledby="example-heading">
+      <h2 id="example-heading">{ui.exampleCaption}</h2>
+      <figure class="op-figure">
+        <span class="op-figure__label">{ui.exampleCaption}</span>
+        <blockquote class="op-quote"><p>{event.exampleCaption}</p></blockquote>
+      </figure>
+    </section>
+
+    <section class="op-section" aria-labelledby="before-heading">
+      <h2 id="before-heading">{ui.beforeYouStart}</h2>
+      <p class="op-callout">{openPaths.counselorNote}</p>
+      <div class="op-cta">
+        {signup
+          ? <a class="btn btn--accent" href={signup} rel="noopener">{ui.signUp}</a>
+          : <TodoNote item={14} what={comingSoon.signup} />}
+      </div>
+    </section>
+  </div>
+</Layout>

@@ -1,0 +1,43 @@
+---
+/**
+ * /privacy. For now, one section: the Open Paths volunteer program, plus the
+ * existing statement about the partnership enquiry form, reused from
+ * partners.ts rather than restated.
+ */
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import TodoNote from '../components/TodoNote.astro';
+import { privacyPage } from '../content/volunteer.ts';
+import { enquiryPrivacy } from '../content/partners.ts';
+import '../styles/volunteer.css';
+
+// TODO(mani): full site privacy policy, after legal review.
+---
+<Layout title={privacyPage.title} description={privacyPage.description}>
+  <PageHeader eyebrow={privacyPage.eyebrow} title={privacyPage.title} />
+
+  <div class="shell">
+    <section class="op-section" aria-labelledby="op-heading">
+      <h2 id="op-heading">{privacyPage.programHeading}</h2>
+      {privacyPage.sections.map((s) => (
+        <div class="privacy__item">
+          <h3>{s.heading}</h3>
+          {s.body.map((p) => <p>{p}</p>)}
+        </div>
+      ))}
+    </section>
+
+    <section class="op-section" aria-labelledby="enquiry-heading">
+      <h2 id="enquiry-heading">{privacyPage.enquiryHeading}</h2>
+      <p>{enquiryPrivacy}</p>
+    </section>
+
+    <TodoNote item={22} what={privacyPage.fullPolicy} />
+  </div>
+</Layout>
+
+<style>
+  .privacy__item { margin-top: var(--space-lg); max-width: var(--measure); }
+  .privacy__item h3 { font-size: var(--step-display-4); }
+  .privacy__item p { margin: var(--space-xs) 0 0; color: var(--text-soft); }
+</style>

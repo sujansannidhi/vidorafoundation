@@ -302,6 +302,82 @@ for (const person of people) {
 }
 
 /* ------------------------------------------------------------------ *
+ * Rule 12. Open Paths. Events, credits and caps are well formed, no copy
+ * promises hours, and PVSA wording lives in one file only.
+ * ------------------------------------------------------------------ */
+{
+  const vol = await import(new URL('../src/content/volunteer.ts', import.meta.url));
+  const where = (e) => `volunteer.ts:${e.id ?? e.slug ?? '?'}`;
+  const ids = new Set();
+  const slugs = new Set();
+  let maxSingle = 0;
+  for (const e of vol.events) {
+    for (const key of ['id', 'slug', 'name', 'summary', 'whereItGoes', 'cap']) {
+      if (!e[key]) fail('R12 Open Paths event', where(e), `missing ${key}`);
+    }
+    for (const key of ['steps', 'proof', 'safety']) {
+      if (!Array.isArray(e[key]) || e[key].length === 0) fail('R12 Open Paths event', where(e), `${key} is empty`);
+    }
+    const limits = Object.values(e.capRule ?? {}).filter((v) => typeof v === 'number' && v > 0);
+    if (limits.length === 0) fail('R12 Open Paths event', where(e), 'capRule needs at least one limit');
+    if (!/^EVT-[A-Z]+$/.test(e.id ?? '')) fail('R12 Open Paths event', where(e), 'id must match /^EVT-[A-Z]+$/');
+    if (ids.has(e.id)) fail('R12 Open Paths event', where(e), 'duplicate id');
+    if (slugs.has(e.slug)) fail('R12 Open Paths event', where(e), 'duplicate slug');
+    ids.add(e.id); slugs.add(e.slug);
+
+    const c = e.credit;
+    if (c?.kind === 'fixed') {
+      if (!(c.hours > 0)) fail('R12 Open Paths credit', where(e), 'fixed hours must be above 0');
+      maxSingle = Math.max(maxSingle, c.hours);
+    } else if (c?.kind === 'bands') {
+      const b = c.bands ?? [];
+      if (b.length === 0) fail('R12 Open Paths credit', where(e), 'bands are empty');
+      b.forEach((band, i) => {
+        if (!(band.hours > 0)) fail('R12 Open Paths credit', where(e), `band ${i} hours must be above 0`);
+        const last = i === b.length - 1;
+        if (last && band.max !== null) fail('R12 Open Paths credit', where(e), 'the last band must have max null');
+        if (!last && (band.max === null || band.max < band.min)) fail('R12 Open Paths credit', where(e), `band ${i} has a bad max`);
+        if (i > 0) {
+          const prev = b[i - 1];
+          if (prev.max === null || band.min !== prev.max + 1) fail('R12 Open Paths credit', where(e), `band ${i} overlaps or leaves a gap`);
+          if (band.hours <= prev.hours) fail('R12 Open Paths credit', where(e), `band ${i} hours must ascend`);
+        }
+        maxSingle = Math.max(maxSingle, band.hours);
+      });
+    } else if (c?.kind === 'tasks') {
+      if (!c.tasks?.length) fail('R12 Open Paths credit', where(e), 'tasks are empty');
+      for (const t of c.tasks ?? []) {
+        if (!(t.hours > 0)) fail('R12 Open Paths credit', where(e), `task ${t.id} hours must be above 0`);
+        maxSingle = Math.max(maxSingle, t.hours);
+      }
+    } else {
+      fail('R12 Open Paths credit', where(e), 'credit kind must be fixed, bands or tasks');
+    }
+  }
+  if (maxSingle > 8) fail('R12 Open Paths credit', 'volunteer.ts', `a single submission could earn ${maxSingle} hours; the ceiling is 8`);
+  const caps = vol.openPaths?.caps ?? {};
+  if (caps.hoursPerMonth !== 12 || caps.hoursPerSchoolYear !== 60) {
+    fail('R12 Open Paths caps', 'volunteer.ts', 'global caps must be exactly 12 a month and 60 a school year; change this rule deliberately if they change');
+  }
+  if (/deduct/i.test(vol.letterStatusLine ?? '')) {
+    fail('R12 Open Paths status line', 'volunteer.ts', 'letterStatusLine must not mention deductibility');
+  }
+
+  const PROMISES = ['easy hours', 'easy volunteer hours', 'free volunteer hours', 'guaranteed hours',
+    'hours are guaranteed', 'guarantee your hours', 'PVSA-eligible', 'PVSA eligible'];
+  for (const f of srcFiles) {
+    if (!isType(f, '.astro', '.ts', '.js', '.md', '.mjs')) continue;
+    const body = text(f);
+    for (const phrase of PROMISES) {
+      if (body.toLowerCase().includes(phrase.toLowerCase())) fail('R12 Open Paths promise', rel(f), `"${phrase}"`);
+    }
+    if (basename(f) !== 'volunteer.ts' && (/President.s Volunteer Service Award/.test(body) || /\bPVSA\b/.test(body))) {
+      fail('R12 Open Paths PVSA', rel(f), 'PVSA wording belongs only in src/content/volunteer.ts');
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ *
  * Report
  * ------------------------------------------------------------------ */
 if (failures.length === 0) {

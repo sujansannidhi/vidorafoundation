@@ -1,0 +1,52 @@
+---
+/**
+ * /volunteer/register: what a student needs before registering.
+ */
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import TodoNote from '../../components/TodoNote.astro';
+import { registerPage, openPaths, forms, comingSoon, faq, ui, hub } from '../../content/volunteer.ts';
+import '../../styles/volunteer.css';
+
+// The data answer is the parents' FAQ answer, reused rather than restated.
+const dataAnswer = faq.find((g) => g.id === 'parents')?.items[0]?.a ?? [];
+// TODO(mani): full participation agreement text after legal review.
+---
+<Layout title={registerPage.title} description={registerPage.description}>
+  <PageHeader eyebrow={hub.eyebrow} title={registerPage.title} standfirst={openPaths.consent} />
+
+  <div class="shell">
+    <section class="op-section" aria-labelledby="need-heading">
+      <h2 id="need-heading">{ui.needHeading}</h2>
+      <ul class="op-list">{registerPage.needs.map((n) => <li>{n}</li>)}</ul>
+      <p class="op-quiet">{openPaths.who}</p>
+    </section>
+
+    <section class="op-section" aria-labelledby="collect-heading">
+      <h2 id="collect-heading">{ui.collectHeading}</h2>
+      {dataAnswer.map((p) => <p>{p}</p>)}
+      <a class="link-action" href="/privacy/">{ui.privacyLink}</a>
+    </section>
+
+    <section class="op-section" aria-labelledby="consent-heading">
+      <h2 id="consent-heading">{ui.consentHeading}</h2>
+      <ol class="op-steps">{registerPage.consentSteps.map((s) => <li>{s}</li>)}</ol>
+    </section>
+
+    <section class="op-section" aria-labelledby="agreement-heading">
+      <h2 id="agreement-heading">{ui.agreementHeading}</h2>
+      <ul class="op-list">{registerPage.agreement.map((a) => <li>{a}</li>)}</ul>
+      <p class="op-quiet">{ui.agreementNote}</p>
+    </section>
+
+    <section class="op-section" aria-labelledby="register-heading">
+      <h2 id="register-heading">{ui.beforeYouStart}</h2>
+      <p class="op-callout">{openPaths.counselorNote}</p>
+      <div class="op-cta">
+        {forms.register
+          ? <a class="btn btn--accent" href={forms.register} rel="noopener">{ui.register}</a>
+          : <TodoNote item={13} what={comingSoon.register} />}
+      </div>
+    </section>
+  </div>
+</Layout>

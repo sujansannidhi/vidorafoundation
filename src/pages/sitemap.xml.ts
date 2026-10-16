@@ -4,11 +4,16 @@
  * less to keep in sync than an integration.
  */
 import type { APIRoute } from 'astro';
+import { events } from '../content/volunteer.ts';
 
 const ROUTES = [
   '/', '/mission', '/programs', '/impact',
   '/campaigns/learning-kits-june-2026',
   '/people', '/partners', '/join', '/donate', '/updates', '/contact',
+  '/volunteer', '/volunteer/register', '/volunteer/submit', '/volunteer/hours',
+  '/volunteer/faq', '/volunteer/partners', '/verify', '/privacy',
+  // Every event page, from the events array, so a new event cannot be missed.
+  ...events.map((e) => `/volunteer/events/${e.slug}`),
 ];
 
 export const GET: APIRoute = ({ site }) => {

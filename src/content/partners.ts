@@ -58,6 +58,10 @@ export const partnershipKinds = [
   'Something else',
 ] as const;
 
+/** The enquiry form's privacy statement, shown on /privacy. */
+export const enquiryPrivacy =
+  'The partnership enquiry form sends your message by email to our team through FormSubmit. Nothing is stored on this site.';
+
 /**
  * The enquiry form posts to FormSubmit, which emails each submission to the
  * address below. Nothing is stored on this site.

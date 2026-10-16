@@ -1,0 +1,58 @@
+---
+/**
+ * /volunteer/partners: for libraries, schools and other recipients.
+ */
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import TodoNote from '../../components/TodoNote.astro';
+import { partnersCopy, partnerRequestEmail, forms, comingSoon, ui, hub } from '../../content/volunteer.ts';
+import '../../styles/volunteer.css';
+---
+<Layout title={partnersCopy.title} description={partnersCopy.standfirst}>
+  <PageHeader eyebrow={hub.eyebrow} title={partnersCopy.title} standfirst={partnersCopy.standfirst} />
+
+  <div class="shell">
+    <section class="op-section" aria-labelledby="who-heading">
+      <h2 id="who-heading">{ui.whoForHeading}</h2>
+      <p class="op-lede">{partnersCopy.whoFor}</p>
+    </section>
+
+    <section class="op-section" aria-labelledby="do-heading">
+      <h2 id="do-heading">{ui.whatVolunteersDoHeading}</h2>
+      <ul class="op-list">{partnersCopy.whatVolunteersDo.map((x) => <li>{x}</li>)}</ul>
+    </section>
+
+    <section class="op-section op-split" aria-labelledby="ask-heading">
+      <div>
+        <h2 id="ask-heading">{ui.whatWeAskHeading}</h2>
+        <ul class="op-list">{partnersCopy.whatWeAsk.map((x) => <li>{x}</li>)}</ul>
+      </div>
+      <div>
+        <h2>{ui.whatToExpectHeading}</h2>
+        <ul class="op-list">{partnersCopy.whatToExpect.map((x) => <li>{x}</li>)}</ul>
+      </div>
+    </section>
+
+    <section class="op-section" aria-labelledby="forms-heading">
+      <h2 id="forms-heading">{ui.partnerFormsHeading}</h2>
+      <div class="op-row">
+        {forms.partnerConfirm
+          ? <a class="btn btn--accent" href={forms.partnerConfirm} rel="noopener">{ui.partnerConfirmLink}</a>
+          : <TodoNote item={15} what={comingSoon.partnerConfirm} />}
+        {forms.partnerComplete
+          ? <a class="btn btn--secondary" href={forms.partnerComplete} rel="noopener">{ui.partnerCompleteLink}</a>
+          : <TodoNote item={17} what={comingSoon.partnerComplete} />}
+      </div>
+    </section>
+
+    <section class="op-section" aria-labelledby="email-heading">
+      <h2 id="email-heading">{ui.partnerEmailHeading}</h2>
+      <figure class="op-figure">
+        <span class="op-figure__label">{ui.emailTemplate}</span>
+        <p><strong>{ui.subject}:</strong> {partnerRequestEmail.subject}</p>
+        <p>{partnerRequestEmail.body}</p>
+      </figure>
+      <p class="op-quiet">{partnersCopy.listingNote}</p>
+    </section>
+  </div>
+</Layout>
