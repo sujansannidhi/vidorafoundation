@@ -1,0 +1,48 @@
+---
+/**
+ * /volunteer/submit: deadlines, proof checklists per event, and the form.
+ */
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import TodoNote from '../../components/TodoNote.astro';
+import { submitPage, openPaths, events, forms, comingSoon, ui, hub } from '../../content/volunteer.ts';
+import '../../styles/volunteer.css';
+---
+<Layout title={submitPage.title} description={submitPage.description}>
+  <PageHeader eyebrow={hub.eyebrow} title={submitPage.title} standfirst={openPaths.howItWorks[3]} />
+
+  <div class="shell">
+    <section class="op-section" aria-labelledby="timeline-heading">
+      <h2 id="timeline-heading">{ui.timelineHeading}</h2>
+      <ul class="op-list">{openPaths.timeline.map((t) => <li>{t}</li>)}</ul>
+    </section>
+
+    <section class="op-section" aria-labelledby="checklists-heading">
+      <h2 id="checklists-heading">{ui.checklistsHeading}</h2>
+      {events.map((e) => (
+        <details class="op-details">
+          <summary>{e.name}</summary>
+          <div>
+            <ul class="op-list">{e.proof.map((p) => <li>{p}</li>)}</ul>
+          </div>
+        </details>
+      ))}
+      <p class="op-quiet">{submitPage.partnerReminder}</p>
+    </section>
+
+    <section class="op-section" aria-labelledby="files-heading">
+      <h2 id="files-heading">{ui.filesHeading}</h2>
+      <p>{submitPage.fileRules}</p>
+    </section>
+
+    <section class="op-section" aria-labelledby="original-heading">
+      <h2 id="original-heading">{ui.originalHeading}</h2>
+      <p>{openPaths.originality}</p>
+      <div class="op-cta">
+        {forms.submit
+          ? <a class="btn btn--accent" href={forms.submit} rel="noopener">{ui.submitButton}</a>
+          : <TodoNote item={16} what={comingSoon.submit} />}
+      </div>
+    </section>
+  </div>
+</Layout>

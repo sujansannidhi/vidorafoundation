@@ -1,0 +1,159 @@
+---
+/**
+ * /verify: check an Open Paths hours letter by Certificate ID.
+ *
+ * Progressive enhancement, as on /partners. Without JavaScript the form
+ * submits GET `${verifyEndpoint}?id=<id>` and the endpoint answers with its
+ * own HTML page. With JavaScript the script below fetches the JSON contract
+ * from src/content/volunteer.ts and renders the result in place. When the
+ * endpoint is not set yet, the page says so and offers email instead.
+ */
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import TodoNote from '../components/TodoNote.astro';
+import { todos } from '../content/site.ts';
+import {
+  verifyPage, verifyEndpoint, comingSoon, CERTIFICATE_ID_HTML_PATTERN, ui, hub,
+} from '../content/volunteer.ts';
+import '../styles/volunteer.css';
+
+const contact = todos.contactEmail;
+---
+<Layout title={verifyPage.title} description={verifyPage.description}>
+  <PageHeader eyebrow={hub.eyebrow} title={verifyPage.title} standfirst={verifyPage.intro} />
+
+  <div class="shell">
+    {verifyEndpoint
+      ? (
+        <form class="verify" action={verifyEndpoint} method="get" data-verify data-endpoint={verifyEndpoint}>
+          <label class="verify__label" for="cert-id">{verifyPage.label}</label>
+          <div class="verify__row">
+            <input
+              id="cert-id"
+              name="id"
+              type="text"
+              required
+              pattern={CERTIFICATE_ID_HTML_PATTERN}
+              autocapitalize="characters"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="OP-2611-0042-K7QD"
+            />
+            <button class="btn btn--accent" type="submit">{verifyPage.button}</button>
+          </div>
+          <div class="verify__result" role="status" aria-live="polite" data-verify-result></div>
+        </form>
+      )
+      : <TodoNote item={18} what={comingSoon.verify} />}
+
+    {contact && (
+      <p class="op-section op-quiet">
+        {ui.verifyEmailLead} <a href={`mailto:${contact}`}>{contact}</a>
+      </p>
+    )}
+  </div>
+</Layout>
+
+<script>
+  import { verifyPage, CERTIFICATE_ID_PATTERN, type VerifyResponse } from '../content/volunteer.ts';
+  import { todos } from '../content/site.ts';
+
+  const form = document.querySelector<HTMLFormElement>('[data-verify]');
+  const out = document.querySelector<HTMLElement>('[data-verify-result]');
+  const input = form?.querySelector<HTMLInputElement>('input[name="id"]');
+  const endpoint = form?.dataset.endpoint;
+  const contact = todos.contactEmail ?? '';
+
+  const para = (text: string, cls?: string): HTMLParagraphElement => {
+    const p = document.createElement('p');
+    p.textContent = text;
+    if (cls) p.className = cls;
+    return p;
+  };
+  const withContact = (text: string): string => (contact ? `${text} ${contact}` : text);
+
+  type Found = Extract<VerifyResponse, { volunteer: string }>;
+  const isFound = (d: VerifyResponse): d is Found => d.status === 'VALID' || d.status === 'REVOKED';
+
+  const render = (data: VerifyResponse): void => {
+    if (!out) return;
+    out.replaceChildren();
+    if (!isFound(data)) {
+      out.append(para(data.status === 'NOT_FOUND' ? withContact(verifyPage.notFound) : verifyPage.invalid));
+      return;
+    }
+    const valid = data.status === 'VALID';
+    out.dataset.state = valid ? 'valid' : 'revoked';
+    out.append(para(valid ? verifyPage.valid : verifyPage.revoked, 'verify__status'));
+    if (!valid) out.append(para(verifyPage.revokedNote));
+    out.append(para(`${data.volunteer} · ${data.hours} ${verifyPage.hoursWord} · ${verifyPage.issued} ${data.issuedOn} · ${data.id}`, 'verify__meta'));
+    const list = document.createElement('ul');
+    list.className = 'op-list';
+    for (const a of data.activities) {
+      const li = document.createElement('li');
+      li.textContent = `${a.event}, ${a.dates}, ${a.hours} ${verifyPage.hoursWord}`;
+      list.append(li);
+    }
+    out.append(list);
+  };
+
+  const check = async (raw: string): Promise<void> => {
+    if (!out || !endpoint) return;
+    const id = raw.trim().toUpperCase();
+    if (input) input.value = id;
+    delete out.dataset.state;
+    if (!CERTIFICATE_ID_PATTERN.test(id)) { out.replaceChildren(para(verifyPage.invalid)); return; }
+    out.replaceChildren(para(verifyPage.checking));
+    try {
+      // Plain fetch with no custom headers: a custom header would trigger a
+      // CORS preflight that Apps Script does not answer.
+      const url = `${endpoint}?id=${encodeURIComponent(id)}&format=json`;
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(String(res.status));
+      render((await res.json()) as VerifyResponse); // shape fixed by the contract in volunteer.ts
+    } catch {
+      out.replaceChildren(para(withContact(verifyPage.networkError)));
+    }
+  };
+
+  if (form && input) {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      void check(input.value);
+    });
+    // Letters print vidorafoundation.org/verify?id=..., so run the check on load.
+    const fromUrl = new URLSearchParams(location.search).get('id');
+    if (fromUrl) void check(fromUrl);
+  }
+</script>
+
+<style>
+  .verify { max-width: 36rem; }
+  .verify__label {
+    display: block;
+    margin-bottom: var(--space-xs);
+    font-size: var(--step-utility);
+    letter-spacing: var(--tracking-utility);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .verify__row { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+  .verify__row input {
+    flex: 1 1 14rem;
+    font: inherit;
+    padding: 0.7rem 0.8rem;
+    border: var(--hairline) solid var(--rule-quiet);
+    background: var(--paper-lift);
+    color: var(--text);
+    letter-spacing: 0.04em;
+  }
+  .verify__result { margin-top: var(--space-lg); }
+  .verify__result:empty { display: none; }
+  .verify__result :global(.verify__status) {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--step-display-4);
+  }
+  .verify__result[data-state='revoked'] :global(.verify__status) { text-decoration: line-through; }
+  .verify__result :global(.verify__meta) { font-weight: 600; }
+</style>

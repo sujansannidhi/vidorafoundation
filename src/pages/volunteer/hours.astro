@@ -1,0 +1,92 @@
+---
+/**
+ * /volunteer/hours: the hour credit table, built from the events array and
+ * never typed by hand, plus caps, tiers, letters and the national award note.
+ */
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import TodoNote from '../../components/TodoNote.astro';
+import {
+  hoursPage, openPaths, events, tiers, letterContents, sampleLetter, pvsa, signatory,
+  comingSoon, ui, creditShort, creditUnit, capsSentence, hub, } from '../../content/volunteer.ts';
+import '../../styles/volunteer.css';
+---
+<Layout title={hoursPage.title} description={hoursPage.description}>
+  <PageHeader eyebrow={hub.eyebrow} title={hoursPage.title} standfirst={capsSentence()} />
+
+  <div class="shell">
+    <section class="op-section" aria-labelledby="table-heading">
+      <h2 id="table-heading">{ui.creditTableHeading}</h2>
+      <div class="op-table-wrap">
+        <table class="op-table">
+          <thead>
+            <tr>
+              <th scope="col">{ui.event}</th>
+              <th scope="col">{ui.unit}</th>
+              <th scope="col">{ui.hours}</th>
+              <th scope="col">{ui.cap}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {events.map((e) => (
+              <tr>
+                <td><a href={`/volunteer/events/${e.slug}/`}>{e.name}</a></td>
+                <td>{creditUnit(e.credit)}</td>
+                <td>{creditShort(e.credit)}</td>
+                <td>{e.cap}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="op-section" aria-labelledby="caps-heading">
+      <h2 id="caps-heading">{ui.capsHeading}</h2>
+      <p>{capsSentence()}</p>
+    </section>
+
+    <section class="op-section" aria-labelledby="timeline-heading">
+      <h2 id="timeline-heading">{ui.timelineHeading}</h2>
+      <ul class="op-list">{openPaths.timeline.map((t) => <li>{t}</li>)}</ul>
+    </section>
+
+    <section class="op-section" aria-labelledby="tiers-heading">
+      <h2 id="tiers-heading">{ui.tiersHeading}</h2>
+      <ul class="op-tiers">
+        {tiers.map((t) => <li><strong>{t.name}</strong><span class="op-quiet">{t.line}</span></li>)}
+      </ul>
+    </section>
+
+    <section class="op-section" aria-labelledby="letter-heading">
+      <h2 id="letter-heading">{ui.letterHeading}</h2>
+      <ul class="op-list">{letterContents.map((l) => <li>{l}</li>)}</ul>
+      {signatory
+        ? <p class="op-quiet">{signatory.name}, {signatory.title}</p>
+        : <TodoNote item={19} what={comingSoon.signatory} />}
+    </section>
+
+    <section class="op-section" aria-labelledby="sample-heading">
+      <h2 id="sample-heading">{ui.sampleHeading}</h2>
+      <figure class="op-figure">
+        <span class="op-figure__label">{ui.sampleLabel}</span>
+        {sampleLetter.map((line) => <p>{line}</p>)}
+      </figure>
+    </section>
+
+    <section class="op-section" aria-labelledby="rules-heading">
+      <h2 id="rules-heading">{ui.schoolRulesHeading}</h2>
+      <p class="op-callout">{openPaths.counselorNote}</p>
+    </section>
+
+    <section class="op-section" aria-labelledby="pvsa-heading">
+      <h2 id="pvsa-heading">{ui.pvsaHeading}</h2>
+      <p>{pvsa.text}</p>
+    </section>
+
+    <section class="op-section" aria-labelledby="fraud-heading">
+      <h2 id="fraud-heading">{ui.fraudHeading}</h2>
+      <p>{openPaths.fraud}</p>
+    </section>
+  </div>
+</Layout>

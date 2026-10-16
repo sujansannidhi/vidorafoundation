@@ -1,0 +1,35 @@
+---
+/**
+ * /volunteer/faq: three groups, with real headings so answers are crawlable.
+ */
+import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { faqPage, faq, hub } from '../../content/volunteer.ts';
+import '../../styles/volunteer.css';
+---
+<Layout title={faqPage.title} description={faqPage.description}>
+  <PageHeader eyebrow={hub.eyebrow} title={faqPage.title} />
+
+  <div class="shell">
+    <nav aria-label="Jump to a group">
+      <ul class="op-jump">
+        {faq.map((g) => <li><a class="link-action" href={`#${g.id}`}>{g.heading}</a></li>)}
+      </ul>
+    </nav>
+
+    {faq.map((g) => (
+      <section class="op-section" id={g.id} aria-labelledby={`${g.id}-heading`}>
+        <h2 id={`${g.id}-heading`}>{g.heading}</h2>
+        {g.items.map((item) => (
+          <details class="op-details">
+            <summary><h3 class="op-q">{item.q}</h3></summary>
+            <div>
+              {item.a.map((p) => <p>{p}</p>)}
+              {item.link && <a class="link-action" href={item.link.href}>{item.link.label}</a>}
+            </div>
+          </details>
+        ))}
+      </section>
+    ))}
+  </div>
+</Layout>
