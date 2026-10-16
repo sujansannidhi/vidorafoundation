@@ -8,7 +8,9 @@
     "check": "node scripts/check-content-rules.mjs && astro check",
     "rules": "node scripts/check-content-rules.mjs",
     "build": "node scripts/check-content-rules.mjs && astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "export:events": "node scripts/export-open-paths-events.mjs",
+    "test:open-paths": "node ops/open-paths/test/local.test.mjs"
   },
   "dependencies": {
     "@fontsource/libre-baskerville": "^5.3.0",
