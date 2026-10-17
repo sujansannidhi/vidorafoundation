@@ -93,9 +93,8 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
     position: sticky;
     top: 0;
     z-index: 60;
-    /* Close to solid: any lighter and the cream turns a muddy grey over the
-       navy sections and the film. */
-    background: rgb(250 247 242 / 0.95);
+    /* Close to solid, so the bar stays readable over photographs. */
+    background: rgb(255 255 255 / 0.92);
     backdrop-filter: saturate(140%) blur(14px);
     border-bottom: var(--hairline) solid var(--rule-quiet);
   }
@@ -119,7 +118,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
   .site-nav {
     display: flex;
     align-items: center;
-    gap: 26px;
+    gap: 4px;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -127,29 +126,28 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
   }
   .site-nav li { max-width: none; }
   .site-nav__link {
-    font-size: var(--step-utility);
-    letter-spacing: var(--tracking-nav);
-    text-transform: uppercase;
+    display: block;
+    font-size: var(--step-body-sm);
     font-weight: 600;
     color: var(--text);
     text-decoration: none;
-    padding-bottom: 4px;
-    border-bottom: var(--hairline) solid transparent;
+    padding: 0.45em 0.8em;
+    border-radius: 999px;
+    transition: background-color var(--dur) var(--ease-out);
   }
-  .site-nav__link:hover { border-bottom-color: var(--rule); }
-  .site-nav__link[aria-current='page'] { border-bottom-color: var(--text); }
+  .site-nav__link:hover { background: var(--tint-sky); }
+  .site-nav__link[aria-current='page'] { background: var(--tint-peach); }
 
   .site-header__cta {
     flex: none;
-    font-size: var(--step-utility);
-    letter-spacing: var(--tracking-nav);
-    text-transform: uppercase;
+    font-size: var(--step-body-sm);
     font-weight: 700;
     color: var(--paper);
-    background: var(--accent-fill);
-    border: var(--hairline) solid var(--accent-fill);
+    background: var(--btn);
+    border: 2px solid var(--btn);
+    border-radius: 999px;
     text-decoration: none;
-    padding: 0.9em 1.5em;
+    padding: 0.6em 1.4em;
     transition: background-color var(--dur) var(--ease-out),
                 border-color var(--dur) var(--ease-out);
   }
@@ -168,6 +166,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
     width: 40px;
     height: 40px;
     border: var(--hairline) solid var(--rule-quiet);
+    border-radius: 999px;
     color: var(--text);
     cursor: pointer;
     list-style: none;

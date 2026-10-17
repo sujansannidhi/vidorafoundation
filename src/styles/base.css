@@ -13,9 +13,6 @@ html {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
-/* Lenis drives the scroll itself on the homepage. Native smooth scrolling
-   on top of it would ease every frame twice. */
-html.lenis { scroll-behavior: auto; }
 
 body {
   margin: 0;
@@ -32,9 +29,9 @@ body {
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 400;
+  font-weight: 700;
   line-height: var(--leading-display);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
   margin: 0;
   text-wrap: balance;
 }
@@ -66,15 +63,21 @@ img { height: auto; display: block; }
 
 /* ---- Utility role: eyebrows, stat labels, chips. Source Sans, never Baskerville. ---- */
 .eyebrow {
+  display: inline-block;
+  width: fit-content;
   font-family: var(--font-body);
   font-size: var(--step-utility);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-utility);
-  font-weight: 600;
+  letter-spacing: 0.08em;
+  font-weight: 700;
   color: var(--link);
+  background: var(--tint-peach);
+  padding: 0.4em 0.95em;
+  border-radius: 999px;
   margin: 0;
   max-width: none;
 }
+.on-dark .eyebrow { background: rgb(255 255 255 / 0.1); }
 
 /*
  * The rule that opens a section: an eyebrow with a hairline across the top.
@@ -85,8 +88,6 @@ img { height: auto; display: block; }
   justify-content: space-between;
   gap: var(--space-md);
   flex-wrap: wrap;
-  border-top: var(--hairline) solid var(--rule-accent);
-  padding-top: var(--space-sm);
 }
 
 /* ---- Layout ---- */
@@ -126,38 +127,42 @@ img { height: auto; display: block; }
 }
 .skip-link:focus { transform: translateY(0); }
 
-/* ---- Buttons. Square, uppercase, letterspaced. Annual report, not SaaS. ---- */
+/* ---- Buttons. Rounded pills, bold, sentence case. ---- */
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
   font-family: var(--font-body);
-  font-size: var(--step-body-xs);
+  font-size: var(--step-body-sm);
   font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.95em 1.75em;
-  border: var(--hairline) solid currentColor;
-  border-radius: 0;
+  letter-spacing: 0.01em;
+  padding: 0.85em 1.6em;
+  border: 2px solid currentColor;
+  border-radius: 999px;
   text-decoration: none;
   transition: background-color var(--dur) var(--ease-out),
               color var(--dur) var(--ease-out),
-              border-color var(--dur) var(--ease-out);
+              border-color var(--dur) var(--ease-out),
+              transform var(--dur) var(--ease-out);
 }
+.btn:hover { transform: translateY(-2px); }
 .btn--primary {
   background: var(--ink);
   border-color: var(--ink);
   color: var(--paper);
 }
 .btn--primary:hover {
-  background: var(--accent-fill);
-  border-color: var(--accent-fill);
+  background: var(--btn);
+  border-color: var(--btn);
   color: var(--paper);
 }
 .btn--accent {
-  background: var(--accent-fill);
-  border-color: var(--accent-fill);
+  background: var(--btn);
+  border-color: var(--btn);
   color: var(--paper);
 }
-.btn--accent:hover { background: var(--ink); border-color: var(--ink); }
+.btn--accent:hover { background: var(--btn-hover); border-color: var(--btn-hover); }
 .btn--secondary {
   background: transparent;
   border-color: var(--rule-quiet);
@@ -172,19 +177,48 @@ img { height: auto; display: block; }
 }
 .on-dark .btn--primary:hover { background: var(--accent-on-dark); border-color: var(--accent-on-dark); }
 
-/* A text link that reads as an action: uppercase, underscored by a rule. */
+/* A text link that reads as an action, with an arrow that nudges on hover. */
 .link-action {
-  display: inline-block;
-  font-size: var(--step-body-xs);
-  letter-spacing: var(--tracking-nav);
-  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: var(--step-body-sm);
   font-weight: 700;
   color: var(--link);
   text-decoration: none;
-  border-bottom: var(--hairline) solid var(--rule);
-  padding-bottom: 3px;
 }
-.link-action:hover { color: var(--text); border-bottom-color: currentColor; }
+.link-action::after { content: '\2192'; transition: transform var(--dur) var(--ease-out); }
+.link-action:hover::after { transform: translateX(4px); }
+.link-action:hover { color: var(--text); }
+
+/* ---- Shared building blocks for the brighter system ---- */
+/* Every photograph frame is rounded. */
+.slot { border-radius: var(--radius); }
+
+.card {
+  background: var(--paper);
+  border-radius: var(--radius);
+  padding: clamp(1.25rem, 2.6vw, 2rem);
+  box-shadow: var(--shadow-soft);
+}
+.card--tint { background: var(--tint-sky); box-shadow: none; }
+.tag {
+  display: inline-block;
+  padding: 0.3em 0.85em;
+  border-radius: 999px;
+  font-size: var(--step-utility);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: var(--tint-sun);
+  color: var(--text);
+}
+.tag--sky { background: var(--tint-sky); }
+.tag--peach { background: var(--tint-peach); }
+.band--sky { background: var(--tint-sky); }
+.band--peach { background: var(--tint-peach); }
+.band--sun { background: var(--tint-sun); }
+.section-title { font-size: var(--step-display-2); max-width: 18ch; }
+.section-sub { margin-top: var(--space-sm); font-size: var(--step-body-lg); color: var(--text-soft); max-width: 40rem; }
 
 .rule {
   border: 0;
@@ -272,3 +306,7 @@ img { height: auto; display: block; }
     transition-duration: 0.001ms !important;
   }
 }
+
+/* A pill on a tinted band takes the white of the page so it stays visible. */
+.band--peach .eyebrow,
+.band--sun .eyebrow { background: var(--paper); }

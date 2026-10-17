@@ -20,28 +20,41 @@
 
 :root {
   /* ---- Surfaces ---- */
-  --blush: #FAF7F2;        /* cream paper. The default surface. */
-  --blush-warm: #E8EEF2;   /* cool paper. Banded sections and quiet cards. */
+  --blush: #FFFFFF;        /* white. The default surface. */
+  --blush-warm: #EAF3FB;   /* sky tint. Banded sections and cards. */
   --paper-lift: #FFFFFF;   /* the paper lifting one step, for card hover only */
 
   /* ---- Ink ---- */
-  --plum: #102A43;         /* navy. Headings, body text, dark sections  13.70:1 on cream */
-  --plum-deep: #0B1E32;    /* deepest navy. Hover on dark blocks        15.77:1 on cream */
+  --plum: #13294B;         /* navy. Headings, body text, dark sections  14.52:1 on white */
+  --plum-deep: #0B1A31;    /* deepest navy. Hover on dark blocks        17.41:1 on white */
   /* Zero-alpha companion for gradients. Fading to the CSS keyword
      `transparent` blends through transparent BLACK, which shows up as a muddy
      grey band midway through the fade. A gradient must end on the same colour
      at zero alpha. */
-  --plum-deep-fade: rgb(16 42 67 / 0);
+  --plum-deep-fade: rgb(19 41 75 / 0);
 
   /* ---- Accent, split by where it is safe ---- */
-  --copper-fill: #D95B43;          /* terracotta. Fills and rules only. 3.55:1 */
-  --copper-text-on-dark: #E6A23C;  /* amber on navy.                    7.70:1 */
-  --copper-text-on-light: #B8402C; /* deep terracotta on cream.         5.16:1 */
+  --copper-fill: #F26A2E;          /* vivid orange. Fills and rules only. 3.05:1 */
+  --copper-text-on-dark: #F6B43C;  /* amber on navy.                    9.54:1 */
+  --copper-text-on-light: #B83B0B; /* deep orange on white.             5.72:1 */
 
   /* Two intermediate stops for the one gradient on the site: the horizon
      between the navy block and the cream one. Decorative, never text. */
   --dawn-mid: #1B3A56;
   --dawn-warm: #8A5A4A;
+
+  /* ---- The brighter 2026 system: tints for bands, a deep orange that
+     carries white button text, and a sky accent for fills and tags. ---- */
+  --tint-sky: #EAF3FB;
+  --tint-peach: #FFF2E8;
+  --tint-sun: #FFF6DC;
+  --sky: #2C7BC4;          /* fills and tags only, never text on white */
+  --btn: #C2410C;          /* white on this is 5.18:1 */
+  --btn-hover: #9A3412;
+  --radius-sm: 10px;
+  --radius: 18px;
+  --radius-lg: 28px;
+  --shadow-soft: 0 10px 30px rgb(19 41 75 / 0.08);
 
   /* ---- Semantic aliases. Prefer these in new code. ---- */
   --paper: var(--blush);
@@ -60,15 +73,15 @@
   --rule: var(--copper-fill);
   /* Hairlines drawn from the ink rather than the accent, for the quiet
      rules that separate list rows. */
-  --rule-quiet: rgb(16 42 67 / 0.14);
-  --rule-accent: rgb(217 91 67 / 0.4);
+  --rule-quiet: rgb(19 41 75 / 0.12);
+  --rule-accent: rgb(242 106 46 / 0.45);
   /* Body copy one step down from full ink. Set per surface so a dark
      section does not have to restate it. */
-  --text-soft: rgb(16 42 67 / 0.8);
-  --text-softer: rgb(16 42 67 / 0.6);
+  --text-soft: rgb(19 41 75 / 0.78);
+  --text-softer: rgb(19 41 75 / 0.62);
 
   /* ---- Type ---- */
-  --font-display: 'Libre Baskerville', Georgia, 'Times New Roman', serif;
+  --font-display: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
   --font-body: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
 
   /* Libre Baskerville runs large for its point size and has a tall x-height,

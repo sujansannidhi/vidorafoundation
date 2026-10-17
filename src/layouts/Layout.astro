@@ -11,8 +11,7 @@ import '@fontsource/source-sans-3/latin-400.css';
 import '@fontsource/source-sans-3/latin-400-italic.css';
 import '@fontsource/source-sans-3/latin-600.css';
 import '@fontsource/source-sans-3/latin-700.css';
-import '@fontsource/libre-baskerville/latin-400.css';
-import '@fontsource/libre-baskerville/latin-400-italic.css';
+import '@fontsource-variable/bricolage-grotesque/wght.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { org, todos } from '../content/site.ts';
@@ -78,21 +77,19 @@ const siteSchema = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    {!bare && (
-      <script is:inline>
-        /* Inner pages animate in. Decided before first paint so nothing
-           renders and then jumps; if the motion script has not run within
-           three seconds the page is simply shown. */
-        (function () {
-          if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-          var root = document.documentElement;
-          root.classList.add('rv');
-          setTimeout(function () {
-            if (!root.classList.contains('rv-ready')) root.classList.remove('rv');
-          }, 3000);
-        })();
-      </script>
-    )}
+    <script is:inline>
+      /* Inner pages animate in. Decided before first paint so nothing
+         renders and then jumps; if the motion script has not run within
+         three seconds the page is simply shown. */
+      (function () {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var root = document.documentElement;
+        root.classList.add('rv');
+        setTimeout(function () {
+          if (!root.classList.contains('rv-ready')) root.classList.remove('rv');
+        }, 3000);
+      })();
+    </script>
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -125,12 +122,10 @@ const siteSchema = {
       <slot />
     </main>
     <Footer />
-    {!bare && (
-      <script>
-        import '../scripts/page-motion.ts';
-        document.documentElement.classList.add('rv-ready');
-      </script>
-    )}
+    <script>
+      import '../scripts/page-motion.ts';
+      document.documentElement.classList.add('rv-ready');
+    </script>
   </body>
 </html>
 
@@ -145,12 +140,11 @@ const siteSchema = {
   html.rv .rv-word {
     display: inline-block;
     opacity: 0;
-    filter: blur(12px);
-    transform: translateY(0.3em);
-    transition: opacity 0.9s var(--ease-out), filter 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+    transform: translateY(0.35em);
+    transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out);
     transition-delay: calc(var(--rv-i, 0) * 70ms + 80ms);
   }
-  html.rv .rv-words-in .rv-word { opacity: 1; filter: blur(0); transform: none; }
+  html.rv .rv-words-in .rv-word { opacity: 1; transform: none; }
 
   html.rv .rv-block {
     opacity: 0;

@@ -1,7 +1,7 @@
 ---
 /**
  * The opening of an inner page. Two variants:
- *   'rule' (default) an eyebrow over a hairline, on the cream paper
+ *   'rule' (default) a full bleed light blue band
  *   'dark'           a full bleed navy band
  *
  * The dark variant is for the pages that make a claim the reader has to
@@ -30,12 +30,8 @@ const { eyebrow, title, standfirst, dateline, variant = 'rule' } = Astro.props;
 </header>
 
 <style>
-  .page-header--rule { padding-block: 0 var(--space-lg); }
-  .page-header--rule .page-header__eyebrow {
-    padding-top: var(--space-sm);
-    border-top: var(--hairline) solid var(--rule-accent);
-  }
-  .page-header--dark {
+  .page-header--rule { background: var(--tint-sky); }
+  .page-header {
     padding-block: clamp(3.75rem, 10vh, 7.5rem);
     /* The band is full bleed, so it breaks out of the padded column the
        layout puts inner pages in. */
@@ -49,7 +45,7 @@ const { eyebrow, title, standfirst, dateline, variant = 'rule' } = Astro.props;
     font-size: var(--step-body-sm);
     color: var(--text-softer);
   }
-  .page-header__title { margin-top: var(--space-md); max-width: 20ch; }
+  .page-header__title { margin-top: var(--space-md); max-width: 20ch; font-size: var(--step-display-1); }
   .page-header__standfirst {
     margin: var(--space-md) 0 0;
     max-width: 36rem;

@@ -24,17 +24,18 @@ const label = status === 'active' ? 'Active' : 'Planned';
     font-weight: 700;
     padding: 0.42em 0.85em;
     border: var(--hairline) solid transparent;
+    border-radius: 999px;
     white-space: nowrap;
     line-height: 1.2;
   }
   .chip--active {
-    background: var(--accent-fill);
-    border-color: var(--accent-fill);
+    background: var(--btn);
+    border-color: var(--btn);
     color: var(--paper);
   }
   .chip--planned {
-    background: var(--paper-cool);
-    border-color: var(--rule-quiet);
+    background: var(--tint-sun);
+    border-color: var(--tint-sun);
     color: var(--ink);
   }
   /* On navy the cool chip has nothing to sit on, so it becomes an outline. */

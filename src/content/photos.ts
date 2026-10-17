@@ -82,20 +82,13 @@ export const heroStudentsWithKits: Photo = {
   alt: studentsWithKits.alt,
 };
 
-/**
- * The frames the homepage hero flicks through as its window opens, in order.
- * Each is on screen for a fraction of a second and is decorative there (the
- * hero's last photograph, which stays, carries the description), so these
- * carry no alt text of their own.
- */
-export const heroFrames: Pick<Photo, 'src' | 'srcset'>[] = [
-  { src: '/photos/shuffle-1.jpg', srcset: webp('shuffle-1', [800, 1600]) },
-  { src: '/photos/shuffle-2.jpg', srcset: webp('shuffle-2', [800, 1600]) },
-  { src: '/photos/shuffle-3.jpg', srcset: webp('shuffle-3', [800, 1600]) },
-  { src: '/photos/shuffle-4.jpg', srcset: webp('shuffle-4', [800, 1536]) },
-  { src: '/photos/shuffle-5.jpg', srcset: webp('shuffle-5', [800, 1600]) },
-  { src: '/photos/shuffle-6.jpg', srcset: webp('shuffle-6', [800, 1600]) },
-  { src: '/photos/shuffle-7.jpg', srcset: webp('shuffle-7', [800, 1536]) },
-  { src: '/photos/shuffle-8.jpg', srcset: webp('shuffle-8', [800, 1600]) },
-  { src: '/photos/shuffle-9.jpg', srcset: webp('shuffle-9', [800, 1536]) },
+/** The homepage photo strip: distribution photographs, each with its own alt text. */
+export const galleryPhotos: Photo[] = [
+  { src: '/photos/shuffle-1.jpg', srcset: webp('shuffle-1', [800, 1600]), width: 1200, height: 750, alt: 'Teachers, volunteers and students in a school veranda as Learning Kits are handed out.' },
+  { src: '/photos/shuffle-3.jpg', srcset: webp('shuffle-3', [800, 1600]), width: 1200, height: 750, alt: 'A volunteer handing a Learning Kit to a student in a school veranda while teachers look on.' },
+  { src: '/photos/shuffle-4.jpg', srcset: webp('shuffle-4', [800, 1536]), width: 1200, height: 750, alt: 'Students sitting on a classroom floor, each with a new set of notebooks and supplies.' },
+  { src: '/photos/shuffle-5.jpg', srcset: webp('shuffle-5', [800, 1600]), width: 1200, height: 750, alt: 'A teacher handing supplies across a table to a student, with volunteers standing behind.' },
+  { src: '/photos/shuffle-7.jpg', srcset: webp('shuffle-7', [800, 1536]), width: 1200, height: 750, alt: 'A volunteer and teachers handing kits to students in a classroom with maps on the wall.' },
+  { src: '/photos/shuffle-8.jpg', srcset: webp('shuffle-8', [800, 1600]), width: 1200, height: 750, alt: 'Volunteers handing supplies from a carton to a line of students.' },
+  { src: '/photos/shuffle-9.jpg', srcset: webp('shuffle-9', [800, 1536]), width: 1200, height: 750, alt: 'Students lining up in a classroom to receive kits from volunteers and teachers.' },
 ];

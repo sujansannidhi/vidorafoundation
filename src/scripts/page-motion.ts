@@ -1,28 +1,17 @@
 /**
- * Motion for the inner pages: smooth scrolling, the page title arriving word
- * by word, and content rising into place as it is reached.
+ * Motion for every page: the page title arriving word by word, and content
+ * rising into place as it is reached. CSS transitions only; the browser's
+ * own scrolling is left alone.
  *
- * The homepage has its own, richer motion (src/scripts/home-motion.ts) and
- * opts out of all of this. Everything here is gated on the `rv` class, which
+ * Everything here is gated on the `rv` class, which
  * the inline script in Layout.astro adds only when the reader has not asked
  * for reduced motion. Without it, or without JavaScript, every element is
  * simply visible.
  */
-import Lenis from 'lenis';
-import 'lenis/dist/lenis.css';
-
 const root = document.documentElement;
-const main = document.querySelector<HTMLElement>('main.page-main');
+const main = document.querySelector<HTMLElement>('main');
 
 if (root.classList.contains('rv') && main) {
-  /* ---- Smooth scrolling, matching the homepage ---- */
-  const lenis = new Lenis({ lerp: 0.1, syncTouch: false, anchors: true });
-  const raf = (time: number) => {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-  };
-  requestAnimationFrame(raf);
-
   /* ---- The page title, word by word ---- */
   const title = main.querySelector<HTMLElement>('.page-header h1, h1');
   if (title && !title.querySelector('*')) {

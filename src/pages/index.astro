@@ -1,48 +1,344 @@
 ---
 /**
- * The homepage. Two moments carry the motion: the hero, where the name parts
- * and an open book becomes a window onto a distribution, and the film, which
- * opens to the full screen on the same gesture. Everything between them
- * reveals as it arrives and otherwise stays out of the way.
- *
- * Every section is an ordinary flowing element with real text in it. Reduced
- * motion, a browser without JavaScript, and a screen reader all get the
- * complete page, finished, rather than a broken animation.
+ * The homepage. Eight short sections, each a heading, a line or two, and a
+ * photograph or a button. Motion is CSS only: blocks rise in as they are
+ * reached (src/scripts/page-motion.ts) and the photo strip drifts sideways.
+ * Nothing is pinned and nothing scrolls the page for the reader.
  */
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/home/Hero.astro';
-import Work from '../components/home/Work.astro';
-import Turn from '../components/home/Turn.astro';
-import Film from '../components/home/Film.astro';
-import HowItWorks from '../components/home/HowItWorks.astro';
-import ImpactBand from '../components/home/ImpactBand.astro';
-import ChapterModel from '../components/home/ChapterModel.astro';
-import GetInvolved from '../components/home/GetInvolved.astro';
-import Closing from '../components/home/Closing.astro';
+import PhotoSlot from '../components/PhotoSlot.astro';
+import ImpactFigure from '../components/ImpactFigure.astro';
+import PendingStatus from '../components/PendingStatus.astro';
 import { org } from '../content/site.ts';
-import { hero } from '../content/home.ts';
+import { hero, about, programs, impact, gallery, partnersBlock, film, join } from '../content/home.ts';
+import { heroStudentsWithKits, teamAtTheSupplyTable, kitSupplies, galleryPhotos } from '../content/photos.ts';
+import { studentsWhoReceivedKits, schoolsReached, campaignCost } from '../content/impact.ts';
+import { partners } from '../content/partners.ts';
+
+const programTints = ['tag--sky', 'tag--peach', 'tag'];
 ---
 <Layout title={org.name} description={hero.standfirst} bare>
-  <div class="home">
-    <Hero />
-    <Work />
-    <Turn />
-    <Film />
-    <HowItWorks />
-    <ImpactBand />
-    <ChapterModel />
-    <GetInvolved />
-    <Closing />
-  </div>
+  <!-- 1. Hero -->
+  <section class="hero" aria-labelledby="hero-title">
+    <img
+      class="hero__photo"
+      src={heroStudentsWithKits.src}
+      srcset={heroStudentsWithKits.srcset}
+      sizes="100vw"
+      width={heroStudentsWithKits.width}
+      height={heroStudentsWithKits.height}
+      alt={hero.photoAlt}
+      fetchpriority="high"
+      decoding="async"
+    />
+    <div class="hero__shade" aria-hidden="true"></div>
+    <div class="shell hero__inner">
+      <h1 id="hero-title" class="hero__title">{hero.title}</h1>
+      <p class="hero__line">{hero.line}</p>
+      <div class="hero__actions">
+        <a class="btn btn--accent" href={hero.primary.href}>{hero.primary.label}</a>
+        <a class="btn btn--light" href={hero.secondary.href}>{hero.secondary.label}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. About -->
+  <section class="band" aria-labelledby="about-title">
+    <div class="shell split">
+      <PhotoSlot photo={teamAtTheSupplyTable} ratio="5 / 4" sizes="(max-width: 52rem) calc(100vw - 2.25rem), 600px" />
+      <div class="stack">
+        <p class="eyebrow">{about.eyebrow}</p>
+        <h2 id="about-title" class="section-title">{about.title}</h2>
+        <p class="section-sub">{about.body}</p>
+        <a class="link-action" href={about.cta.href}>{about.cta.label}</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Programs -->
+  <section class="band band--sky" aria-labelledby="programs-title">
+    <div class="shell">
+      <div class="stack head">
+        <p class="eyebrow">{programs.eyebrow}</p>
+        <h2 id="programs-title" class="section-title">{programs.title}</h2>
+      </div>
+      <ul class="programs" role="list">
+        {programs.items.map((item, i) => (
+          <li class="card program">
+            {i === 0 ? (
+              <PhotoSlot photo={kitSupplies} ratio="16 / 10" sizes="(max-width: 52rem) calc(100vw - 2.25rem), 380px" class="program__photo" />
+            ) : (
+              <div class:list={['program__icon', i === 1 ? 'program__icon--peach' : 'program__icon--sun']} aria-hidden="true">
+                {i === 1 ? (
+                  <svg viewBox="0 0 48 48" width="56" height="56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M24 12c-4-3-10-4-16-3v27c6-1 12 0 16 3 4-3 10-4 16-3V9c-6-1-12 0-16 3Z"/><path d="M24 12v27"/></svg>
+                ) : (
+                  <svg viewBox="0 0 48 48" width="56" height="56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="17" r="6"/><circle cx="33" cy="19" r="5"/><path d="M6 38c1-7 6-11 11-11s10 4 11 11"/><path d="M28 30c1-3 3-5 5-5 4 0 8 3 9 10"/></svg>
+                )}
+              </div>
+            )}
+            <span class:list={['tag', programTints[i]]}>{item.tag}</span>
+            <h3 class="program__title">{item.title}</h3>
+            <p class="program__body">{item.body}</p>
+            <a class="link-action program__link" href={item.href}>{item.linkLabel}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4. Impact -->
+  <section class="band on-dark" aria-labelledby="impact-title">
+    <div class="shell">
+      <div class="stack head">
+        <p class="eyebrow">{impact.eyebrow}</p>
+        <h2 id="impact-title" class="section-title">{impact.title}</h2>
+      </div>
+      <div class="figures">
+        <ImpactFigure figure={studentsWhoReceivedKits} />
+        <ImpactFigure figure={schoolsReached} />
+        <ImpactFigure figure={campaignCost} />
+      </div>
+      <a class="link-action" href={impact.cta.href}>{impact.cta.label}</a>
+    </div>
+  </section>
+
+  <!-- 5. Gallery -->
+  <section class="band gallery" aria-labelledby="gallery-title">
+    <div class="shell stack head">
+      <p class="eyebrow">{gallery.eyebrow}</p>
+      <h2 id="gallery-title" class="section-title">{gallery.title}</h2>
+      <p class="section-sub">{gallery.caption}</p>
+    </div>
+    <div class="marquee">
+      <ul class="marquee__track" role="list">
+        {[...galleryPhotos, ...galleryPhotos].map((photo, i) => (
+          <li class="marquee__item" aria-hidden={i >= galleryPhotos.length ? 'true' : undefined}>
+            <img
+              src={photo.src}
+              srcset={photo.srcset}
+              sizes="(max-width: 40rem) 75vw, 420px"
+              width={photo.width}
+              height={photo.height}
+              alt={i >= galleryPhotos.length ? '' : photo.alt}
+              loading="lazy"
+              decoding="async"
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6. Film -->
+  <section class="band band--peach" aria-labelledby="film-title">
+    <div class="shell">
+      <div class="stack head">
+        <p class="eyebrow">{film.eyebrow}</p>
+        <h2 id="film-title" class="section-title">{film.title}</h2>
+      </div>
+      <video
+        class="film"
+        src={film.src}
+        poster={film.poster}
+        controls
+        playsinline
+        preload="none"
+        aria-label={film.label}
+      ></video>
+    </div>
+  </section>
+
+  <!-- 7. Partners -->
+  <section class="band" aria-labelledby="partners-title">
+    <div class="shell partners">
+      <div class="stack">
+        <p class="eyebrow">{partnersBlock.eyebrow}</p>
+        <h2 id="partners-title" class="section-title">{partnersBlock.title}</h2>
+        <a class="btn btn--primary partners__cta" href={partnersBlock.cta.href}>{partnersBlock.cta.label}</a>
+      </div>
+      <ul class="logos" role="list">
+        {partners.map((p) => (
+          <li class="card logo">
+            <a href={p.link.href} rel="noopener" target="_blank">
+              <picture>
+                <source srcset={p.logo.src} type="image/webp" />
+                <img src={p.logo.fallback} width={p.logo.width} height={p.logo.height} alt={p.name} loading="lazy" decoding="async" />
+              </picture>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 8. Join -->
+  <section class="band band--sun join" aria-labelledby="join-title">
+    <div class="shell stack join__inner">
+      <h2 id="join-title" class="join__title">{join.title}</h2>
+      <p class="section-sub">{join.body}</p>
+      <div class="join__actions">
+        {join.actions.map((a) => (
+          <a class:list={['btn', `btn--${a.style}`]} href={a.href}>{a.label}</a>
+        ))}
+      </div>
+      <PendingStatus />
+    </div>
+  </section>
 </Layout>
 
 <style>
-  .home {
+  .stack { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
+  .head { margin-bottom: var(--space-xl); }
+
+  /* ---- Hero ---- */
+  .hero {
     position: relative;
-    isolation: isolate;
-    /* `clip` rather than `hidden`: hidden would make this a scroll container
-       and break the pinned sections. */
-    overflow-x: clip;
-    background: var(--paper);
+    min-height: min(92svh, 56rem);
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: var(--ink-deep);
   }
+  .hero__photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+    animation: hero-settle 1.6s var(--ease-out) both;
+  }
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(11 26 49 / 0.15) 0%, rgb(11 26 49 / 0.35) 45%, rgb(11 26 49 / 0.88) 100%);
+  }
+  .hero__inner {
+    position: relative;
+    padding-block: var(--space-3xl) clamp(3rem, 9vh, 6rem);
+    color: var(--paper);
+  }
+  .hero__title {
+    font-size: clamp(3rem, 1rem + 8vw, 7.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    color: var(--paper);
+    max-width: 12ch;
+  }
+  .hero__line {
+    margin-top: var(--space-md);
+    font-size: clamp(1.1rem, 1rem + 0.6vw, 1.45rem);
+    max-width: 36rem;
+    color: var(--paper);
+  }
+  .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-lg); }
+  .btn--light { background: transparent; border-color: rgb(255 255 255 / 0.7); color: var(--paper); }
+  .btn--light:hover { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+  @keyframes hero-settle { from { transform: scale(1.08); } to { transform: none; } }
+
+  /* ---- About ---- */
+  .split {
+    display: grid;
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  @media (min-width: 52rem) { .split { grid-template-columns: 1.1fr 1fr; } }
+
+  /* ---- Programs ---- */
+  .programs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--space-md);
+  }
+  @media (min-width: 52rem) { .programs { grid-template-columns: repeat(3, 1fr); } }
+  .program {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out);
+  }
+  .program:hover { transform: translateY(-4px); box-shadow: 0 18px 40px rgb(19 41 75 / 0.14); }
+  .program :global(.program__photo),
+  .program__icon {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-xs);
+  }
+  .program__icon { display: grid; place-items: center; color: var(--ink); }
+  @media (max-width: 51.9375rem) { .program__icon { aspect-ratio: 16 / 7; } }
+  .program__icon--peach { background: var(--tint-peach); }
+  .program__icon--sun { background: var(--tint-sun); }
+  .program__title { font-size: var(--step-display-4); }
+  .program__body { color: var(--text-soft); }
+  .program__link { margin-top: auto; padding-top: var(--space-xs); }
+
+  /* ---- Impact ---- */
+  .figures {
+    display: grid;
+    gap: var(--space-xl) var(--space-lg);
+    margin-bottom: var(--space-xl);
+  }
+  @media (min-width: 48rem) { .figures { grid-template-columns: repeat(3, 1fr); } }
+
+  /* ---- Gallery: a strip that drifts sideways, paused on hover ---- */
+  .gallery .head { margin-bottom: var(--space-lg); }
+  .marquee { overflow: hidden; }
+  .marquee__track {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: var(--space-md);
+    width: max-content;
+    animation: drift 60s linear infinite;
+  }
+  .marquee:hover .marquee__track { animation-play-state: paused; }
+  .marquee__item { width: min(75vw, 420px); flex: none; }
+  .marquee__item img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+  /* The duplicated set makes -50% a seamless loop (the gap is included). */
+  @keyframes drift { to { transform: translateX(calc(-50% - var(--space-md) / 2)); } }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__photo { animation: none; }
+    .marquee { overflow-x: auto; }
+    .marquee__track { animation: none; padding-inline: var(--gutter); }
+    .marquee__item[aria-hidden='true'] { display: none; }
+  }
+
+  /* ---- Film ---- */
+  .film {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-lg);
+    background: var(--ink-deep);
+    box-shadow: var(--shadow-soft);
+  }
+
+  /* ---- Partners ---- */
+  .partners {
+    display: grid;
+    gap: var(--space-xl);
+    align-items: center;
+  }
+  @media (min-width: 52rem) { .partners { grid-template-columns: 1fr 1fr; } }
+  .partners__cta { margin-top: var(--space-sm); }
+  .logos { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--space-md); }
+  .logo { padding: var(--space-md); width: min(100%, 18rem); }
+  .logo img { width: 100%; height: auto; border-radius: var(--radius-sm); }
+
+  /* ---- Join ---- */
+  .join__inner { align-items: center; text-align: center; }
+  .join__inner :global(.pending) { text-align: left; }
+  .join__title { font-size: var(--step-display-1); max-width: 16ch; }
+  .join .section-sub { margin-inline: auto; }
+  .join__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm); margin-top: var(--space-md); }
 </style>
