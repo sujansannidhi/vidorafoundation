@@ -71,10 +71,10 @@ export const partnersBlock = {
 
 export const film = {
   eyebrow: 'Watch',
-  title: 'Nineteen seconds from June 2026.',
-  src: '/media/june-2026-distribution.mp4',
-  poster: '/media/distribution-film-poster.jpg',
-  label: 'The June 2026 distribution film, nineteen seconds',
+  title: 'See the day for yourself.',
+  src: '/media/vidora-film.mp4',
+  poster: '/photos/dist-2.jpg',
+  label: 'The Vidora Foundation film from the June 2026 distribution',
 } as const;
 
 export const join = {

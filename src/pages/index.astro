@@ -11,7 +11,7 @@ import ImpactFigure from '../components/ImpactFigure.astro';
 import PendingStatus from '../components/PendingStatus.astro';
 import { org } from '../content/site.ts';
 import { hero, about, programs, impact, gallery, partnersBlock, film, join } from '../content/home.ts';
-import { heroStudentsWithKits, teamAtTheSupplyTable, kitSupplies, galleryPhotos } from '../content/photos.ts';
+import { heroSlides, teamAtTheSupplyTable, kitSupplies, galleryPhotos } from '../content/photos.ts';
 import { studentsWhoReceivedKits, schoolsReached, campaignCost } from '../content/impact.ts';
 import { partners } from '../content/partners.ts';
 
@@ -20,17 +20,23 @@ const programTints = ['tag--sky', 'tag--peach', 'tag'];
 <Layout title={org.name} description={hero.standfirst} bare>
   <!-- 1. Hero -->
   <section class="hero" aria-labelledby="hero-title">
-    <img
-      class="hero__photo"
-      src={heroStudentsWithKits.src}
-      srcset={heroStudentsWithKits.srcset}
-      sizes="100vw"
-      width={heroStudentsWithKits.width}
-      height={heroStudentsWithKits.height}
-      alt={hero.photoAlt}
-      fetchpriority="high"
-      decoding="async"
-    />
+    <div class="hero__slides" data-carousel>
+      {heroSlides.map((photo, i) => (
+        <img
+          class="hero__photo"
+          src={photo.src}
+          srcset={photo.srcset}
+          sizes="100vw"
+          width={photo.width}
+          height={photo.height}
+          alt={photo.alt}
+          style={`--i: ${i}`}
+          loading={i === 0 ? 'eager' : 'lazy'}
+          fetchpriority={i === 0 ? 'high' : undefined}
+          decoding="async"
+        />
+      ))}
+    </div>
     <div class="hero__shade" aria-hidden="true"></div>
     <div class="shell hero__inner">
       <h1 id="hero-title" class="hero__title">{hero.title}</h1>
@@ -39,6 +45,10 @@ const programTints = ['tag--sky', 'tag--peach', 'tag'];
         <a class="btn btn--accent" href={hero.primary.href}>{hero.primary.label}</a>
         <a class="btn btn--light" href={hero.secondary.href}>{hero.secondary.label}</a>
       </div>
+      <button class="hero__pause" type="button" aria-pressed="false" data-carousel-toggle>
+        <span class="visually-hidden">Pause the photographs</span>
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" fill="currentColor"><rect class="i-pause" x="6" y="5" width="4" height="14" rx="1"/><rect class="i-pause" x="14" y="5" width="4" height="14" rx="1"/><path class="i-play" d="M7 5l12 7-12 7z"/></svg>
+      </button>
     </div>
   </section>
 
@@ -186,6 +196,21 @@ const programTints = ['tag--sky', 'tag--peach', 'tag'];
   </section>
 </Layout>
 
+<script>
+  /* The carousel runs on CSS; this only wires the pause button and keeps
+     off-screen slides from loading until they are about to show. */
+  const slides = document.querySelector<HTMLElement>('[data-carousel]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-carousel-toggle]');
+  if (slides && toggle) {
+    slides.querySelectorAll('img').forEach((img) => { img.loading = 'eager'; });
+    toggle.addEventListener('click', () => {
+      const paused = slides.classList.toggle('is-paused');
+      toggle.setAttribute('aria-pressed', String(paused));
+      toggle.querySelector('.visually-hidden')!.textContent = paused ? 'Play the photographs' : 'Pause the photographs';
+    });
+  }
+</script>
+
 <style>
   .stack { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-sm); }
   .head { margin-bottom: var(--space-xl); }
@@ -199,6 +224,9 @@ const programTints = ['tag--sky', 'tag--peach', 'tag'];
     overflow: hidden;
     background: var(--ink-deep);
   }
+  .hero__slides { position: absolute; inset: 0; }
+  /* Six slides, six seconds each: each fades in, holds while it drifts in
+     slightly, then fades out under the next. */
   .hero__photo {
     position: absolute;
     inset: 0;
@@ -206,8 +234,37 @@ const programTints = ['tag--sky', 'tag--peach', 'tag'];
     height: 100%;
     object-fit: cover;
     object-position: center 40%;
-    animation: hero-settle 1.6s var(--ease-out) both;
+    opacity: 0;
+    animation: hero-slide 36s linear infinite;
+    animation-delay: calc(var(--i) * 6s - 1.5s);
   }
+  .hero__slides .hero__photo:first-child { opacity: 1; }
+  .hero__slides.is-paused .hero__photo { animation-play-state: paused; }
+  @keyframes hero-slide {
+    0% { opacity: 0; transform: scale(1.06); }
+    4% { opacity: 1; }
+    17% { opacity: 1; }
+    21% { opacity: 0; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1); }
+  }
+  .hero__pause {
+    position: absolute;
+    right: var(--gutter);
+    bottom: clamp(3rem, 9vh, 6rem);
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    border: 2px solid rgb(255 255 255 / 0.6);
+    background: rgb(11 26 49 / 0.35);
+    color: var(--paper);
+    cursor: pointer;
+  }
+  .hero__pause:hover { background: rgb(11 26 49 / 0.6); }
+  .hero__pause .i-play { display: none; }
+  .hero__pause[aria-pressed='true'] .i-pause { display: none; }
+  .hero__pause[aria-pressed='true'] .i-play { display: inline; }
   .hero__shade {
     position: absolute;
     inset: 0;
@@ -234,7 +291,6 @@ const programTints = ['tag--sky', 'tag--peach', 'tag'];
   .hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-lg); }
   .btn--light { background: transparent; border-color: rgb(255 255 255 / 0.7); color: var(--paper); }
   .btn--light:hover { background: var(--paper); border-color: var(--paper); color: var(--ink); }
-  @keyframes hero-settle { from { transform: scale(1.08); } to { transform: none; } }
 
   /* ---- About ---- */
   .split {
@@ -308,6 +364,7 @@ const programTints = ['tag--sky', 'tag--peach', 'tag'];
   @keyframes drift { to { transform: translateX(calc(-50% - var(--space-md) / 2)); } }
   @media (prefers-reduced-motion: reduce) {
     .hero__photo { animation: none; }
+    .hero__pause { display: none; }
     .marquee { overflow-x: auto; }
     .marquee__track { animation: none; padding-inline: var(--gutter); }
     .marquee__item[aria-hidden='true'] { display: none; }

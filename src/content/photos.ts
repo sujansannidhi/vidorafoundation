@@ -82,13 +82,20 @@ export const heroStudentsWithKits: Photo = {
   alt: studentsWithKits.alt,
 };
 
-/** The homepage photo strip: distribution photographs, each with its own alt text. */
+/** Distribution photographs: the homepage hero carousel and photo strip. */
 export const galleryPhotos: Photo[] = [
-  { src: '/photos/shuffle-1.jpg', srcset: webp('shuffle-1', [800, 1600]), width: 1200, height: 750, alt: 'Teachers, volunteers and students in a school veranda as Learning Kits are handed out.' },
-  { src: '/photos/shuffle-3.jpg', srcset: webp('shuffle-3', [800, 1600]), width: 1200, height: 750, alt: 'A volunteer handing a Learning Kit to a student in a school veranda while teachers look on.' },
-  { src: '/photos/shuffle-4.jpg', srcset: webp('shuffle-4', [800, 1536]), width: 1200, height: 750, alt: 'Students sitting on a classroom floor, each with a new set of notebooks and supplies.' },
-  { src: '/photos/shuffle-5.jpg', srcset: webp('shuffle-5', [800, 1600]), width: 1200, height: 750, alt: 'A teacher handing supplies across a table to a student, with volunteers standing behind.' },
-  { src: '/photos/shuffle-7.jpg', srcset: webp('shuffle-7', [800, 1536]), width: 1200, height: 750, alt: 'A volunteer and teachers handing kits to students in a classroom with maps on the wall.' },
-  { src: '/photos/shuffle-8.jpg', srcset: webp('shuffle-8', [800, 1600]), width: 1200, height: 750, alt: 'Volunteers handing supplies from a carton to a line of students.' },
-  { src: '/photos/shuffle-9.jpg', srcset: webp('shuffle-9', [800, 1536]), width: 1200, height: 750, alt: 'Students lining up in a classroom to receive kits from volunteers and teachers.' },
+  { src: '/photos/dist-1.jpg', srcset: webp('dist-1', [800]), width: 1322, height: 910, alt: 'Students sitting on a classroom floor with their new notebooks and supplies.' },
+  { src: '/photos/dist-2.jpg', srcset: webp('dist-2', [800, 1600]), width: 1600, height: 891, alt: 'Students in a classroom waving and holding up their new notebooks.' },
+  { src: '/photos/dist-3.jpg', srcset: webp('dist-3', [800, 1600]), width: 1600, height: 916, alt: 'Students holding their Learning Kits in a school veranda, with volunteers and teachers behind them.' },
+  { src: '/photos/dist-4.jpg', srcset: webp('dist-4', [800, 1600]), width: 1600, height: 839, alt: 'Students in school uniform sitting together on the floor, clapping.' },
+  { src: '/photos/dist-5.jpg', srcset: webp('dist-5', [800, 1600]), width: 1600, height: 864, alt: 'Students in a line receiving notebooks from volunteers.' },
+  { src: '/photos/dist-6.jpg', srcset: webp('dist-6', [800, 1600]), width: 1600, height: 888, alt: 'Young students sitting on the ground outside, each with a new kit.' },
+  { src: '/photos/dist-7.jpg', srcset: webp('dist-7', [800, 1600]), width: 1600, height: 898, alt: 'Students sitting on a school floor, looking through their new notebooks.' },
+  { src: '/photos/dist-8.jpg', srcset: webp('dist-8', [800, 1600]), width: 1600, height: 928, alt: 'A student volunteer talking with two teachers.' },
+  { src: '/photos/dist-9.jpg', srcset: webp('dist-9', [800, 1600]), width: 1600, height: 1024, alt: 'A student volunteer handing a kit across a table to a young boy while teachers look on.' },
+  { src: '/photos/dist-10.jpg', srcset: webp('dist-10', [800, 1600]), width: 1600, height: 1034, alt: 'Students holding their kits outside their primary school, with volunteers and teachers behind them.' },
+  { src: '/photos/dist-11.jpg', srcset: webp('dist-11', [800, 1600]), width: 1600, height: 1212, alt: 'A wider view of students holding their kits outside their primary school.' },
 ];
+
+/** The hero carousel, in order. */
+export const heroSlides: Photo[] = [3, 2, 9, 10, 5, 6].map((n) => galleryPhotos[n - 1]);
