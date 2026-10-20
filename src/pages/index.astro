@@ -11,7 +11,7 @@ import ImpactFigure from '../components/ImpactFigure.astro';
 import PendingStatus from '../components/PendingStatus.astro';
 import { org } from '../content/site.ts';
 import { hero, about, programs, impact, gallery, partnersBlock, film, join } from '../content/home.ts';
-import { heroSlides, teamAtTheSupplyTable, kitSupplies, galleryPhotos } from '../content/photos.ts';
+import { heroSlides, kitSupplies, galleryPhotos } from '../content/photos.ts';
 import { studentsWhoReceivedKits, schoolsReached, campaignCost } from '../content/impact.ts';
 import { partners } from '../content/partners.ts';
 
@@ -55,7 +55,7 @@ const programTints = ['tag--sky', 'tag--peach', 'tag'];
   <!-- 2. About -->
   <section class="band" aria-labelledby="about-title">
     <div class="shell split">
-      <PhotoSlot photo={teamAtTheSupplyTable} ratio="5 / 4" sizes="(max-width: 52rem) calc(100vw - 2.25rem), 600px" />
+      <PhotoSlot photo={galleryPhotos[7]} ratio="16 / 10" sizes="(max-width: 52rem) calc(100vw - 2.25rem), 600px" />
       <div class="stack">
         <p class="eyebrow">{about.eyebrow}</p>
         <h2 id="about-title" class="section-title">{about.title}</h2>
