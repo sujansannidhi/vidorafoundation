@@ -13,6 +13,7 @@ import {
 } from '../../../content/volunteer.ts';
 import { signupUrlFor } from '../../../lib/forms.ts';
 import '../../../styles/volunteer.css';
+import { donateUrl } from '../../../content/site.ts';
 
 export const getStaticPaths = (() =>
   events.map((event) => ({ params: { slug: event.slug }, props: { event } }))) satisfies GetStaticPaths;
@@ -107,7 +108,7 @@ const signup = signupUrlFor(event.id);
       <h2 id="safety-heading">{ui.safety}</h2>
       <ul class="op-list">{event.safety.map((s) => <li>{s}</li>)}</ul>
       {event.linksToDonate && (
-        <p class="op-cta"><a class="link-action" href="/donate">{ui.donate}</a></p>
+        <p class="op-cta"><a class="link-action" href={donateUrl}>{ui.donate}</a></p>
       )}
       {event.linksToDonate && <PendingStatus />}
     </section>

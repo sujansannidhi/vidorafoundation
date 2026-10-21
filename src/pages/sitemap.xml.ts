@@ -9,7 +9,7 @@ import { events } from '../content/volunteer.ts';
 const ROUTES = [
   '/', '/mission', '/programs', '/impact',
   '/campaigns/learning-kits-june-2026',
-  '/people', '/partners', '/join', '/donate', '/updates', '/contact',
+  '/people', '/partners', '/join', '/updates', '/contact',
   '/volunteer', '/volunteer/register', '/volunteer/submit', '/volunteer/hours',
   '/volunteer/faq', '/volunteer/partners', '/verify', '/privacy',
   // Every event page, from the events array, so a new event cannot be missed.

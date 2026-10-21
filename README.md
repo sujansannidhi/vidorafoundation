@@ -68,7 +68,7 @@ at and nothing is silently blank.
 |---|---|---|
 | 1 | **Logo files** (lockup and mark) | header, footer, favicon, OG images |
 | 2 | Bios, roles, photos, LinkedIn for Praneel, Neha, Mani | `/people` |
-| 3 | GoFundMe URL | `/donate`, `/join`, stage 07 |
+| 3 | GoFundMe URL | Every Donate button (`donateUrl` in site.ts), `/join` |
 | 4 | Contact email, social handles, newsletter provider | footer, `/updates` |
 | 5 | A photograph of the wholesale market the supplies were bought at | campaign page |
 | 6 | Kit contents per grade | `/programs`, stages 03 and 05 |

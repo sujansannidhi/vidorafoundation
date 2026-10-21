@@ -9,6 +9,8 @@ export default defineConfig({
   // that does not resolve deindexes the site.
   site: 'https://www.vidorafoundation.org',
   output: 'static',
+  // The donate page was retired: old links go straight to the GoFundMe.
+  redirects: { '/donate': 'https://www.gofundme.com/f/vidora-learning-kits' },
   build: { inlineStylesheets: 'auto' },
   devToolbar: { enabled: false },
 });

@@ -47,7 +47,10 @@ export const nav = [
  * cannot be reordered into the middle of the link row: a page has one
  * primary action, repeated, not three competing ones.
  */
-export const navCta = { href: '/donate', label: 'Donate' } as const;
+/** Donations go straight to the GoFundMe; there is no donate page. */
+export const donateUrl = 'https://www.gofundme.com/f/vidora-learning-kits';
+
+export const navCta = { href: donateUrl, label: 'Donate' } as const;
 
 export const footerNav = [
   {
@@ -75,7 +78,7 @@ export const footerNav = [
       { href: '/join', label: 'Start a chapter' },
       { href: '/volunteer', label: 'Volunteer' },
       { href: '/verify', label: 'Verify an hours letter' },
-      { href: '/donate', label: 'Donate' },
+      { href: donateUrl, label: 'Donate' },
     ],
   },
 ] as const;

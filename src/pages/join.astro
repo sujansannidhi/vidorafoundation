@@ -8,7 +8,7 @@
 import Layout from '../layouts/Layout.astro';
 import PageHeader from '../components/PageHeader.astro';
 import PendingStatus from '../components/PendingStatus.astro';
-import { todos } from '../content/site.ts';
+import { todos, donateUrl } from '../content/site.ts';
 import { joinOpenPaths } from '../content/volunteer.ts';
 
 ---
@@ -64,7 +64,7 @@ import { joinOpenPaths } from '../content/volunteer.ts';
           Money buys educational materials at local prices, near the school
           receiving them.
         </p>
-        <a class="link-action" href="/donate">Go to donate</a>
+        <a class="link-action" href={donateUrl}>Give on GoFundMe</a>
       </article>
     </div>
 

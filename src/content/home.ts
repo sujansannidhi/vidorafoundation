@@ -4,6 +4,8 @@
  * reads lives in src/content.
  */
 
+import { donateUrl } from './site.ts';
+
 export const hero = {
   title: 'Vidora Foundation',
   line: 'High school students getting school supplies into the hands of students who need them.',
@@ -11,7 +13,7 @@ export const hero = {
   standfirst:
     'Vidora Foundation is a student-run nonprofit that puts grade-matched school supplies into the hands of students who need them.',
   primary: { label: 'Get involved', href: '/volunteer' },
-  secondary: { label: 'Donate', href: '/donate' },
+  secondary: { label: 'Donate', href: donateUrl },
   photoAlt:
     'Students in a school veranda in Andhra Pradesh, each holding their new Learning Kit, with teachers and volunteers behind them.',
 } as const;
@@ -83,6 +85,6 @@ export const join = {
   actions: [
     { label: 'Volunteer', href: '/volunteer', style: 'accent' },
     { label: 'Start a chapter', href: '/join', style: 'primary' },
-    { label: 'Donate', href: '/donate', style: 'secondary' },
+    { label: 'Donate', href: donateUrl, style: 'secondary' },
   ],
 } as const;
