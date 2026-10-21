@@ -46,47 +46,6 @@ export const people: Person[] = [
     email: 'sujan@vidorafoundation.org',
     linkedin: null,
   },
-  /* Title and address are known; the bios are not, so they stay null and each
-     renders its own TodoNote. A title is not a bio, and filling the gap with
-     something plausible is exactly what the note exists to prevent. */
-  {
-    name: 'Praneel Rondla',
-    role: 'Executive',
-    /* Praneel's own words, verbatim. */
-    bio: [
-      'My name is Praneel Rondla, and I am a junior at Independence High School. Primarily driven by a passion for academic empowerment and leadership, my work at Vidora centres on equipping global youth with the tools and knowledge they need to succeed.',
-      'Outside of Vidora, I am actively involved in business, research, and public policy. My experience ranges from developing financial literacy curricula for young learners to working as a research assistant analysing up-and-coming technology in secondary education. At Vidora, I aim to combine my background in strategy, community outreach, and instruction to build meaningful, lasting educational opportunities for students everywhere.',
-    ],
-    photo: {
-      src: '/people/praneel-rondla.jpg',
-      alt: 'Praneel Rondla',
-      width: 520,
-      height: 520,
-    },
-    email: 'praneel@vidorafoundation.org',
-    linkedin: null,
-  },
-  {
-    name: 'Neha Manikandan',
-    role: 'Executive',
-    /*
-     * Supplied by the team. One clause was reconciled with the rest of the
-     * site: the original said she met students who go to school "without
-     * basic learning tools", and the mission page, the homepage and the June
-     * field report all say the opposite in as many words, that students
-     * arrive with most of what they need and are missing something narrow.
-     * Her point is unchanged. The deficit framing is not one the site can
-     * carry on one page and contradict on three others.
-     */
-    bio: [
-      'Neha joined Vidora Foundation when Sujan brought her onto the team to help the organisation grow. Meeting students who were short of the materials their lessons assumed they already had showed her how much difference the right supplies make to a school day.',
-      'Seeing that first-hand made her want to start helping. She now works with the team to plan upcoming projects, and to make sure students have the practical supplies they need to walk into class ready to learn.',
-    ],
-    photo: null,
-    email: 'neha@vidorafoundation.org',
-    linkedin: null,
-    needsReview: true,
-  },
 ];
 
 export const foundingNote =
